@@ -17,7 +17,7 @@ export class TestComponent implements OnInit {
 
   grabFromEndpoint() {
     this.httpTestService.testGetRequest().subscribe(temp => {
-      this.output = temp; // assign the array to the items array
+      this.output = temp.message; // assign the array to the items array
     });
   }
 
