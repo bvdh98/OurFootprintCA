@@ -1,0 +1,4 @@
+# An additional .gitignore specifically for Angular is located in frontend/OurFootprint
+
+# Ignore .idea folder
+.idea/
