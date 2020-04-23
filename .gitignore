@@ -1,1 +1,7 @@
 # An additional .gitignore specifically for Angular is located in frontend/OurFootprint
+
+# Ignore .idea folder
+.idea/
+
+# Ignore compiled python code
+back_end/back_end/__pycache__/
