@@ -147,6 +147,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "OurFootprint"
+    }
+  },
+  "defaultProject": "OurFootprint",
+  "cli": {
+    "analytics": false
+  }
 }
