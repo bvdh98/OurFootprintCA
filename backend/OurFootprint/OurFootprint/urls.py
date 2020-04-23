@@ -18,6 +18,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('endpoint2', views.e2, name='e2')
+    path('api/endpoint1', views.index, name='index'),
+    path('api/endpoint2', views.e2, name='e2')
 ]
