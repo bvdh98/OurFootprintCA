@@ -12,7 +12,7 @@ export class TestComponent implements OnInit {
   constructor(private httpTestService: HttpTestService) { }
 
   ngOnInit(): void {
-    this.grabFromEndpoint;
+    this.grabFromEndpoint();
   }
 
   grabFromEndpoint() {
