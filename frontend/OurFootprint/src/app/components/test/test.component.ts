@@ -7,7 +7,7 @@ import { HttpTestService } from 'src/app/services/http-test.service';
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent implements OnInit {
-  output: String = "No output."
+  output: String = "Nothing... the server is not running or is not connected"
 
   constructor(private httpTestService: HttpTestService) { }
 
