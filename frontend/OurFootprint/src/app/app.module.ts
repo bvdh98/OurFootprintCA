@@ -9,12 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from './material/material.module';
 import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
     HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
