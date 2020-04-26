@@ -11,6 +11,7 @@ import { MaterialModule } from './material/material.module';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HomeComponent } from './components/home/home.component';
     HeaderComponent,
     FooterComponent,
     HomeComponent,
+    AboutUsComponent,
   ],
   imports: [
     BrowserModule,
