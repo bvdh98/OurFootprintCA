@@ -15,7 +15,7 @@ import { MaterialModule } from './material/material.module';
     TestComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     MaterialModule
