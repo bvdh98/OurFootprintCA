@@ -9,7 +9,8 @@ import { SponsorsComponent } from './components/sponsors/sponsors.component';
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'about-us', component: AboutUsComponent},
-  {path: 'our-sponsors', component: SponsorsComponent}
+  {path: 'our-sponsors', component: SponsorsComponent},
+  {path: 'test', component: TestComponent}
 ];
 
 @NgModule({
