@@ -7,15 +7,18 @@ import { TestComponent } from './components/test/test.component';
 
 import { HttpClientModule } from '@angular/common/http';
 
+import { MaterialModule } from './material/material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent
+    TestComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
