@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from rest_framework import routers
 
-# reroute all the requests to users endpoint to the users app
+# Let django-rest handle GET/POST/PUT/DELETE routing
+router = routers.DefaultRouter()
+router.register('users', views.UserView)
+
 urlpatterns = [
-    path('api/endpoint1', views.index, name='index'),
-    path('api/endpoint2', views.e2, name='e2'),
-    path('api/users/', include('users.urls'))
+    path('', include(router.urls))
 ]
