@@ -20,7 +20,7 @@ from rest_framework import routers
 
 # Let django-rest handle GET/POST/PUT/DELETE routing
 router = routers.DefaultRouter()
-router.register('users', views.UserView)
+router.register('', views.UserView)
 
 urlpatterns = [
     path('', include(router.urls))
