@@ -1,3 +1,0 @@
-CREATE USER OurFootprint WITH PASSWORD 'admin' CREATEDB;
-SET ROLE OurFootprint;
-CREATE DATABASE Sample;
