@@ -25,7 +25,7 @@ import { SponsorsComponent } from './components/sponsors/sponsors.component';
     SponsorsComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     MaterialModule

@@ -12,12 +12,12 @@ export class TestComponent implements OnInit {
   constructor(private httpTestService: HttpTestService) { }
 
   ngOnInit(): void {
-    this.grabFromEndpoint();
+    this.testGetRequest();
   }
 
-  grabFromEndpoint() {
+  testGetRequest() {
     this.httpTestService.testGetRequest().subscribe(temp => {
-      this.output = temp.message; // assign the array to the items array
+      this.output = temp.message; // response is json with a 'message' attribute
     });
   }
 
