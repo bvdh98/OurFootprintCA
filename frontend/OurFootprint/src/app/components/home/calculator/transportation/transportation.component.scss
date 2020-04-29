@@ -1,0 +1,19 @@
+.commute-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .commute-distance {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.commute-table{
+    display: flex;
+    flex-direction: column;
+    .table-headers {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

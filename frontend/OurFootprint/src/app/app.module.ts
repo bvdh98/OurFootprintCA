@@ -13,6 +13,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { SponsorsComponent } from './components/sponsors/sponsors.component';
+import { CalculatorComponent } from './components/home/calculator/calculator.component';
+import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component';
+import { TransportationComponent } from './components/home/calculator/transportation/transportation.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +26,15 @@ import { SponsorsComponent } from './components/sponsors/sponsors.component';
     HomeComponent,
     AboutUsComponent,
     SponsorsComponent,
+    CalculatorComponent,
+    UtilitiesComponent,
+    TransportationComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
