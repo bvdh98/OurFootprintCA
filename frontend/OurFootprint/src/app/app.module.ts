@@ -1,21 +1,21 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { TestComponent } from './components/test/test.component';
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { TestComponent } from './components/test/test.component'
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'
 
-import { MaterialModule } from './material/material.module';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HomeComponent } from './components/home/home.component';
-import { AboutUsComponent } from './components/about-us/about-us.component';
-import { SponsorsComponent } from './components/sponsors/sponsors.component';
-import { CalculatorComponent } from './components/home/calculator/calculator.component';
-import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component';
-import { TransportationComponent } from './components/home/calculator/transportation/transportation.component';
+import { MaterialModule } from './material/material.module'
+import { HeaderComponent } from './components/header/header.component'
+import { FooterComponent } from './components/footer/footer.component'
+import { HomeComponent } from './components/home/home.component'
+import { AboutUsComponent } from './components/about-us/about-us.component'
+import { SponsorsComponent } from './components/sponsors/sponsors.component'
+import { CalculatorComponent } from './components/home/calculator/calculator.component'
+import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component'
+import { TransportationComponent } from './components/home/calculator/transportation/transportation.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +37,6 @@ import { TransportationComponent } from './components/home/calculator/transporta
     MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
