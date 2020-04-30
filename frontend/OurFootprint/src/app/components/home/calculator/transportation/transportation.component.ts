@@ -13,7 +13,7 @@ export class TransportationComponent implements OnInit {
   readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency'];
   dataSource = new MatTableDataSource<any>()
 
-  // ? is it worth it to make this static if we need an instance of years anyways?
+  // ? is it worth it to make this static if we need to reference year as part of an instance anyways?
   // static readonly currentYear: number = new Date().getFullYear(); // the current year
   // static readonly endYear = TransportationComponent.currentYear + 1; // car companies like to release next years cars early
   // static readonly startingYear = 1973; // the beginning of our dataset
