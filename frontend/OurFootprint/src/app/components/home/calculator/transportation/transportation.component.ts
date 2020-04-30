@@ -11,27 +11,16 @@ export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
 
   readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency'];
-  dataSource = new MatTableDataSource<any>()
+  dataSource = new MatTableDataSource<any>();
 
-  // ? is it worth it to make this static if we need to reference year as part of an instance anyways?
-  static readonly endYear = new Date().getFullYear() + 1; // plus one because car companies like to release next years cars early
-  // static readonly startingYear = 1973; // the beginning of our dataset
-  // static readonly years: number[] = 
-  //   [...Array(TransportationComponent.endYear).keys()].slice(TransportationComponent.startingYear).reverse();   // a range from end year to starting year
-  // getYears() {return TransportationComponent.years;} // access years as an instance without saving a copy
-
-  // ? Alternative way to calculate years. Consider
-  // static readonly years: number[] = 
-  //   [...Array(TransportationComponent.endYear - TransportationComponent.startingYear + 1).keys()].map(x => TransportationComponent.endYear - x);
-
+  // ? Consider if this should be static, as a separate instance is not needed for each object.
   readonly endYear = new Date().getFullYear() + 1; // plus one because car companies like to release next years cars early
   readonly startingYear = 1973; // the beginning of our dataset
   readonly years: number[] = [...Array(this.endYear).keys()].slice(this.startingYear).reverse();   // a range from end year to starting year
 
   // ? Alternative way to calculate years. Consider
-  // readonly years: number[] = 
-  //   [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x);
-  
+  // readonly years: number[] = [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x);
+
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl(),
@@ -49,13 +38,14 @@ export class TransportationComponent implements OnInit {
     // TODO: Should use model objects for the form data (commuteFormData) and the rows (commute)
     // TODO: commute should probably use a vehicle object (another model)
     // Map the data to an object in the format that the row wants
-    const data = ((data) => {
-      return {vehicle: `${data.year} ${data.vehicle}`, distance: `${data.distance}km`, frequency: `${data.frequency}`}
+    const data = ((d) => {
+      return {vehicle: `${d.year} ${d.vehicle}`, distance: `${d.distance}km`, frequency: `${d.frequency}`};
     })(this.commuteForm.value);
     this.dataSource.data.push(data);
     this.commuteForm.reset();
-    if (this.table) // table can be null when it isn't displayed because of *ngIf
+    if (this.table) { // table can be null when it isn't displayed because of *ngIf
       this.table.renderRows(); // The table doesn't re render unless we tell it to. How very non-angular.
+    }
   }
 
 }
