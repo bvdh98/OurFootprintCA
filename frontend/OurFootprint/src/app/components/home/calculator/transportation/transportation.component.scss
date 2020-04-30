@@ -1,0 +1,13 @@
+.commute-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    .distance-input {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.commute-table{
+    width: 100%;
+}
