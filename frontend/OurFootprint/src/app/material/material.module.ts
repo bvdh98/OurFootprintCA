@@ -11,6 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [],
@@ -22,6 +26,10 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule,
     MatTabsModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -30,6 +38,10 @@ import { MatTableModule } from '@angular/material/table';
     MatIconModule,
     MatTabsModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    ReactiveFormsModule,
   ]
 })
 export class MaterialModule {}

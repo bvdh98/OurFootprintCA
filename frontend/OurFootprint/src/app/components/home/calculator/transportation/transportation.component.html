@@ -1,14 +1,33 @@
 <p>transportation works!</p>
-<!-- TODO: Use angular material form -->
-<div class="commute-info">
-    <p>TODO: Drop down menu for selecting vehicle type</p>
-    <div class="commute-distance">
-        <p>TODO: Input for commute distance in km</p>
-        <a mat-raised-button color="primary" href="https://maps.google.com">Calculate Commute Distance</a>
-    </div>
-    <p>TODO: Input for trips / month of given commute</p>
-</div>
-<button mat-raised-button color="primary">Add Commute</button>
+<form [formGroup]="commuteForm" class="commute-form">
+  <!-- TODO: Give an option to estimate fuel economy instead of entering a vehicle make / model -->
+  <!-- TODO: Auto complete make / model - force the value to match something from our data -->
+  <mat-form-field appearance="standard">
+    <mat-label>Vehicle Make / Model</mat-label>
+    <input matInput formControlName="vehicle" name="vehicle" autocomplete="vehicle" required>
+  </mat-form-field>
+  <mat-form-field appearance="standard">
+    <mat-label>Select Year</mat-label>
+    <mat-select aria-required formControlName="year" name="year" required>
+      <mat-option *ngFor="let year of years" [value]="year">
+        {{year}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- ? TODO: Do we automatically double the frequency because to + from, if so, we should explain that with a note somehow -->
+  <div class="distance-input">
+    <mat-form-field appearance="standard">
+      <mat-label>Distance in Km</mat-label>
+      <input matInput type="number" min="1" step="1" max="100" formControlName="distance" name="distance" required>
+    </mat-form-field>
+    <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">Calculate Commute Distance</a>
+  </div>
+  <mat-form-field appearance="standard">
+    <mat-label>Trips per month</mat-label>
+    <input matInput type="number" min="1" step="1" max="60" formControlName="frequency" name="frequency" required>
+  </mat-form-field>
+ </form>
+<button mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table">
 
     <!--- Note that these columns can be defined in any order.
