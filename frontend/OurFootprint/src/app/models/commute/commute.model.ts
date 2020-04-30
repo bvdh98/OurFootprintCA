@@ -1,8 +1,11 @@
+import { CommuteRowData } from './commute-row-data.model'
+
 export class Commute {
     private vehicleMakeModel: string // TODO: consider making a vehicle model
     private year: number // the year of the vehicle
     private distance: number // distance of commute in km
     private frequency: number // frequency per month
+    private tableFormat: CommuteRowData
 
     /**
      * Construct a commute object from formdata
@@ -21,20 +24,15 @@ export class Commute {
         this.year = formData.year
         this.distance = formData.distance
         this.frequency = formData.frequency
+
+        this.tableFormat = this.getTableFormat()
     }
 
     /**
      * Gets the commute in a format that the UI table can parse
-     * Table row format:
-     * {
-     *     vehicle: string, // year make model
-     *     distance: string, // ends in km
-     *     frequency: string,
-     * }
-     * @returns the commute in a format that is reabable by the UI table
-     * TODO: explicit return type
+     * @returns a CommuteRowData model version of the commute that is readable by the UI table
      */
-    getTableFormat(): any {
+    private getTableFormat(): CommuteRowData {
         return {
             vehicle: `${this.year} ${this.vehicleMakeModel}`, // year make model
             distance: `${this.distance} km`, // ends in km

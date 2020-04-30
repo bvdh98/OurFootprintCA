@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
-import { Commute } from 'src/app/models/commute.model'
+import { Commute } from 'src/app/models/commute/commute.model'
 
 @Component({
   selector: 'app-transportation',
@@ -9,10 +9,10 @@ import { Commute } from 'src/app/models/commute.model'
   styleUrls: ['./transportation.component.scss'],
 })
 export class TransportationComponent implements OnInit {
-  @ViewChild(MatTable) table: MatTable<any>
+  @ViewChild(MatTable) table: MatTable<Commute>
 
   readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency']
-  dataSource = new MatTableDataSource<any>()
+  dataSource = new MatTableDataSource<Commute>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
   readonly endYear = new Date().getFullYear() + 1 // plus one because car companies like to release next years cars early
@@ -20,6 +20,7 @@ export class TransportationComponent implements OnInit {
   // a range from end year to starting year
   readonly years: number[] = [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x)
 
+  // TODO: better form validation
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl(),
@@ -34,15 +35,8 @@ export class TransportationComponent implements OnInit {
   }
 
   addCommute(): void {
-    // TODO: Should use model objects for the form data (commuteFormData) and the rows (commute)
-    // TODO: commute should probably use a vehicle object (another model)
-    // Map the data to an object in the format that the row wants
-    const data = new Commute(this.commuteForm.value).getTableFormat()
-    this.dataSource.data.push(data)
+    this.dataSource.data.push(new Commute(this.commuteForm.value))
     this.commuteForm.reset()
-    if (this.table) { // table can be null when it isn't displayed because of *ngIf
-      this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
-    }
   }
 
 }
