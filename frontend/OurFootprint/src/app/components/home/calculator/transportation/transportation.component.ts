@@ -16,10 +16,8 @@ export class TransportationComponent implements OnInit {
   // ? Consider if this should be static, as a separate instance is not needed for each object.
   readonly endYear = new Date().getFullYear() + 1; // plus one because car companies like to release next years cars early
   readonly startingYear = 1973; // the beginning of our dataset
-  readonly years: number[] = [...Array(this.endYear).keys()].slice(this.startingYear).reverse();   // a range from end year to starting year
-
-  // ? Alternative way to calculate years. Consider
-  // readonly years: number[] = [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x);
+  // a range from end year to starting year
+  readonly years: number[] = [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x);
 
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
