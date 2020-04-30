@@ -9,11 +9,5 @@
 }
 
 .commute-table{
-    display: flex;
-    flex-direction: column;
-    .table-headers {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-    }
+    width: 100%;
 }

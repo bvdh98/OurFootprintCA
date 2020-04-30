@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDividerModule,
     MatIconModule,
     MatTabsModule,
+    MatTableModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -27,6 +29,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDividerModule,
     MatIconModule,
     MatTabsModule,
+    MatTableModule,
   ]
 })
 export class MaterialModule {}
