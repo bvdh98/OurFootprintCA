@@ -12,7 +12,7 @@
   <mat-form-field appearance="standard">
     <mat-label>Select Year</mat-label>
     <mat-select aria-required formControlName="year" name="year" required>
-      <mat-option *ngFor="let year of years" [value]="year">
+      <mat-option *ngFor="let year of getYears()" [value]="year">
         {{year}}
       </mat-option>
     </mat-select>
@@ -37,7 +37,7 @@
   </mat-form-field>
  </form>
 <button mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
     <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
   
     <!-- Vehicle Column -->
@@ -65,4 +65,4 @@
 
     <!-- Data rows -->
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+</table>
