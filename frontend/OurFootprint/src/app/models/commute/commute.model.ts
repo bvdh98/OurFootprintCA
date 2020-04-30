@@ -1,4 +1,5 @@
 import { CommuteRowData } from './commute-row-data.model'
+import { CommuteFormData } from './commute-form-data.model'
 
 export class Commute {
     private vehicleMakeModel: string // TODO: consider making a vehicle model
@@ -9,17 +10,9 @@ export class Commute {
 
     /**
      * Construct a commute object from formdata
-     * Form data object:
-     * {
-     *    vehicle: string, // make model
-     *    year: number,
-     *    distance: number,
-     *    frequency: number,
-     * }
      * @param formData data from the input form - see above format
-     * TODO: explicit parameter type
      */
-    constructor(formData: any) {
+    constructor(formData: CommuteFormData) {
         this.vehicleMakeModel = formData.vehicle
         this.year = formData.year
         this.distance = formData.distance
