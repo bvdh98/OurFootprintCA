@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
+import { Commute } from 'src/app/models/commute.model'
 
 @Component({
   selector: 'app-transportation',
@@ -36,9 +37,7 @@ export class TransportationComponent implements OnInit {
     // TODO: Should use model objects for the form data (commuteFormData) and the rows (commute)
     // TODO: commute should probably use a vehicle object (another model)
     // Map the data to an object in the format that the row wants
-    const data = ((d) => {
-      return {vehicle: `${d.year} ${d.vehicle}`, distance: `${d.distance}km`, frequency: `${d.frequency}`}
-    })(this.commuteForm.value)
+    const data = new Commute(this.commuteForm.value).getTableFormat()
     this.dataSource.data.push(data)
     this.commuteForm.reset()
     if (this.table) { // table can be null when it isn't displayed because of *ngIf
