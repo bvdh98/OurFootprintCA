@@ -12,7 +12,7 @@
   <mat-form-field appearance="standard">
     <mat-label>Select Year</mat-label>
     <mat-select aria-required formControlName="year" name="year" required>
-      <mat-option *ngFor="let year of getYears()" [value]="year">
+      <mat-option *ngFor="let year of years" [value]="year">
         {{year}}
       </mat-option>
     </mat-select>

@@ -14,16 +14,25 @@ export class TransportationComponent implements OnInit {
   dataSource = new MatTableDataSource<any>()
 
   // ? is it worth it to make this static if we need an instance of years anyways?
-  static readonly currentYear: number = new Date().getFullYear(); // the current year
-  static readonly endYear = TransportationComponent.currentYear + 1; // car companies like to release next years cars early
-  static readonly startingYear = 1973; // the beginning of our dataset
-  static readonly years: number[] = 
-    [...Array(TransportationComponent.endYear).keys()].slice(TransportationComponent.startingYear).reverse();   // a range from end year to starting year
-  getYears() {return TransportationComponent.years;} // access years as an instance without saving a copy
+  // static readonly currentYear: number = new Date().getFullYear(); // the current year
+  // static readonly endYear = TransportationComponent.currentYear + 1; // car companies like to release next years cars early
+  // static readonly startingYear = 1973; // the beginning of our dataset
+  // static readonly years: number[] = 
+  //   [...Array(TransportationComponent.endYear).keys()].slice(TransportationComponent.startingYear).reverse();   // a range from end year to starting year
+  // getYears() {return TransportationComponent.years;} // access years as an instance without saving a copy
 
   // ? Alternative way to calculate years. Consider
-  // years: number[] = 
+  // static readonly years: number[] = 
   //   [...Array(TransportationComponent.endYear - TransportationComponent.startingYear + 1).keys()].map(x => TransportationComponent.endYear - x);
+
+  readonly currentYear: number = new Date().getFullYear(); // the current year
+  readonly endYear = this.currentYear + 1; // car companies like to release next years cars early
+  readonly startingYear = 1973; // the beginning of our dataset
+  readonly years: number[] = [...Array(this.endYear).keys()].slice(this.startingYear).reverse();   // a range from end year to starting year
+
+  // ? Alternative way to calculate years. Consider
+  // readonly years: number[] = 
+  //   [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x);
   
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
