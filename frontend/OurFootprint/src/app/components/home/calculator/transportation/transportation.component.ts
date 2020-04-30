@@ -5,7 +5,7 @@ import { MatTableDataSource, MatTable } from '@angular/material/table'
 @Component({
   selector: 'app-transportation',
   templateUrl: './transportation.component.html',
-  styleUrls: ['./transportation.component.scss']
+  styleUrls: ['./transportation.component.scss'],
 })
 export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>

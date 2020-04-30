@@ -37,6 +37,6 @@ import { TransportationComponent } from './components/home/calculator/transporta
     MaterialModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

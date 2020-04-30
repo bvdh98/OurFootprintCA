@@ -42,6 +42,6 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatSelectModule,
     MatInputModule,
     ReactiveFormsModule,
-  ]
+  ],
 })
 export class MaterialModule {}

@@ -4,7 +4,7 @@ import { HttpTestService } from 'src/app/services/http-test.service'
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
+  styleUrls: ['./test.component.scss'],
 })
 export class TestComponent implements OnInit {
   output = 'Nothing... the server is not running or is not connected'

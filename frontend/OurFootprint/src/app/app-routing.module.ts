@@ -10,13 +10,13 @@ const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'about-us', component: AboutUsComponent},
   {path: 'our-sponsors', component: SponsorsComponent},
-  {path: 'test', component: TestComponent}
+  {path: 'test', component: TestComponent},
 ]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled'
+    initialNavigation: 'enabled',
   })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
