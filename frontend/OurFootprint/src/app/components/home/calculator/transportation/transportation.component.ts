@@ -9,8 +9,6 @@ import { Commute } from 'src/app/models/commute/commute.model'
   styleUrls: ['./transportation.component.scss'],
 })
 export class TransportationComponent implements OnInit {
-
-  constructor() { }
   @ViewChild(MatTable) table: MatTable<Commute>
 
   readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'action']
@@ -30,6 +28,8 @@ export class TransportationComponent implements OnInit {
     frequency: new FormControl(),
   })
 
+  constructor() { }
+
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
   }
@@ -43,7 +43,10 @@ export class TransportationComponent implements OnInit {
   }
 
   deleteCommute(row): void {
-    this.dataSource.data.splice(row)
+    this.dataSource.data.splice(row, 1) // deletes the row
+    if (this.table) { // table can be null when it isn't displayed because of *ngIf
+      this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
+    }
   }
 
 }
