@@ -37,13 +37,15 @@ export class TransportationComponent implements OnInit {
   addCommute(): void {
     this.dataSource.data.push(new Commute(this.commuteForm.value))
     this.commuteForm.reset()
-    if (this.table) { // table can be null when it isn't displayed because of *ngIf
-      this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
-    }
+    this.renderTable()
   }
 
-  deleteCommute(row): void {
+  deleteCommute(row: number): void {
     this.dataSource.data.splice(row, 1) // deletes the row
+    this.renderTable()
+  }
+
+  renderTable() {
     if (this.table) { // table can be null when it isn't displayed because of *ngIf
       this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
     }

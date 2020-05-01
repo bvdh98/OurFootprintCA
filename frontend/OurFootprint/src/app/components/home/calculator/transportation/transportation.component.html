@@ -58,11 +58,13 @@
       <td mat-cell *matCellDef="let element"> {{element.tableFormat.frequency}} </td>
     </ng-container>
 
-     <!-- Action Column -->
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let element; let i=index"> 
-        <button type="button" class="btn btn-secondary btn-sm" (click)="deleteCommute(i)">Delete</button>
+     <!-- Delete Column -->
+     <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let element; let i=index">
+        <button mat-icon-button aria-label="Delete commute button" (click)="deleteCommute(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </td>
     </ng-container>
 
