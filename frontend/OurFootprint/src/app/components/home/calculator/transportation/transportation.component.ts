@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { FormGroup, FormControl } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
 import { Commute } from 'src/app/models/commute/commute.model'
 
@@ -24,8 +24,8 @@ export class TransportationComponent implements OnInit {
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl(),
-    distance: new FormControl(),
-    frequency: new FormControl(),
+    distance: new FormControl('', [Validators.min(0), Validators.max(250)]),
+    frequency: new FormControl('', [Validators.min(0), Validators.max(60)]),
   })
 
   constructor() { }
