@@ -11,7 +11,7 @@ import { Commute } from 'src/app/models/commute/commute.model'
 export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Commute>
 
-  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency']
+  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'delete']
   dataSource = new MatTableDataSource<Commute>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
@@ -37,6 +37,15 @@ export class TransportationComponent implements OnInit {
   addCommute(): void {
     this.dataSource.data.push(new Commute(this.commuteForm.value))
     this.commuteForm.reset()
+    this.renderTable()
+  }
+
+  deleteCommute(row: number): void {
+    this.dataSource.data.splice(row, 1) // deletes the row
+    this.renderTable()
+  }
+
+  renderTable() {
     if (this.table) { // table can be null when it isn't displayed because of *ngIf
       this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
     }
