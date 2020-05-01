@@ -11,7 +11,7 @@ import { Commute } from 'src/app/models/commute/commute.model'
 export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Commute>
 
-  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'action']
+  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'delete']
   dataSource = new MatTableDataSource<Commute>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
