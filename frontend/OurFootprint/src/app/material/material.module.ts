@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'
 import { ReactiveFormsModule } from '@angular/forms'
+import { MatFileUploadModule } from 'mat-file-upload'
 
 @NgModule({
   declarations: [],
@@ -30,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatSelectModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatFileUploadModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -42,6 +44,7 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatSelectModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatFileUploadModule,
   ],
 })
 export class MaterialModule {}

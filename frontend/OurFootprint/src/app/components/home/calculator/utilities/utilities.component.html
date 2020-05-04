@@ -1,9 +1,21 @@
 <p>utilities works!</p>
 <p>TODO: Upload Hydro Bill</p>
 <p>TODO: Upload Fortis Bill</p>
-<div class="form-group">
-    <label for="file">Choose File</label>
-    <input type="file"
-           id="file"
-           (change)="handleFileInput($event.target.files)">
-</div>
+
+<mat-file-upload
+    [labelText]="'Please upload your Fortis BC bill'"
+    [acceptedTypes]="'.csv'"
+    [uploadButtonText]="'Upload'"
+    [selectButtonText]="'Select File'"
+    [allowMultipleFiles]="false"
+>
+</mat-file-upload>
+
+<mat-file-upload
+    [labelText]="'Please upload your BC Hydro bill'"
+    [acceptedTypes]="'.csv'"
+    [uploadButtonText]="'Upload'"
+    [selectButtonText]="'Select File'"
+    [allowMultipleFiles]="false"
+>
+</mat-file-upload>

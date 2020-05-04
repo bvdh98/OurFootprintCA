@@ -7,17 +7,9 @@ import { Component, OnInit } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
-  fileToUpload: File = null
-
   constructor() { }
 
   ngOnInit(): void {
   }
-
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0)
-  }
-
-  uploadFile() {}
 
 }
