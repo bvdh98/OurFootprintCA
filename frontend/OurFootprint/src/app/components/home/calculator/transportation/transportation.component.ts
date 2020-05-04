@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormGroup, FormControl } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
 import { Commute } from 'src/app/models/commute/commute.model'
+import { Observable } from 'rxjs'
+import { map, startWith } from 'rxjs/operators'
 
 @Component({
   selector: 'app-transportation',
@@ -28,10 +30,24 @@ export class TransportationComponent implements OnInit {
     frequency: new FormControl(),
   })
 
+  options: string[] = ['One', 'Two', 'Three']
+  filteredOptions: Observable<string[]>
+
   constructor() { }
 
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
+    this.filteredOptions = this.commuteForm.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      )
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase()
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue))
   }
 
   addCommute(): void {
