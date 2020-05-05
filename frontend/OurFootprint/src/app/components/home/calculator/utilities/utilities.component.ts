@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
+  filename: String = null
+
   constructor() { }
 
   ngOnInit(): void {
@@ -17,6 +19,9 @@ export class UtilitiesComponent implements OnInit {
     console.log(fileList)
     console.log(fileList[0])
     console.log(fileList[0].type)
+    console.log(fileList[0].name)
+    this.filename = fileList[0].name
+    console.log(this.filename)
   }
 
 }
