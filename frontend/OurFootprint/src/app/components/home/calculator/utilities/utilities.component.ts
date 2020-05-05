@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'
 
 @Component({
   selector: 'app-utilities',
@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
+  @Output() uploadClicked: EventEmitter<FileList> = new EventEmitter<FileList>()
+  @ViewChild('fileInput', { static: false }) fileInputRef: ElementRef
+  selectedFiles: FileList
+  selectedFileText = ''
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  uploadFiles(): void {
+    this.uploadClicked.emit(this.selectedFiles)
+    this.resetFileInput()
+  }
+
+  resetFileInput(): void {
+    this.fileInputRef.nativeElement.value = ''
   }
 
 }
