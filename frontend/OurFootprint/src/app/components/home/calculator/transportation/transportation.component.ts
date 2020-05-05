@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
 import { Commute } from 'src/app/models/commute/commute.model'
 import { Observable } from 'rxjs'
-import { map, startWith } from 'rxjs/operators'
+import { map, startWith, timeout } from 'rxjs/operators'
 
 @Component({
   selector: 'app-transportation',
@@ -46,17 +46,17 @@ export class TransportationComponent implements OnInit {
 
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
+    // TODO: consider using listeners instead of (click) in html
     this.filteredVehicles = this.commuteForm.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value.vehicle))
+        map(value => this._filterVehicles(value.vehicle))
       )
   }
 
-  private _filter(value: string): {years: number[], name: string}[] {
+  private _filterVehicles(value: string): {years: number[], name: string}[] {
     if (value === undefined) { return [] }
     const filterValue = value.toLowerCase()
-
     return this.vehicles.filter(car => car.name.toLowerCase().includes(filterValue))
   }
 
@@ -71,7 +71,7 @@ export class TransportationComponent implements OnInit {
     this.renderTable()
   }
 
-  renderTable() {
+  private renderTable() {
     if (this.table) { // table can be null when it isn't displayed because of *ngIf
       this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
     }
