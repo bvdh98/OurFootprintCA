@@ -69,4 +69,6 @@ def _write_to_file(vehicles):
         file.write(json.dumps(vehicles))
 
 
-update_json()
+# Only to be called when manually populating the json
+if __name__ == '__main__':
+    update_json()
