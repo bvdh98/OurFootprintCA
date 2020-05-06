@@ -12,7 +12,7 @@ def e2(request):
     return JsonResponse(a)
 
 
-def send_vehicles_json(request):
+def get_vehicles_json(request):
     with open('./static/json_files/vehicles.json', 'r') as file:
         data = json.load(file)
 
