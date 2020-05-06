@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+import json
 
 
 def index(request):
@@ -9,3 +10,10 @@ def index(request):
 def e2(request):
     a = {'message': 'The second endpoint', 'status': 200}
     return JsonResponse(a)
+
+
+def send_vehicles_json(request):
+    with open('./static/json_files/vehicles.json', 'r') as file:
+        data = json.load(file)
+
+    return JsonResponse(data, safe=False)
