@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 
 @Component({
   selector: 'app-utilities',
@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
-  filename: String = null
+  filename: string = "null"
+
+  @Output() messageEvent = new EventEmitter<string>()
+  message: string = "testing"
 
   constructor() { }
 
@@ -23,9 +26,13 @@ export class UtilitiesComponent implements OnInit {
     this.filename = fileList[0].name
     console.log(this.filename)
 
+    this.messageEvent.emit(this.message)
+
+    /** 
     return({
       name: fileList[0].name,
     })
+    */
   }
 
 }
