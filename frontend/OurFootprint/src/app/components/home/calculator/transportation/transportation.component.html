@@ -31,18 +31,18 @@
   </mat-form-field>
 
   <!-- Frequency of trips / month input -->
-  <mat-form-field appearance="standard">
+  <mat-form-field appearance="standard" hintLabel="Max 60 trips">
     <mat-label>Trips per month</mat-label>
-    <input matInput type="number" min="1" max="60" formControlName="frequency" name="frequency" required>
+    <input matInput type="number" min="{{minFrequency}}" max="{{maxFrequency}}" formControlName="frequency" name="frequency" required>
   </mat-form-field>
 
   <!-- Distance input -->
   <!-- TODO: Consider if we should automatically double the frequency because to + from. -->
   <!-- TODO: If so, we should explain that with a note somehow -->
   <div class="distance-input">
-    <mat-form-field appearance="standard">
+    <mat-form-field appearance="standard" hintLabel="Max 250km">
       <mat-label>Distance in Km</mat-label>
-      <input matInput type="number" min="0" max="250" formControlName="distance" name="distance" required>
+      <input matInput type="number" min="{{minDistance}}" max="{{maxDistance}}" formControlName="distance" name="distance" required>
     </mat-form-field>
     <!-- Link to google maps to calculate the commute distance -->
     <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">Calculate Commute Distance</a>

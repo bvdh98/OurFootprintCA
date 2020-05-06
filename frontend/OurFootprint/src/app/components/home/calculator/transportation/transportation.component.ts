@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { FormGroup, FormControl } from '@angular/forms'
+import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
 import { Commute } from 'src/app/models/commute/commute.model'
 import { Observable } from 'rxjs'
@@ -26,12 +26,18 @@ export class TransportationComponent implements OnInit {
 
   // [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x)
 
+  // min max values for form validation
+  readonly minDistance: number = 0
+  readonly maxDistance: number = 250
+  readonly minFrequency: number = 0
+  readonly maxFrequency: number = 60
+
   // TODO: better form validation
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl(),
-    distance: new FormControl(),
-    frequency: new FormControl(),
+    distance: new FormControl('', [Validators.min(this.minDistance), Validators.max(this.maxDistance)]),
+    frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
   })
 
   vehicles: Array<AutocompleteVehicle> = [
