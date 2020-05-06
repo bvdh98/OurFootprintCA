@@ -8,13 +8,16 @@ def update_json():
     Update the cars_names.json based on new csv file already downloaded into static/json_files/car_names.json
     """
     # complete dataset
-    data = pd.read_csv('../static/csv_files/vehicles.csv', usecols=['make', 'model', 'year'])
+    data = pd.read_csv('../static/csv_files/vehicles.csv', usecols=['make', 'model', 'year', 'trany'])
+
+    # Strip the specifications for Automatic transmission
+    data['trany'] = data['trany'].str.replace('^Automatic.*', 'Automatic')
 
     # get unique vehicles
     unique_data = data.drop_duplicates(subset=['make', 'model'])
 
-    # make a new column 'years' and fill with empty lists
-    unique_data = unique_data.assign(years=np.empty((len(unique_data), 0)).tolist())
+    # make a new column 'transmission' and fill with empty lists
+    unique_data = unique_data.assign(transmission=np.empty((len(unique_data), 0)).tolist())
 
     # fill out the empty 'years' lists
     _get_years(unique_data, data)
@@ -26,6 +29,7 @@ def update_json():
     del unique_data['make']
     del unique_data['model']
     del unique_data['year']
+    del unique_data['trany']
 
     # convert the dataframe to a dictionary and write to a file
     d = unique_data.to_dict('records')
@@ -39,12 +43,21 @@ def _get_years(unique_data, data):
     :param data: the complete dataset obtained from fueleconomy.gov
     """
     for i, row in unique_data.iterrows():
-        # get all the entries with the same model-make pair as the current row and extract the corresponding years
-        years = data[(data['model'] == row['model']) & (data['make'] == row['make'])]['year']
+        # get all the entries with the same model-make pair as the current row
+        valid = data[(data['model'] == row['model']) & (data['make'] == row['make'])]
 
-        # get only the unique values and assign to the 'years' cell of the current row
-        years = np.unique(years.to_numpy())
-        unique_data.at[i, 'years'] = years.tolist()
+        # Extract the corresponding years and drop duplicates
+        years = valid['year'].drop_duplicates()
+
+        years_trans = {}
+
+        # for each year, find valid transmission types and put them all in a single dict
+        for j in years:
+            valid_trans_values = valid[valid['year'] == j]['trany']
+            years_trans[j] = valid_trans_values.drop_duplicates().to_numpy().tolist()
+
+        # assign the dictionary to the 'transmission' cell of the current row
+        unique_data.at[i, 'transmission'] = years_trans
 
 
 def _write_to_file(vehicles):
