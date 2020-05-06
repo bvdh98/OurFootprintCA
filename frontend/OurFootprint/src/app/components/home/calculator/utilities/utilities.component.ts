@@ -22,6 +22,10 @@ export class UtilitiesComponent implements OnInit {
     console.log(fileList[0].name)
     this.filename = fileList[0].name
     console.log(this.filename)
+
+    return({
+      name: fileList[0].name,
+    })
   }
 
 }
