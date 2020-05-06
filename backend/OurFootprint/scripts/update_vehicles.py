@@ -54,6 +54,7 @@ def _get_years(unique_data, data):
         # for each year, find valid transmission types and put them all in a single dict
         for j in years:
             valid_trans_values = valid[valid['year'] == j]['trany']
+            valid_trans_values = valid_trans_values.dropna(axis=0, how='any', inplace=False)
             years_trans[j] = valid_trans_values.drop_duplicates().to_numpy().tolist()
 
         # assign the dictionary to the 'transmission' cell of the current row
