@@ -68,7 +68,7 @@ export class TransportationComponent implements OnInit {
     )
 
     this.commuteForm.controls.vehicle.valueChanges.subscribe((vehicle: string | AutocompleteVehicle) => {
-      if ((vehicle as AutocompleteVehicle).details) {
+      if (vehicle && (vehicle as AutocompleteVehicle).details) {
         this.commuteForm.controls.year.enable()
       } else {
         this.commuteForm.controls.year.disable()
@@ -91,8 +91,8 @@ export class TransportationComponent implements OnInit {
   }
 
   addCommute(): void {
+    console.log(this.commuteForm.value)
     this.dataSource.data.push(new Commute(this.commuteForm.value))
-    console.log(this.commuteForm.value.vehicle)
     this.commuteForm.reset()
     this.renderTable()
   }
