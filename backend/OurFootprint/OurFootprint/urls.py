@@ -22,5 +22,5 @@ urlpatterns = [
     path('api/endpoint1', views.index, name='index'),
     path('api/endpoint2', views.e2, name='e2'),
     path('api/users/', include('users.urls')),
-    path('api/vehicles/', views.send_json, name="send_json"),
+    path('api/vehicles/', views.send_vehicles_json, name="send_json"),
 ]
