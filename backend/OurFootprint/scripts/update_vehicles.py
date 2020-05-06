@@ -48,6 +48,7 @@ def _get_years(unique_data, data):
 
         # Extract the corresponding years and drop duplicates
         years = valid['year'].drop_duplicates()
+        years.to_numpy()[::-1].sort()
 
         details = []
 
