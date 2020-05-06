@@ -23,9 +23,8 @@ export class TransportationComponent implements OnInit {
   readonly startingYear = 1984 // the beginning of our dataset
   // a range from end year to starting year
   readonly defaultYears = [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x)
-  years: Observable<number[]>
-
-  // [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x)
+  yearTransmissions: Observable<{yr: number, tr: string[]}[]>
+  // years: Observable<number[]>
 
   // min max values for form validation
   readonly minDistance: number = 0
@@ -36,7 +35,7 @@ export class TransportationComponent implements OnInit {
   // TODO: better form validation
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
-    year: new FormControl(),
+    year: new FormControl({value: '', disabled: true}),
     distance: new FormControl('', [Validators.min(this.minDistance), Validators.max(this.maxDistance)]),
     frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
   })
@@ -54,37 +53,41 @@ export class TransportationComponent implements OnInit {
     this.vehicleService.getVehicles().subscribe(vehicles => this.vehicles = vehicles)
 
     // set up autocomplete filter for vehicles
-    this.filteredVehicles = this.commuteForm.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => value.vehicle),
-        map(vehicle => vehicle && vehicle.name ? vehicle.name : vehicle),
-        map(name => name ? this._filterVehicles(name) : []),
-        map(vehicles => vehicles.slice(0, 20))
-        // TODO: append something to make it clear to the user that there are more than 20 results if there are more than 20 results
-      )
+    this.filteredVehicles = this.commuteForm.controls.vehicle.valueChanges.pipe(
+      startWith(''),
+      map(vehicle => vehicle && vehicle.name ? vehicle.name : vehicle),
+      map(name => name ? this._filterVehicles(name) : []),
+      map(vehicles => vehicles.slice(0, 20))
+      // TODO: append something to make it clear to the user that there are more than 20 results if there are more than 20 results
+    )
 
     // set up automatic allowed years range
-    this.years = this.commuteForm.valueChanges
-      .pipe(
-        startWith(this.defaultYears),
-        map(value => value.vehicle),
-        map((vehicle: AutocompleteVehicle) =>
-          vehicle && vehicle.transmission ?
-            Object.keys(vehicle.transmission).map(y => parseInt(y, 10)).reverse()
-            : this.defaultYears)
-      )
+    this.yearTransmissions = this.commuteForm.controls.vehicle.valueChanges.pipe(
+        startWith([]),
+        map((vehicle: AutocompleteVehicle) => vehicle ? vehicle.details : [])
+    )
+
+    this.commuteForm.controls.vehicle.valueChanges.subscribe((vehicle: string | AutocompleteVehicle) => {
+      if ((vehicle as AutocompleteVehicle).details) {
+        this.commuteForm.controls.year.enable()
+      } else {
+        this.commuteForm.controls.year.disable()
+      }
+    })
   }
 
   displayVehicle(vehicle: AutocompleteVehicle): string {
     return vehicle && vehicle.name ? vehicle.name : ''
   }
 
+  displayYearTransmisson(yearTransmission: {yr: number, tr: string[]}): number {
+    return yearTransmission && yearTransmission.yr ? yearTransmission.yr : NaN
+  }
+
   private _filterVehicles(value: string): AutocompleteVehicle[] {
     if (!value) { return [] }
     const filterValue = value.toLowerCase()
-    const filteredVehicles = this.vehicles.filter(car => car.name.toLowerCase().includes(filterValue))
-    return filteredVehicles
+    return this.vehicles.filter(car => car.name.toLowerCase().includes(filterValue))
   }
 
   addCommute(): void {

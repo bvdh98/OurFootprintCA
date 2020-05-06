@@ -23,9 +23,9 @@
   <mat-form-field appearance="standard">
     <mat-label>Select Year</mat-label>
     <mat-select aria-required formControlName="year" name="year" required>
-      <mat-option *ngFor="let year of years | async" [value]="year">
-      <!-- <mat-option *ngFor="let year of defaultYears" [value]="year"> -->
-        {{year}}
+      <!-- <mat-option *ngFor="let year of years | async" [value]="year"> -->
+      <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmissions">
+        {{yearTransmission.yr}}
       </mat-option>
     </mat-select>
   </mat-form-field>
