@@ -17,7 +17,7 @@ def update_json():
     unique_data = data.drop_duplicates(subset=['make', 'model'])
 
     # make a new column 'transmission' and fill with empty lists
-    unique_data = unique_data.assign(transmission=np.empty((len(unique_data), 0)).tolist())
+    unique_data = unique_data.assign(details=np.empty((len(unique_data), 0)).tolist())
 
     # fill out the empty 'years' lists
     _get_years(unique_data, data)
@@ -49,16 +49,17 @@ def _get_years(unique_data, data):
         # Extract the corresponding years and drop duplicates
         years = valid['year'].drop_duplicates()
 
-        years_trans = {}
+        details = []
 
         # for each year, find valid transmission types and put them all in a single dict
         for j in years:
             valid_trans_values = valid[valid['year'] == j]['trany']
             valid_trans_values = valid_trans_values.dropna(axis=0, how='any', inplace=False)
-            years_trans[j] = valid_trans_values.drop_duplicates().to_numpy().tolist()
+            details.append({'yr': j, 'tr': valid_trans_values.drop_duplicates().to_numpy().tolist()})
+            # details[j] = valid_trans_values.drop_duplicates().to_numpy().tolist()
 
         # assign the dictionary to the 'transmission' cell of the current row
-        unique_data.at[i, 'transmission'] = years_trans
+        unique_data.at[i, 'details'] = details
 
 
 def _write_to_file(vehicles):
