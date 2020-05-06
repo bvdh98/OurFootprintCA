@@ -5,6 +5,7 @@ import { Commute } from 'src/app/models/commute/commute.model'
 import { Observable } from 'rxjs'
 import { map, startWith, timeout } from 'rxjs/operators'
 import { AutocompleteVehicle } from 'src/app/models/vehicle/autocomplete-vehicle.model'
+import { VehicleService } from 'src/app/services/vehicle.service'
 
 @Component({
   selector: 'app-transportation',
@@ -21,7 +22,7 @@ export class TransportationComponent implements OnInit {
   readonly endYear = new Date().getFullYear() + 1 // plus one because car companies like to release next years cars early
   readonly startingYear = 1984 // the beginning of our dataset
   // a range from end year to starting year
-  readonly defaultYears = [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x)
+  readonly defaultYears = [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x)
   years: Observable<number[]>
 
   // [...Array(this.endYear - this.startingYear).keys()].map(x => this.endYear - x)
@@ -40,35 +41,38 @@ export class TransportationComponent implements OnInit {
     frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
   })
 
-  vehicles: Array<AutocompleteVehicle> = [
-    {years: [1985, 1984, 1984], name: 'Alfa Romeo Spider Veloce 2000'},
-    {years: [1985, 1986, 1987, 1988, 1989, 1990, 1991, 1991, 1992], name: 'Ferrari Testarossa'},
-    {years: [1984, 1985, 1986, 1987, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020], name: 'Dodge Charger'},
-    {years: [1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994], name: 'Dodge B150/B250 Wagon 2WD'},
-    {years: [1993, 1994, 1994, 1992, 1992, 1993], name: 'Subaru Legacy AWD Turbo'},
-    {years: [1993, 1993, 1990, 1990, 1990, 1991, 1991, 1992, 1992], name: 'Subaru Loyale'},
-    {years: [1993], name: 'Toyota Corolla'},
-    {years: [1993, 1994, 1995, 1998, 1999, 1999, 2001, 2001, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020], name: 'Volkswagen Golf III / GTI'}, {years: [1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 1989, 1989, 1990, 1991, 1991, 1992], name: 'Volkswagen Jetta III'},
-    {years: [1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1995, 1996, 1997, 1998, 1999], name: 'Volvo 240'}]
+  vehicles: Array<AutocompleteVehicle> = []
   filteredVehicles: Observable<AutocompleteVehicle[]>
 
-  constructor() { }
+  constructor(private vehicleService: VehicleService) { }
 
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
     // TODO: consider using listeners instead of (click) in html
+
+    // get the vehicles from the back end
+    this.vehicleService.getVehicles().subscribe(vehicles => this.vehicles = vehicles)
+
+    // set up autocomplete filter for vehicles
     this.filteredVehicles = this.commuteForm.valueChanges
       .pipe(
         startWith(''),
         map(value => value.vehicle),
         map(vehicle => vehicle && vehicle.name ? vehicle.name : vehicle),
-        map(name => name ? this._filterVehicles(name) : this.vehicles.slice())
+        map(name => name ? this._filterVehicles(name) : []),
+        map(vehicles => vehicles.slice(0, 20))
+        // TODO: append something to make it clear to the user that there are more than 20 results if there are more than 20 results
       )
+
+    // set up automatic allowed years range
     this.years = this.commuteForm.valueChanges
       .pipe(
         startWith(this.defaultYears),
         map(value => value.vehicle),
-        map(vehicle => vehicle && vehicle.name ? vehicle.years.reverse() : this.defaultYears)
+        map((vehicle: AutocompleteVehicle) =>
+          vehicle && vehicle.transmission ?
+            Object.keys(vehicle.transmission).map(y => parseInt(y, 10)).reverse()
+            : this.defaultYears)
       )
   }
 
@@ -79,14 +83,9 @@ export class TransportationComponent implements OnInit {
   private _filterVehicles(value: string): AutocompleteVehicle[] {
     if (!value) { return [] }
     const filterValue = value.toLowerCase()
-    return this.vehicles.filter(car => car.name.toLowerCase().includes(filterValue))
+    const filteredVehicles = this.vehicles.filter(car => car.name.toLowerCase().includes(filterValue))
+    return filteredVehicles
   }
-
-  // private _getYears(value: AutocompleteVehicle): number[] {
-  //   if (!value) { return [] }
-  //   console.log(value)
-  //   return [1, 2, 3]
-  // }
 
   addCommute(): void {
     this.dataSource.data.push(new Commute(this.commuteForm.value))
