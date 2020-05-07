@@ -12,19 +12,22 @@ export class CalculatorComponent implements OnInit {
 
   constructor() { }
 
-  message: string = null
+  messageFortis: string = null
+  messageHydro: string = null
 
   ngOnInit(): void {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit() {
-    this.message = this.utilities.filename
+    this.messageFortis = this.utilities.filenameFortis
+    this.messageHydro = this.utilities.filenameHydro
   }
 
   // quick test method rto update the string
   refresh() {
-    this.message = this.utilities.filename
+    this.messageFortis = this.utilities.filenameFortis
+    this.messageHydro = this.utilities.filenameHydro
   }
 
 }

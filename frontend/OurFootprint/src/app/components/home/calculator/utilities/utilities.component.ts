@@ -7,26 +7,32 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
-  filename: string = null
-
-  @Output() messageEvent = new EventEmitter<string>()
-  message: string = null
+  filenameFortis: string = null
+  filenameHydro: string = null
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onUploadClicked(fileList) {
-    console.log('test')
+  onUploadClickedFortis(fileList) {
+    console.log('Fortis BC Test')
     console.log(fileList)
     console.log(fileList[0])
     console.log(fileList[0].type)
     console.log(fileList[0].name)
-    this.filename = fileList[0].name
-    console.log(this.filename)
+    this.filenameFortis = fileList[0].name
+    console.log(this.filenameFortis)
+  }
 
-    this.messageEvent.emit(this.message)
+  onUploadClickedHydro(fileList) {
+    console.log('BC Hydro Test')
+    console.log(fileList)
+    console.log(fileList[0])
+    console.log(fileList[0].type)
+    console.log(fileList[0].name)
+    this.filenameHydro = fileList[0].name
+    console.log(this.filenameHydro)
   }
 
 }
