@@ -22,7 +22,7 @@ export class CalculatorComponent implements OnInit {
   ngAfterViewInit() { }
 
   // quick test method to update the string
-  receiveFile() {
+  calculate() {
     this.fileFortis = this.utilities.getFortisFile()
     this.fileHydro = this.utilities.getHydroFile()
   }

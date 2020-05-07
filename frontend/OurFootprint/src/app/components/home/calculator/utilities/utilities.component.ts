@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-utilities',
@@ -16,11 +16,11 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onUploadClickedFortis(fileList) {
-    this.fileFortis = fileList[0]
+    (this.validateFile(fileList[0].name) ? this.fileFortis = fileList[0] : console.log('Unsupported file extension'))
   }
 
   onUploadClickedHydro(fileList) {
-    this.fileHydro = fileList[0]
+    (this.validateFile(fileList[0].name) ? this.fileHydro = fileList[0] : console.log('Unsupported file extension'))
   }
 
   getFortisFile(): File {
@@ -29,6 +29,17 @@ export class UtilitiesComponent implements OnInit {
 
   getHydroFile(): File {
     return this.fileHydro
+  }
+
+  validateFile(filename: string): boolean {
+    const extension = filename.substring(filename.lastIndexOf('.') + 1)
+    // tslint:disable-next-line: triple-equals
+    if (extension.toLowerCase() == 'cvs') {
+        return true
+    }
+    else {
+        return false
+    }
   }
 
 }
