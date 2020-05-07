@@ -9,6 +9,7 @@ export class UtilitiesComponent implements OnInit {
 
   private fileFortis: File
   private fileHydro: File
+  private fileExtensionError: string
 
   constructor() { }
 
@@ -16,11 +17,11 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onUploadClickedFortis(fileList) {
-    (this.validateFile(fileList[0].name) ? this.fileFortis = fileList[0] : console.log('Unsupported file extension'))
+    (this.validateFile(fileList[0].name) ? this.fileFortis = fileList[0] : this.fileExtensionError = fileList[0].name + ' is an unsupported file')
   }
 
   onUploadClickedHydro(fileList) {
-    (this.validateFile(fileList[0].name) ? this.fileHydro = fileList[0] : console.log('Unsupported file extension'))
+    (this.validateFile(fileList[0].name) ? this.fileHydro = fileList[0] : this.fileExtensionError = fileList[0].name + ' is an unsupported file extension')
   }
 
   getFortisFile(): File {
@@ -33,13 +34,11 @@ export class UtilitiesComponent implements OnInit {
 
   validateFile(filename: string): boolean {
     const extension = filename.substring(filename.lastIndexOf('.') + 1)
-    // tslint:disable-next-line: triple-equals
-    if (extension.toLowerCase() == 'cvs') {
-        return true
-    }
-    else {
-        return false
-    }
+    return (extension.toLowerCase() === 'csv' ? true : false)
+  }
+
+  resetFileExtensionError() {
+    this.fileExtensionError = ''
   }
 
 }
