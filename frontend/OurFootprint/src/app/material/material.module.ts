@@ -14,7 +14,9 @@ import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'
-import { ReactiveFormsModule } from '@angular/forms'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatListModule } from '@angular/material/list'
 
 @NgModule({
   declarations: [],
@@ -29,7 +31,9 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    ReactiveFormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -41,7 +45,9 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    ReactiveFormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
   ],
 })
 export class MaterialModule {}

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 
 import { HttpClientModule } from '@angular/common/http'
 import { FlexLayoutModule } from '@angular/flex-layout'
+import { ReactiveFormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app-routing.module'
 import { MaterialModule } from './material/material.module'
@@ -38,6 +39,7 @@ import { TransportationComponent } from './components/home/calculator/transporta
     HttpClientModule,
     MaterialModule,
     FlexLayoutModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
