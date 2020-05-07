@@ -10,24 +10,21 @@ export class CalculatorComponent implements OnInit {
 
   @ViewChild(UtilitiesComponent) utilities
 
-  constructor() { }
+  private fileFortis: File
+  private fileHydro: File
 
-  messageFortis: string = null
-  messageHydro: string = null
+  constructor() { }
 
   ngOnInit(): void {
   }
 
   // tslint:disable-next-line: use-lifecycle-interface
-  ngAfterViewInit() {
-    this.messageFortis = this.utilities.filenameFortis
-    this.messageHydro = this.utilities.filenameHydro
-  }
+  ngAfterViewInit() { }
 
-  // quick test method rto update the string
-  refresh() {
-    this.messageFortis = this.utilities.filenameFortis
-    this.messageHydro = this.utilities.filenameHydro
+  // quick test method to update the string
+  receiveFile() {
+    this.fileFortis = this.utilities.getFortisFile()
+    this.fileHydro = this.utilities.getHydroFile()
   }
 
 }
