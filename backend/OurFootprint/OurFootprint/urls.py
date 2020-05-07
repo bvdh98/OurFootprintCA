@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     path('api/endpoint1', views.index, name='index'),
     path('api/endpoint2', views.e2, name='e2'),
-    path('api/users/', include('users.urls'))
+    path('api/users/', include('users.urls')),
+    path('api/vehicles/', views.get_vehicles_json, name="get_vehicles_json"),
 ]
