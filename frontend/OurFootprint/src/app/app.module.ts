@@ -19,7 +19,6 @@ import { CalculatorComponent } from './components/home/calculator/calculator.com
 import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component'
 import { TransportationComponent } from './components/home/calculator/transportation/transportation.component'
 
-
 @NgModule({
   declarations: [
     AppComponent,
