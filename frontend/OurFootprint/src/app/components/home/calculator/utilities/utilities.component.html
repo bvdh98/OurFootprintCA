@@ -2,6 +2,7 @@
 <p>TODO: Upload Hydro Bill</p>
 <p>TODO: Upload Fortis Bill</p>
 
+<form action="/api/upload" method="post" enctype="multipart/form-data">
 <mat-file-upload
     [labelText]="'Please upload your Fortis BC bill'"
     [acceptedTypes]="'.csv'"
@@ -19,3 +20,4 @@
     [allowMultipleFiles]="false"
     (uploadClicked)="onUploadClicked($event)"
 ></mat-file-upload>
+</form>
