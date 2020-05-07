@@ -7,10 +7,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 })
 export class UtilitiesComponent implements OnInit {
 
-  filename: string = "null"
+  filename: string = null
 
   @Output() messageEvent = new EventEmitter<string>()
-  message: string = "testing"
+  message: string = null
 
   constructor() { }
 
@@ -27,12 +27,6 @@ export class UtilitiesComponent implements OnInit {
     console.log(this.filename)
 
     this.messageEvent.emit(this.message)
-
-    /** 
-    return({
-      name: fileList[0].name,
-    })
-    */
   }
 
 }

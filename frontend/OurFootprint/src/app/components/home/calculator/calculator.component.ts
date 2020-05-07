@@ -12,17 +12,14 @@ export class CalculatorComponent implements OnInit {
 
   constructor() { }
 
-  message = 'test'
+  message: string = null
 
   ngOnInit(): void {
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngAfterViewInit() {
     this.message = this.utilities.filename
-  }
-  // OUTDATED
-  receiveMessage($event) {
-    this.message = $event
   }
 
   // quick test method rto update the string
