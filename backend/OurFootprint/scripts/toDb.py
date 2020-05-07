@@ -7,6 +7,10 @@ cols = ['make', 'model', 'year', 'trany', 'charge120', 'charge240', 'city08', 'c
 
 data = pd.read_csv('../static/csv_files/vehicles.csv', usecols=cols)
 
+# Remove suffix from Automatic
+data['trany'] = data['trany'].str.replace('^Automatic.*', 'Automatic')
+
+# Replace make-model pairs with name
 data['name'] = data['make'] + ' ' + data['model']
 del data['make']
 del data['model']
