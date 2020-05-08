@@ -14,14 +14,14 @@ class UserCommute(models.Model):
     Bridge between user ad commute.
     """
     commute_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User.id, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Commute(models.Model):
     """
     Store users' commutes
     """
-    commute_id = models.ForeignKey(UserCommute.commute_id, primary_key=True, on_delete=models.CASCADE)
+    commute_id = models.ForeignKey(UserCommute, primary_key=True, on_delete=models.CASCADE)
     car = models.TextField()
     transmission = models.TextField()
     distance = models.FloatField()
@@ -32,7 +32,7 @@ class FortisBillField(models.Model):
     """
     Each entry in this table corresponds to an entry in users' Fortis bill.
     """
-    user_id = models.ForeignKey(User.id, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     num_days = models.SmallIntegerField()
@@ -44,7 +44,7 @@ class HydroBillField(models.Model):
     """
     Each entry in this table corresponds to an entry in users' Fortis bill.
     """
-    user_id = models.ForeignKey(User.id, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     num_days = models.SmallIntegerField()
     city = models.TextField()
@@ -54,7 +54,7 @@ class UserEmissions(models.Model):
     """
     Store the users' emissions fo reach month that we have visibility on
     """
-    user_id = models.ForeignKey(User.id, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
     emission = models.FloatField()
