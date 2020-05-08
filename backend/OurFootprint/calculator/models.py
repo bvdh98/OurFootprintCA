@@ -23,6 +23,7 @@ class Commute(models.Model):
     """
     commute_id = models.ForeignKey(UserCommute, primary_key=True, on_delete=models.CASCADE)
     car = models.TextField()
+    car_year = models.IntegerField()
     transmission = models.TextField()
     distance = models.FloatField()
     city_perc = models.FloatField()
