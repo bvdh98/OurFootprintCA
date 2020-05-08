@@ -1,7 +1,7 @@
 import datetime
-
+from calendar import monthrange
 import pandas as pd
-from calculator.models import FortisBillField, User
+from calculator.models import FortisBillField, User, HydroBillField
 
 
 def process_fortis(file, uid):
@@ -23,5 +23,25 @@ def process_fortis(file, uid):
         new_entry.save()
         response.append({'start_date': s_date, 'end_date': e_date, 'num_days': num_days, 'consumption': consumption,
                          'avg_temp': avg_temp})
+
+    return response
+
+
+def process_hydro(file, uid):
+    data = pd.read_csv(file)
+    response = []
+
+    for i, row in data.iterrows():
+        user_entry = User(id=uid, num_people_household=1)
+        user_entry.save()
+        s_date = row['Interval Start Date/Time']
+        start_date = datetime.datetime.strptime(s_date, "%Y-%m-%d")
+        num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
+        consumption = row['Net Consumption (kWh)']
+        city = row['City']
+        new_entry = HydroBillField(user_id=user_entry, start_date=start_date, num_days=num_days,
+                                   consumption=consumption, city=city)
+        new_entry.save()
+        response.append({'start_date': s_date, 'num_days': num_days, 'consumption': consumption})
 
     return response
