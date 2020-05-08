@@ -9,8 +9,7 @@ def process_fortis(file, uid):
     response = []
 
     for i, row in data.iterrows():
-        user_entry = User(id=uid, num_people_household=1)
-        user_entry.save()
+        user_entry, created = User.objects.get_or_create(id=uid, num_people_household=1)
         s_date = row['Bill from date']
         start_date = datetime.datetime.strptime(s_date, " %d/%m/%Y")
         e_date = row['Bill to date']
@@ -18,8 +17,8 @@ def process_fortis(file, uid):
         num_days = row['# of days']
         consumption = row['Billed GJ']
         avg_temp = row['Average temperature']
-        new_entry = FortisBillField(user_id=user_entry, start_date=start_date, end_date=end_date, num_days=num_days,
-                                    consumption=consumption, avg_temp=avg_temp)
+        new_entry = FortisBillField.objects.get_or_create(user_id=user_entry, start_date=start_date, end_date=end_date,
+                                                          num_days=num_days, consumption=consumption, avg_temp=avg_temp)
         new_entry.save()
         response.append({'start_date': s_date, 'end_date': e_date, 'num_days': num_days, 'consumption': consumption,
                          'avg_temp': avg_temp})
@@ -32,15 +31,14 @@ def process_hydro(file, uid):
     response = []
 
     for i, row in data.iterrows():
-        user_entry = User(id=uid, num_people_household=1)
-        user_entry.save()
+        user_entry, created = User.objects.get_or_create(id=uid, num_people_household=1)
         s_date = row['Interval Start Date/Time']
         start_date = datetime.datetime.strptime(s_date, "%Y-%m-%d")
         num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
         consumption = row['Net Consumption (kWh)']
         city = row['City']
-        new_entry = HydroBillField(user_id=user_entry, start_date=start_date, num_days=num_days,
-                                   consumption=consumption, city=city)
+        new_entry, created = HydroBillField.objects.get_or_create(user_id=user_entry, start_date=start_date,
+                                                                  num_days=num_days, consumption=consumption, city=city)
         new_entry.save()
         response.append({'start_date': s_date, 'num_days': num_days, 'consumption': consumption})
 
