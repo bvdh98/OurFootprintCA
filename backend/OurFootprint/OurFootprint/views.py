@@ -17,3 +17,10 @@ def get_vehicles_json(request):
         data = json.load(file)
 
     return JsonResponse(data, safe=False)
+
+
+def fortis_bill(request):
+    if request.method == 'POST':
+        file = request.FILES
+        print(file)
+    return {'status': 200}
