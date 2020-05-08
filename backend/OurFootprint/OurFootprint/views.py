@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from scripts.process_file import process_fortis
 
 
 def index(request):
@@ -11,8 +13,10 @@ def e2(request):
     return JsonResponse(a)
 
 
+@csrf_exempt
 def fortis_bill(request):
+    response = []
     if request.method == 'POST':
-        file = request.FILES
-
-    return {'status': 200}
+        file = request.FILES['fortis']
+        response = process_fortis(file, 100)
+    return JsonResponse(response, safe=False)
