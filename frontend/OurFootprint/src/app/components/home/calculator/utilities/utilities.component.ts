@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-utilities',
@@ -9,21 +10,34 @@ export class UtilitiesComponent implements OnInit {
 
   private fileFortis: File
   private fileHydro: File
-  fileExtensionError: string
 
-  constructor() { }
+  constructor(private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
   onUploadClickedFortis(fileList) {
-    this.resetFileExtensionError();
-    (this.validateFile(fileList[0].name) ? this.fileFortis = fileList[0] : this.fileExtensionError = fileList[0].name + ' is an unsupported file')
+
+    if (!this.validateFile(fileList[0].name)) {
+      this.snackBar.open('Unsupported File Type!', 'Undo', {
+        duration: 3000,
+      })
+    } else {
+      this.fileFortis = fileList[0]
+    }
+
   }
 
   onUploadClickedHydro(fileList) {
-    this.resetFileExtensionError();
-    (this.validateFile(fileList[0].name) ? this.fileHydro = fileList[0] : this.fileExtensionError = fileList[0].name + ' is an unsupported file extension')
+
+    if (!this.validateFile(fileList[0].name)) {
+      this.snackBar.open('Unsupported File Type!', 'Undo', {
+        duration: 3000,
+      })
+    } else {
+      this.fileHydro = fileList[0]
+    }
+
   }
 
   getFortisFile(): File {
@@ -37,10 +51,6 @@ export class UtilitiesComponent implements OnInit {
   validateFile(filename: string): boolean {
     const extension = filename.substring(filename.lastIndexOf('.') + 1)
     return (extension.toLowerCase() === 'csv' ? true : false)
-  }
-
-  resetFileExtensionError() {
-    this.fileExtensionError = ''
   }
 
 }
