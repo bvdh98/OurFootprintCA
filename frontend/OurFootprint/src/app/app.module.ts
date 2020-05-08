@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 
+import { HttpClientModule } from '@angular/common/http'
+import { FlexLayoutModule } from '@angular/flex-layout'
+import { ReactiveFormsModule } from '@angular/forms'
+
 import { AppRoutingModule } from './app-routing.module'
+import { MaterialModule } from './material/material.module'
+
 import { AppComponent } from './app.component'
 import { TestComponent } from './components/test/test.component'
-
-import { HttpClientModule } from '@angular/common/http'
-
-import { MaterialModule } from './material/material.module'
 import { HeaderComponent } from './components/header/header.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { HomeComponent } from './components/home/home.component'
@@ -35,6 +37,8 @@ import { TransportationComponent } from './components/home/calculator/transporta
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
