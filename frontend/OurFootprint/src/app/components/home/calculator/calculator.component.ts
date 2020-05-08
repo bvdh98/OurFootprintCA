@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'
+import { UtilitiesComponent } from './utilities/utilities.component'
 
 @Component({
   selector: 'app-calculator',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core'
 })
 export class CalculatorComponent implements OnInit {
 
+  @ViewChild(UtilitiesComponent) utilities
+
+  private fileFortis: File
+  private fileHydro: File
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  calculate() {
+    this.fileFortis = this.utilities.getFortisFile()
+    this.fileHydro = this.utilities.getHydroFile()
   }
 
 }
