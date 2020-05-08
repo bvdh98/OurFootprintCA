@@ -18,10 +18,6 @@ export class CalculatorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  // tslint:disable-next-line: use-lifecycle-interface
-  ngAfterViewInit() { }
-
-  // quick test method to update the string
   calculate() {
     this.fileFortis = this.utilities.getFortisFile()
     this.fileHydro = this.utilities.getHydroFile()
