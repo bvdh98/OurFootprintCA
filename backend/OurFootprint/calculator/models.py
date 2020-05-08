@@ -47,6 +47,7 @@ class HydroBillField(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     start_date = models.DateField()
     num_days = models.SmallIntegerField()
+    consumption = models.FloatField()
     city = models.TextField()
 
 
