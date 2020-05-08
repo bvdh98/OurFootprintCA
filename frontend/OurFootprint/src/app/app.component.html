@@ -1,37 +1,37 @@
-<div style="height: 100%;"> <!-- otherwise side nav can not show up on pages with very little content -->
-    <!-- TODO: Find a better method than setting height to 100% -->
-    <mat-toolbar color="primary">
-        <mat-toolbar-row>
-            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span>OurFootprint</span>
-            <span class="menu-spacer"></span>
-            <div fxShow="true" fxHide.lt-md>
-                <!-- TODO: Use ng for as in comments -->
-                <!-- <a mat-button *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
-                <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
-                <a mat-button [routerLink]="[ '/' ]">Home</a>
-                <a mat-button [routerLink]="[ '/about-us' ]">About Us</a>
-                <a mat-button [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
+<mat-sidenav-container fxFlexFill>
+    <mat-sidenav #sidenav>
+        <mat-nav-list>
+            <!-- TODO: Use ng for as in comments -->
+            <!-- <a mat-list-item *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
+            <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
+            <a mat-list-item [routerLink]="[ '/' ]">Home</a>
+            <a mat-list-item [routerLink]="[ '/about-us' ]">About Us</a>
+            <a mat-list-item [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="no-v-scroll">                
+            <mat-toolbar color="primary">
+                <mat-toolbar-row>
+                    <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+                        <mat-icon>menu</mat-icon>
+                    </button>
+                    <span>OurFootprint</span>
+                    <span class="menu-spacer"></span>
+                    <div fxShow="true" fxHide.lt-md>
+                        <!-- TODO: Use ng for as in comments -->
+                        <!-- <a mat-button *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
+                        <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
+                        <a mat-button [routerLink]="[ '/' ]">Home</a>
+                        <a mat-button [routerLink]="[ '/about-us' ]">About Us</a>
+                        <a mat-button [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
+                    </div>
+                </mat-toolbar-row>
+            </mat-toolbar>
+            <div style="overflow-y: auto;">
+                <router-outlet></router-outlet>
+                <app-footer></app-footer>
             </div>
-        </mat-toolbar-row>
-    </mat-toolbar>
-    
-    <mat-sidenav-container fxFlexFill>
-        <mat-sidenav #sidenav>
-            <mat-nav-list>
-                <!-- TODO: Use ng for as in comments -->
-                <!-- <a mat-list-item *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
-                <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
-                <a mat-list-item [routerLink]="[ '/' ]">Home</a>
-                <a mat-list-item [routerLink]="[ '/about-us' ]">About Us</a>
-                <a mat-list-item [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
-            </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content fxFlexFill>
-            <router-outlet></router-outlet>
-            <app-footer></app-footer>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-</div>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
