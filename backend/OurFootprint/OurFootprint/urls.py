@@ -21,5 +21,6 @@ from . import views
 urlpatterns = [
     path('api/endpoint1', views.index, name='index'),
     path('api/endpoint2', views.e2, name='e2'),
-    path('api/users/', include('users.urls'))
+    path('api/users/', include('users.urls')),
+    path('api/uploadfortisbill', views.fortis_bill, name='upload fortis bill'),
 ]

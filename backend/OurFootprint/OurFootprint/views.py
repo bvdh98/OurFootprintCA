@@ -9,3 +9,10 @@ def index(request):
 def e2(request):
     a = {'message': 'The second endpoint', 'status': 200}
     return JsonResponse(a)
+
+
+def fortis_bill(request):
+    if request.method == 'POST':
+        file = request.FILES
+
+    return {'status': 200}
