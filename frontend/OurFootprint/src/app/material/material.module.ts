@@ -19,6 +19,7 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatListModule } from '@angular/material/list'
 import { MatSnackBarModule} from '@angular/material/snack-bar'
+import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
   declarations: [],
@@ -38,6 +39,7 @@ import { MatSnackBarModule} from '@angular/material/snack-bar'
     MatToolbarModule,
     MatListModule,
     MatSnackBarModule,
+    MatCardModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -54,6 +56,7 @@ import { MatSnackBarModule} from '@angular/material/snack-bar'
     MatToolbarModule,
     MatListModule,
     MatSnackBarModule,
+    MatCardModule,
   ],
 })
 export class MaterialModule {}
