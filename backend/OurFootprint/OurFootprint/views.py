@@ -1,6 +1,8 @@
+import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from scripts.process_file import process_fortis, process_hydro
+from scripts.add_commute import add_commute
 
 
 def index(request):
@@ -28,4 +30,13 @@ def hydro_bill(request):
     if request.method == 'POST':
         file = request.FILES['hydro']
         response = process_hydro(file, 100)
+    return JsonResponse(response, safe=False)
+
+
+@csrf_exempt
+def add_commute(request):
+    response = []
+    if request.method == 'POST':
+        commute = json.loads(request.body)
+        response = add_commute(commute, 100)
     return JsonResponse(response, safe=False)

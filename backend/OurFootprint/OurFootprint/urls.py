@@ -24,4 +24,5 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/uploadfortisbill', views.fortis_bill, name='upload fortis bill'),
     path('api/uploadhydrobill', views.hydro_bill, name='upload hydro bill'),
+    path('api/uploadcommute', views.add_commute, name='add a commute'),
 ]
