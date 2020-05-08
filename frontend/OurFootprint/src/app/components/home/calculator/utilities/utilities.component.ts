@@ -17,7 +17,7 @@ export class UtilitiesComponent implements OnInit {
   }
 
   onUploadClickedFortis(fileList) {
-
+    console.log(fileList[0].type)
     if (!this.validateFile(fileList[0].name)) {
       this.snackBar.open('Unsupported File Type!', 'Undo', {
         duration: 3000,
@@ -25,11 +25,9 @@ export class UtilitiesComponent implements OnInit {
     } else {
       this.fileFortis = fileList[0]
     }
-
   }
 
   onUploadClickedHydro(fileList) {
-
     if (!this.validateFile(fileList[0].name)) {
       this.snackBar.open('Unsupported File Type!', 'Undo', {
         duration: 3000,
@@ -37,7 +35,6 @@ export class UtilitiesComponent implements OnInit {
     } else {
       this.fileHydro = fileList[0]
     }
-
   }
 
   getFortisFile(): File {
