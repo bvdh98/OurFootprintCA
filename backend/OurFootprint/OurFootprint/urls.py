@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/endpoint2', views.e2, name='e2'),
     path('api/users/', include('users.urls')),
     path('api/uploadfortisbill', views.fortis_bill, name='upload fortis bill'),
+    path('api/uploadhydrobill', views.hydro_bill, name='upload hydro bill'),
 ]
