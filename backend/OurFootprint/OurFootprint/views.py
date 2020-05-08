@@ -1,5 +1,9 @@
+import time
+
 from django.http import JsonResponse
 import json
+import pandas as pd
+from django.views.decorators.csrf import csrf_exempt
 
 
 def index(request):
@@ -19,8 +23,10 @@ def get_vehicles_json(request):
     return JsonResponse(data, safe=False)
 
 
+@csrf_exempt
 def fortis_bill(request):
     if request.method == 'POST':
-        file = request.FILES
-        print(file)
-    return {'status': 200}
+        file = request.FILES['fortisBill']
+        data = pd.read_csv(file)
+        example = data.iloc[1, 1]
+        return JsonResponse({'example': example})
