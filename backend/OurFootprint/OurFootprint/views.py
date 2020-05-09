@@ -40,6 +40,8 @@ def add_commute(request):
         commute = json.loads(request.body)
         response = add_commute_to_db(commute, 100)
     return JsonResponse(response, safe=False)
+
+
 def get_vehicles_json(request):
     with open('./static/json_files/vehicles.json', 'r') as file:
         data = json.load(file)
