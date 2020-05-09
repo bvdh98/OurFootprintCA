@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from calendar import monthrange
 import pandas as pd
 from calculator.models import FortisBillField, User, HydroBillField
@@ -17,9 +17,9 @@ def process_fortis(file, uid):
 
         # Extract the useful info from the csv row
         s_date = row['Bill from date']
-        start_date = datetime.datetime.strptime(s_date, " %d/%m/%Y")
+        start_date = datetime.strptime(s_date, " %d/%m/%Y")
         e_date = row['Bill to date']
-        end_date = datetime.datetime.strptime(s_date, " %d/%m/%Y")
+        end_date = datetime.strptime(s_date, " %d/%m/%Y")
         num_days = row['# of days']
         consumption = row['Billed GJ']
         avg_temp = row['Average temperature']
@@ -51,7 +51,7 @@ def process_hydro(file, uid):
 
         # Extract the useful info from the csv row
         s_date = row['Interval Start Date/Time']
-        start_date = datetime.datetime.strptime(s_date, "%Y-%m-%d")
+        start_date = datetime.strptime(s_date, "%Y-%m-%d")
         num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
         consumption = row['Net Consumption (kWh)']
         city = row['City']
