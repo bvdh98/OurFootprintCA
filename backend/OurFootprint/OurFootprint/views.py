@@ -1,5 +1,6 @@
 import json
 from django.http import JsonResponse
+from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
 from scripts.process_file import process_fortis, process_hydro
 from scripts.add_commute import add_commute_to_db
@@ -18,19 +19,33 @@ def e2(request):
 @csrf_exempt
 def fortis_bill(request):
     response = []
+    status = 500
     if request.method == 'POST':
-        file = request.FILES['fortis']
-        response = process_fortis(file, 100)
-    return JsonResponse(response, safe=False)
+        try:
+            file = request.FILES['fortis']
+        except MultiValueDictKeyError:
+            response = {'error': 'Unexpected key, expected "fortis"'}
+            status = 400
+        else:
+            response = process_fortis(file, 100)
+            status = 200
+    return JsonResponse(response, safe=False, status=status)
 
 
 @csrf_exempt
 def hydro_bill(request):
     response = []
+    status = 500
     if request.method == 'POST':
-        file = request.FILES['hydro']
-        response = process_hydro(file, 100)
-    return JsonResponse(response, safe=False)
+        try:
+            file = request.FILES['hydro']
+        except MultiValueDictKeyError:
+            response = {'error': 'Unexpected key, expected "hydro"'}
+            status = 400
+        else:
+            response = process_hydro(file, 100)
+            status = 200
+    return JsonResponse(response, safe=False, status=status)
 
 
 @csrf_exempt
