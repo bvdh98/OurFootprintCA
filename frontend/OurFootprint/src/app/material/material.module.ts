@@ -14,7 +14,11 @@ import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'
-import { ReactiveFormsModule } from '@angular/forms'
+import { MatFileUploadModule } from 'mat-file-upload'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatListModule } from '@angular/material/list'
+import { MatSnackBarModule} from '@angular/material/snack-bar'
 
 @NgModule({
   declarations: [],
@@ -29,7 +33,11 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    ReactiveFormsModule,
+    MatFileUploadModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatSnackBarModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -41,7 +49,11 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    ReactiveFormsModule,
+    MatFileUploadModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {}

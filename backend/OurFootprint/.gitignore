@@ -4,4 +4,3 @@ __pycache__/
 /password.py
 /setup.sql
 /static/*
-/test.sql
