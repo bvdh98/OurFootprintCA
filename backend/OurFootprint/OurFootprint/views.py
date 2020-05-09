@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from scripts.process_file import process_fortis, process_hydro
-from scripts.add_commute import add_commute
+from scripts.add_commute import add_commute_to_db
 
 
 def index(request):
@@ -38,5 +38,5 @@ def add_commute(request):
     response = []
     if request.method == 'POST':
         commute = json.loads(request.body)
-        response = add_commute(commute, 100)
+        response = add_commute_to_db(commute, 100)
     return JsonResponse(response, safe=False)
