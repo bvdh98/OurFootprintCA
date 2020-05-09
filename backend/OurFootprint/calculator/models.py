@@ -21,9 +21,9 @@ class Commute(models.Model):
     """
     Store users' commutes
     """
-    commute_id = models.ForeignKey(UserCommute, primary_key=True, on_delete=models.CASCADE)
-    car = models.TextField()
-    car_year = models.IntegerField()
+    commute_id = models.OneToOneField(UserCommute, primary_key=True, on_delete=models.CASCADE)
+    vehicle = models.TextField()
+    vehicle_year = models.IntegerField()
     transmission = models.TextField()
     distance = models.FloatField()
     city_perc = models.FloatField()

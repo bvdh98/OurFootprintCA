@@ -1,5 +1,4 @@
 import json
-
 import pandas as pd
 
 cols = ['make', 'model', 'year', 'trany', 'charge120', 'charge240', 'city08', 'cityE', 'combE', 'feScore', 'fuelCost08',
@@ -15,13 +14,13 @@ data['name'] = data['make'] + ' ' + data['model']
 del data['make']
 del data['model']
 
-d = []
+data_json = []
 
 for i, row in data.iterrows():
-    d2 = {"model": 'vehicle.Vehicles', "pk": i}
-    d3 = row.to_dict()
-    d2['fields'] = d3
-    d.append(d2)
+    detail_keys = {"model": 'vehicle.Vehicles', "pk": i}
+    body = row.to_dict()
+    detail_keys['fields'] = body
+    data_json.append(detail_keys)
 
 with open('../static/json_files/all_vehicles.json', 'w') as file:
-    file.write(json.dumps(d))
+    file.write(json.dumps(data_json))

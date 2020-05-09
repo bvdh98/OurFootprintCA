@@ -11,6 +11,7 @@ def process_fortis(file, uid):
 
     for i, row in data.iterrows():
         # Get a reference to the user (create the user if doesnt exist)
+        # TODO: change num_people_household
         user_entry, created = User.objects.get_or_create(id=uid, num_people_household=1)
         if created:
             user_entry.save()
@@ -19,7 +20,7 @@ def process_fortis(file, uid):
         s_date = row['Bill from date']
         start_date = datetime.strptime(s_date, " %d/%m/%Y")
         e_date = row['Bill to date']
-        end_date = datetime.strptime(s_date, " %d/%m/%Y")
+        end_date = datetime.strptime(e_date, " %d/%m/%Y")
         num_days = row['# of days']
         consumption = row['Billed GJ']
         avg_temp = row['Average temperature']
