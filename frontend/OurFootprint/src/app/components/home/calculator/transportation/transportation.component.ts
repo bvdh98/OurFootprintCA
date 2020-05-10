@@ -54,7 +54,6 @@ export class TransportationComponent implements OnInit {
 
     // set up autocomplete filter for vehicles
     this.filteredVehicles = this.commuteForm.controls.vehicle.valueChanges.pipe(
-      startWith(''),
       map(vehicle => vehicle && vehicle.name ? vehicle.name : vehicle),
       map(name => name ? this._filterVehicles(name) : []),
       map(vehicles => vehicles.slice(0, 20))
@@ -63,7 +62,6 @@ export class TransportationComponent implements OnInit {
 
     // set up automatic allowed years range
     this.yearTransmissions = this.commuteForm.controls.vehicle.valueChanges.pipe(
-        startWith([]),
         map((vehicle: AutocompleteVehicle) => vehicle ? vehicle.details : [])
     )
 
