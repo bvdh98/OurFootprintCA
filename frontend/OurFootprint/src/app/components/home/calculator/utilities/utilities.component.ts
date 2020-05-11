@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { FileUploadService } from 'src/app/services/file-upload.service'
 
 @Component({
   selector: 'app-utilities',
@@ -8,41 +9,46 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 })
 export class UtilitiesComponent implements OnInit {
 
-  private fileFortis: File
-  private fileHydro: File
+  private fortisBill: File
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar, private fileUploadService: FileUploadService) { }
 
   ngOnInit(): void {
   }
 
   onUploadClickedFortis(fileList) {
-    console.log(fileList[0].type)
+    if (!fileList || !fileList[0]){
+      console.log('oopsies')
+      return
+    }
+
+    console.log("found a file... neat!")
+
     if (!this.validateFile(fileList[0].name)) {
       this.snackBar.open('Unsupported File Type!', 'Undo', {
         duration: 3000,
       })
-    } else {
-      this.fileFortis = fileList[0]
+      return
     }
+
+    console.log("the file had a valid extension!")
+
+    this.fortisBill = fileList[0]
+    // make a request to back end to upload the file
+    this.fileUploadService.uploadFortisBill(fileList[0])
+      .then(response => 
+        console.log('backend returned: ' + (response as {example: string}).example))
   }
 
   onUploadClickedHydro(fileList) {
     if (!this.validateFile(fileList[0].name)) {
-      this.snackBar.open('Unsupported File Type!', 'Undo', {
-        duration: 3000,
-      })
-    } else {
-      this.fileHydro = fileList[0]
+      this.snackBar.open('Unsupported File Type!', 'Undo', {duration: 3000})
+      return
     }
-  }
-
-  getFortisFile(): File {
-    return this.fileFortis
-  }
-
-  getHydroFile(): File {
-    return this.fileHydro
+    // make a request to back end to upload the file
+    this.fileUploadService.uploadHydroBill(fileList[0])
+      .then(response => 
+        console.log('backend returned: ' + (response as {example: string}).example))
   }
 
   validateFile(filename: string): boolean {

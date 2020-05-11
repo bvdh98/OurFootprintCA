@@ -1,7 +1,11 @@
 import json
+import time
+import pandas as pd
+
 from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
+
 from scripts.process_file import process_fortis, process_hydro
 from scripts.add_commute import add_commute_to_db
 
@@ -62,3 +66,12 @@ def get_vehicles_json(request):
         data = json.load(file)
 
     return JsonResponse(data, safe=False)
+
+
+@csrf_exempt
+def fortis_bill(request):
+    if request.method == 'POST':
+        file = request.FILES['fortisBill']
+        data = pd.read_csv(file)
+        example = data.iloc[1, 1]
+        return JsonResponse({'example': example})
