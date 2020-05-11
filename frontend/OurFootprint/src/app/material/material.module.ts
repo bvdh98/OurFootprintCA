@@ -14,11 +14,14 @@ import { MatTableModule } from '@angular/material/table'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
 import { MatInputModule } from '@angular/material/input'
-import { MatFileUploadModule } from 'mat-file-upload'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { ReactiveFormsModule } from '@angular/forms'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatListModule } from '@angular/material/list'
 import { MatSnackBarModule} from '@angular/material/snack-bar'
+
+import { MatFileUploadModule } from 'mat-file-upload' // a separate node package - not official angular material
 
 @NgModule({
   declarations: [],
@@ -33,11 +36,13 @@ import { MatSnackBarModule} from '@angular/material/snack-bar'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatFileUploadModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
     MatSnackBarModule,
+    MatFileUploadModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -49,11 +54,13 @@ import { MatSnackBarModule} from '@angular/material/snack-bar'
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatFileUploadModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     MatToolbarModule,
     MatListModule,
     MatSnackBarModule,
+    MatFileUploadModule,
   ],
 })
 export class MaterialModule {}
