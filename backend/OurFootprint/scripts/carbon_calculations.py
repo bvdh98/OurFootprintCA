@@ -32,8 +32,9 @@ def fortis_calculations(bill_entries):
 class CarbonCalculations:
     def __init__(self, commute: Commute):
         """
-        Initializer for the class , also decides if a vehicle is electric or not and calls the corresponding method
-        :param commute: commute object stores attributes about each commute.
+        Initializer for the class , and calls a method  _get_emission_efficiency that checks if the
+        vehicle is electric or not
+        :param commute: commute object stores attributes for each commute.
         """
         self.commute = commute
         self.city_emissions = 0
