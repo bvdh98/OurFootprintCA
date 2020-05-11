@@ -1,15 +1,11 @@
-<p>utilities works!</p>
-<p>TODO: Upload Hydro Bill</p>
-<p>TODO: Upload Fortis Bill</p>
-
 <mat-file-upload
     [labelText]="'Please upload your Fortis BC bill'"
     [acceptedTypes]="'.csv'"
     [uploadButtonText]="'Upload'"
     [selectButtonText]="'Select File'"
     [allowMultipleFiles]="false"
-    (uploadClicked)="onUploadClickedFortis($event)"
-></mat-file-upload>
+    (uploadClicked)="onUploadClickedFortis($event)">
+</mat-file-upload>
 
 <mat-file-upload
     [labelText]="'Please upload your BC Hydro bill'"
@@ -17,5 +13,5 @@
     [uploadButtonText]="'Upload'"
     [selectButtonText]="'Select File'"
     [allowMultipleFiles]="false"
-    (uploadClicked)="onUploadClickedHydro($event)"
-></mat-file-upload>
+    (uploadClicked)="onUploadClickedHydro($event)">
+</mat-file-upload>
