@@ -1,46 +1,87 @@
 from numpy import double
 from vehicle.models import Vehicles
+
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
 EMISSION_FACTOR_FORTIS = 0.719
 EMISSION_FACTOR_HYDRO = 0.010670
 
 
 def hydro_calculations(bill_entries):
+    """
+    Calculate the total_footprint generated from the hydro bill
+    :param bill_entries: These are the values from the hydro bill
+    :return carbon_footprint: This is the total footprint from the hydro bill
+    """
     total_kwh = sum(bill_entries)
     carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / 1000  # in tonnes
     return carbon_footprint
 
 
 def fortis_calculations(bill_entries):
+    """
+    Calculate the total_footprint generated from the fortis bill
+    :param bill_entries: This is a list of kj values from the fortis bill
+    :return carbon_footprint: This is the total footprint from the fortis bill
+    """
     total_kj = sum(bill_entries)
     carbon_footprint = total_kj * EMISSION_FACTOR_FORTIS
     return carbon_footprint
 
 
 class CarbonCalculations:
-    def __init__(self, city_emissions=0, city_fuel_eff=0, highway_eff=0, cityE=0, highwayE=0):
-        self.city_emissions = city_emissions
-        self.city_fuel_eff = city_fuel_eff
-        self.highway_fuel_eff = highway_eff
-        self.city_electric_vehicle_kwh = cityE
-        self.highway_electric_vehicle_kwh = highwayE
+    def __init__(self, vehicle: Vehicles):
+        """
+        Initializer for the class , also decides if a vehicle is electric or not and calls the corresponding method
+        :param vehicle: vehicle object has attributes name , year and transmission
+        """
+        self.name = vehicle.name
+        self.year = vehicle.year
+        self.transmission = vehicle.trany
+        self.city_emissions = 0
+        self.city_fuel_eff = 0
+        self.highway_fuel_eff = 0
+        self.is_electric = False
 
-    def get_emission_efficiency(self, name, year, trany):
-        required_rows = list(Vehicles.objects.all().filter(name=name, year=year, trany=trany).values())
+        if vehicle.cityE != 0:
+            self.is_electric = True
+            self.get_electric_vehicle_kwh()
+        else:
+            self.get_emission_efficiency()
+
+    def get_emission_efficiency(self):
+        """
+        This method is called for the non electric vehicles and reads the database for the co2TailpipeGpm ,
+        city08 and highway08
+        co2TailpipeGpm: This is the emissions of co2 from each vehicle
+        city08: Fuel efficiency of the vehicle in the city
+        highway08: Fuel efficiency of the vehicle on the highway
+        """
+        required_rows = list(Vehicles.objects.all().filter(name=self.name, year=self.year,
+                                                           trany=self.transmission).values())
         self.city_emissions = self._mean(required_rows, 'co2TailpipeGpm')
         self.city_fuel_eff = self._mean(required_rows, 'city08')
         self.highway_fuel_eff = self._mean(required_rows, 'highway08')
 
-        return self.city_emissions, self.city_fuel_eff, self.highway_fuel_eff,
-
-    def get_electric_vehicle_kwh(self, name, year, trany):
-        required_rows = list(Vehicles.objects.all().filter(name=name, year=year, trany=trany).values())
-        self.city_electric_vehicle_kwh = self._mean(required_rows, 'cityE')
-        self.highway_electric_vehicle_kwh = self._mean(required_rows, 'highwayE')
-        return self.city_electric_vehicle_kwh, self.highway_electric_vehicle_kwh
+    def get_electric_vehicle_kwh(self):
+        """
+        This method is called for the  electric vehicles and reads the database for the cityE ,
+        highwayE for a vehicle
+        cityE: kwh of the vehicle in the city
+        highwayE: kwh of the vehicle on the highway
+        """
+        required_rows = list(Vehicles.objects.all().filter(name=self.name, year=self.year,
+                                                           trany=self.transmission).values())
+        self.city_fuel_eff = self._mean(required_rows, 'cityE')
+        self.highway_fuel_eff = self._mean(required_rows, 'highwayE')
 
     def calculate_footprint(self, distance, highway_percentage):
-        if self.city_electric_vehicle_kwh != 0:
+        """
+        This method is called which checks if the vehicle is electric or not and calls the corresponding methods to
+        calculate carbon footprint
+        :param distance: It is the total distance of the commute
+        :param highway_percentage: It is the percentage of the commute made via the highway
+        """
+        if self.is_electric:
             return self.electric_vehicles_footprint(distance, highway_percentage)
         else:
             return self.calculate_footprint_gasoline(distance, highway_percentage)
@@ -79,13 +120,12 @@ class CarbonCalculations:
         # calculating total footprint for the commute
         total_footprint = (fuel_decomposition_city + fuel_production_city + fuel_decomposition_highway
                            + fuel_production_highway) / 1000  # in tonnes
-        print(total_footprint)
         return total_footprint
 
-    def electric_vehicles_footprint(self, distance, no_of_trips, highway_percentage):
+    def electric_vehicles_footprint(self, distance, highway_percentage):
         # converting the city and highway data into proper units
-        converted_city_kwh = self.city_electric_vehicle_kwh / 160.934
-        converted_highway_kwh = self.highway_electric_vehicle_kwh / 160.934
+        converted_city_kwh = self.city_fuel_eff / 160.934
+        converted_highway_kwh = self.highway_fuel_eff / 160.934
 
         # calculating highway distance
         highway_distance = (highway_percentage / 100) * distance
