@@ -1,18 +1,19 @@
 from numpy import double
 from vehicle.models import Vehicles
+# These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
+EMISSION_FACTOR_FORTIS = 0.719
+EMISSION_FACTOR_HYDRO = 0.010670
 
 
 def hydro_calculations(bill_entries):
     total_kwh = sum(bill_entries)
-    emission_factor = 0.010670
-    carbon_footprint = (total_kwh * emission_factor) / 1000  # in tonnes
+    carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / 1000  # in tonnes
     return carbon_footprint
 
 
 def fortis_calculations(bill_entries):
     total_kj = sum(bill_entries)
-    emission_factor = 0.719
-    carbon_footprint = total_kj * emission_factor
+    carbon_footprint = total_kj * EMISSION_FACTOR_FORTIS
     return carbon_footprint
 
 
@@ -38,6 +39,12 @@ class CarbonCalculations:
         self.highway_electric_vehicle_kwh = self._mean(required_rows, 'highwayE')
         return self.city_electric_vehicle_kwh, self.highway_electric_vehicle_kwh
 
+    def calculate_footprint(self, distance, highway_percentage):
+        if self.city_electric_vehicle_kwh != 0:
+            return self.electric_vehicles_footprint(distance, highway_percentage)
+        else:
+            return self.calculate_footprint_gasoline(distance, highway_percentage)
+
     @classmethod
     def _mean(cls, lst, key):
         """
@@ -47,17 +54,16 @@ class CarbonCalculations:
         """
         return float(sum(d[key] for d in lst)) / len(lst)
 
-    def calculate_footprint_transport(self, no_of_trips, distance, highway_percentage) -> double:
+    def calculate_footprint_gasoline(self, distance, highway_percentage) -> double:
         # converting city  fuel efficiency to km per litres
         converted_city_fuel_eff = (self.city_fuel_eff * 1.609) / 3.785
-        # getting total distance
-        total_distance = distance * no_of_trips
+
         # calculating highway distance
-        highway_distance = (highway_percentage / 100) * total_distance
+        highway_distance = (highway_percentage / 100) * distance
         # calculating highway fuel
         highway_fuel = highway_distance / ((self.highway_fuel_eff * 1.609) / 3.785)
         # calculating city distance
-        city_distance = total_distance - highway_distance
+        city_distance = distance - highway_distance
         # calculating city fuel
         city_fuel = city_distance / converted_city_fuel_eff
         # converting emissions to KGco2 per km
@@ -80,12 +86,11 @@ class CarbonCalculations:
         # converting the city and highway data into proper units
         converted_city_kwh = self.city_electric_vehicle_kwh / 160.934
         converted_highway_kwh = self.highway_electric_vehicle_kwh / 160.934
-        # calculating total distance
-        total_distance = distance * no_of_trips
+
         # calculating highway distance
-        highway_distance = (highway_percentage / 100) * total_distance
+        highway_distance = (highway_percentage / 100) * distance
         # calculating city distance
-        city_distance = total_distance - highway_distance
+        city_distance = distance - highway_distance
         # calculating city kwh
         total_city_kwh = converted_city_kwh * city_distance
         # calculating highway kwh
@@ -94,4 +99,3 @@ class CarbonCalculations:
         emission_factor = 0.010670
         total_footprint = (total_kwh * emission_factor) / 1000  # tonnes
         return total_footprint
-
