@@ -66,12 +66,3 @@ def get_vehicles_json(request):
         data = json.load(file)
 
     return JsonResponse(data, safe=False)
-
-
-@csrf_exempt
-def fortis_bill(request):
-    if request.method == 'POST':
-        file = request.FILES['fortisBill']
-        data = pd.read_csv(file)
-        example = data.iloc[1, 1]
-        return JsonResponse({'example': example})
