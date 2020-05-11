@@ -4,6 +4,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
 from scripts.process_file import process_fortis, process_hydro
 from scripts.add_commute import add_commute_to_db
+from scripts.calculate_for_user import calculate_footprint_for_user
 
 
 def index(request):
