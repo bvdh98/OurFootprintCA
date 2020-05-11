@@ -13,8 +13,8 @@ export class Commute {
      * @param formData data from the input form - see above format
      */
     constructor(formData: CommuteFormData) {
-        this.vehicleMakeModel = formData.vehicle
-        this.year = formData.year
+        this.vehicleMakeModel = formData.vehicle.name
+        this.year = formData.year.yr
         this.distance = formData.distance
         this.frequency = formData.frequency
 
