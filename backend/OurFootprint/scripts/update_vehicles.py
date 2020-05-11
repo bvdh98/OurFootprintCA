@@ -16,7 +16,7 @@ def update_json():
     # get unique vehicles
     unique_data = data.drop_duplicates(subset=['make', 'model'])
 
-    # make a new column 'transmission' and fill with empty lists
+    # make a new column 'details' and fill with empty lists
     unique_data = unique_data.assign(details=np.empty((len(unique_data), 0)).tolist())
 
     # fill out the empty 'years' lists
