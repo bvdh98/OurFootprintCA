@@ -1,0 +1,8 @@
+<mat-file-upload
+    [labelText]="'Please upload your Fortis BC bill'"
+    [acceptedTypes]="'.csv'"
+    [uploadButtonText]="'Upload'"
+    [selectButtonText]="'Select File'"
+    [allowMultipleFiles]="false"
+    (uploadClicked)="onUploadClickedFortis($event)">
+</mat-file-upload>

@@ -3,11 +3,11 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { FileUploadService } from 'src/app/services/file-upload.service'
 
 @Component({
-  selector: 'app-utilities',
-  templateUrl: './utilities.component.html',
-  styleUrls: ['./utilities.component.scss'],
+  selector: 'app-fortis',
+  templateUrl: './fortis.component.html',
+  styleUrls: ['./fortis.component.scss'],
 })
-export class UtilitiesComponent implements OnInit {
+export class FortisComponent implements OnInit {
 
   private fortisBill: File
 
@@ -40,17 +40,7 @@ export class UtilitiesComponent implements OnInit {
         console.log('backend returned: ' + (response as {example: string}).example))
   }
 
-  onUploadClickedHydro(fileList) {
-    if (!this.validateFile(fileList[0].name)) {
-      this.snackBar.open('Unsupported File Type!', 'Undo', {duration: 3000})
-      return
-    }
-    // make a request to back end to upload the file
-    this.fileUploadService.uploadHydroBill(fileList[0])
-      .then(response =>
-        console.log('backend returned: ' + (response as {example: string}).example))
-  }
-
+  // TODO: store this function elsewhere and reference it (duplicated in hydro component)
   validateFile(filename: string): boolean {
     const extension = filename.substring(filename.lastIndexOf('.') + 1)
     return (extension.toLowerCase() === 'csv' ? true : false)

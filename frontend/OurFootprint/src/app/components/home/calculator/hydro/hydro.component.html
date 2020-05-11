@@ -1,0 +1,8 @@
+<mat-file-upload
+    [labelText]="'Please upload your BC Hydro bill'"
+    [acceptedTypes]="'.csv'"
+    [uploadButtonText]="'Upload'"
+    [selectButtonText]="'Select File'"
+    [allowMultipleFiles]="false"
+    (uploadClicked)="onUploadClickedHydro($event)">
+</mat-file-upload>
