@@ -16,25 +16,23 @@ METRIC_TONNE_TO_KG_RATIO = 1000
 DAYS_IN_MONTH = 30.4375  # average number of days in a month
 
 
-def hydro_calculations(bill_entries):
+def hydro_calculations(consumption):
     """
     Calculate the total_footprint generated from the hydro bill
-    :param bill_entries: These are the values from the hydro bill
+    :param consumption: This is the consumption value from the hydro bill (unit: kWh)
     :return carbon_footprint: This is the total footprint from the hydro bill
     """
-    total_kwh = sum(bill_entries)
-    carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
+    carbon_footprint = (consumption * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
 
 
-def fortis_calculations(bill_entries):
+def fortis_calculations(consumption):
     """
     Calculate the total_footprint generated from the fortis bill
-    :param bill_entries: This is a list of kj values from the fortis bill
+    :param consumption: This is the consumption value from the fortis bill (unit: kJ)
     :return carbon_footprint: This is the total footprint from the fortis bill
     """
-    total_kj = sum(bill_entries)
-    carbon_footprint = total_kj * EMISSION_FACTOR_FORTIS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
+    carbon_footprint = consumption * EMISSION_FACTOR_FORTIS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
 
 
