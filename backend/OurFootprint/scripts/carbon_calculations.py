@@ -23,8 +23,8 @@ def hydro_calculations(bill_entries):
     :return carbon_footprint: This is the total footprint from the hydro bill
     """
     total_kwh = sum(bill_entries)
-    carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # in metric tonnes
-    return carbon_footprint
+    carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
+    return carbon_footprint  # Metric tonnes
 
 
 def fortis_calculations(bill_entries):
@@ -34,8 +34,8 @@ def fortis_calculations(bill_entries):
     :return carbon_footprint: This is the total footprint from the fortis bill
     """
     total_kj = sum(bill_entries)
-    carbon_footprint = total_kj * EMISSION_FACTOR_FORTIS
-    return carbon_footprint
+    carbon_footprint = total_kj * EMISSION_FACTOR_FORTIS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
+    return carbon_footprint  # Metric tonnes
 
 
 def calculate_commute_emissions(commute: Commute):
@@ -125,7 +125,7 @@ def calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_e
     # convert weekly footprint to monthly
     monthly_footprint = (total_footprint / 7) * DAYS_IN_MONTH
 
-    return monthly_footprint
+    return monthly_footprint  # metric tonnes of carbon emission per month
 
 
 def calculate_footprint_electric(commute: Commute, city_fuel_eff, highway_fuel_eff) -> double:
@@ -156,4 +156,4 @@ def calculate_footprint_electric(commute: Commute, city_fuel_eff, highway_fuel_e
     # convert weekly footprint to monthly
     monthly_footprint = (total_footprint / 7) * DAYS_IN_MONTH
 
-    return monthly_footprint
+    return monthly_footprint  # metric tonnes of carbon emission per month
