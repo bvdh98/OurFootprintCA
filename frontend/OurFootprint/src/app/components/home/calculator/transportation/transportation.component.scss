@@ -2,13 +2,22 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    flex-wrap: wrap;
+    
     .distance-input {
         display: flex;
         flex-direction: column;
     }
+
+}
+
+#add-commute-button {
+    margin-top: 1em;
 }
 
 .commute-table{
-    margin-top: 1em;
+    margin-top: 2em;
     width: 100%;
 }
+
+

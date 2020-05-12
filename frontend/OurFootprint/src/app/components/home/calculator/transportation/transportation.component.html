@@ -47,7 +47,7 @@
     <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">Calculate Commute Distance</a>
   </div>
 </form>
-<button mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
+<button id="add-commute-button" mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
   <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
   
