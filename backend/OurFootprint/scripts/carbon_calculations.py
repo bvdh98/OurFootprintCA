@@ -20,7 +20,7 @@ def hydro_calculations(consumption):
     """
     Calculate the total_footprint generated from the hydro bill
     :param consumption: This is the consumption value from the hydro bill (unit: kWh)
-    :return carbon_footprint: This is the total footprint from the hydro bill
+    :return carbon_footprint: This is the total footprint from the hydro bill (unit: metric tonnes of carbon)
     """
     carbon_footprint = (consumption * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
@@ -30,7 +30,7 @@ def fortis_calculations(consumption):
     """
     Calculate the total_footprint generated from the fortis bill
     :param consumption: This is the consumption value from the fortis bill (unit: kJ)
-    :return carbon_footprint: This is the total footprint from the fortis bill
+    :return carbon_footprint: This is the total footprint from the fortis bill (unit: metric tonnes of carbon)
     """
     carbon_footprint = consumption * EMISSION_FACTOR_FORTIS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
@@ -40,7 +40,7 @@ def calculate_commute_emissions(commute: Commute):
     """
     Calculate carbon footprint for a commute
     :param commute: a Commute entry from the database
-    :return: Total monthly carbon footprint for the commute
+    :return: Total monthly carbon footprint for the commute  (unit: metric tonnes of carbon)
     """
     # get the vehicle(s) from the database that match the specifications of the user's vehicle
     matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.vehicle_year,
@@ -70,7 +70,6 @@ def get_info_electric(matching_rows):
     """
     Return the info required to calculate carbon footprint of a car that runs on electricity
     :param matching_rows: a list of vehicles from the database that match the description of user's vehicle
-    :return:
     """
     return {'city_fuel_eff': property_mean(matching_rows, 'cityE'),
             'highway_fuel_eff': property_mean(matching_rows, 'highwayE')}
@@ -89,9 +88,9 @@ def calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_e
     """
     Calculate carbon footprint for a gasoline based/ non electric vehicle
     :param commute: Commute object to access details about user's commute
-    :param city_fuel_eff: fuel efficiency of the vehicle in the city
-    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway
-    :param emissions: Total amount of carbon emissions made by the vehicle for the monthly commute
+    :param city_fuel_eff: fuel efficiency of the vehicle in the city  (unit: miles per gallon)
+    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway  (unit: miles per gallon)
+    :param emissions: Total carbon emissions by the vehicle for the monthly commute  (unit: metric tonnes of carbon)
     """
     distance = commute.distance
     highway_percentage = commute.highway_perc
@@ -130,8 +129,8 @@ def calculate_footprint_electric(commute: Commute, city_fuel_eff, highway_fuel_e
     """
     Calculate carbon footprint for an electric vehicle
     :param commute: Commute object to access details about user's commute
-    :param city_fuel_eff: fuel efficiency of the vehicle in the city
-    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway
+    :param city_fuel_eff: fuel efficiency of the vehicle in the city  (unit: kWh per 100 miles)
+    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway  (unit: kWh per 100 miles)
     """
     distance = commute.distance
     highway_percentage = commute.highway_perc
