@@ -7,26 +7,26 @@
     (uploadClicked)="onUploadClickedHydro($event)">
 </mat-file-upload>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table"> <!-- *ngIf="dataSource.data.length > 0" -->
     <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
     
       <!-- Consumption Column -->
-      <ng-container matColumnDef="testColumn1">
-        <th mat-header-cell *matHeaderCellDef> Column 1 </th>
-        <td mat-cell *matCellDef="let element"> <!-- {{element.tableFormat.consumption}} --> </td>
+      <ng-container matColumnDef="consumption">
+        <th mat-header-cell *matHeaderCellDef> Consumption </th>
+        <td mat-cell *matCellDef="let element"> {{element.consumption}} </td>
       </ng-container>
 
       <!-- Average Temperature Month Column -->
-      <ng-container matColumnDef="testColumn2">
+      <ng-container matColumnDef="avgtemp">
         <th mat-header-cell *matHeaderCellDef> Average Temperature </th>
-        <td mat-cell *matCellDef="let element"> <!-- {{element.tableFormat.avgtemp}} --> </td>
+        <td mat-cell *matCellDef="let element"> {{element.avg_temp}} </td>
       </ng-container>
   
        <!-- Delete Column -->
        <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th>
         <td mat-cell *matCellDef="let element; let i=index">
-          <button mat-icon-button aria-label="Delete hydro row button" (click)="deleteHydroRow(i)">
+          <button mat-icon-button aria-label="Delete hydro row button" (click)="deleteRow(i, table)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

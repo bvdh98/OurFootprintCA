@@ -12,10 +12,10 @@ export class FortisComponent implements OnInit {
 
   @ViewChild(MatTable) table: MatTable</* FortisRow */ any>
 
-  readonly displayedColumns: string[] = ['startDate', 'endDate', 'numDays', 'consumption', 'avgTemmp']
+  readonly displayedColumns: string[] = ['startDate', 'endDate', 'numDays', 'consumption', 'avgTemp', 'delete']
   dataSource = new MatTableDataSource</* FortisRow */ any>()
 
-  private fortisBill: File
+  private bill: File
 
   constructor(private snackBar: MatSnackBar, private fileUploadService: FileUploadService) { }
 
@@ -28,22 +28,22 @@ export class FortisComponent implements OnInit {
       return
     }
 
-    console.log('found a file... neat!')
-
     if (!this.validateFile(fileList[0].name)) {
-      this.snackBar.open('Unsupported File Type!', 'Undo', {
-        duration: 3000,
-      })
+      this.snackBar.open('Unsupported File Type!', 'Undo', {duration: 3000})
       return
     }
 
-    console.log('the file had a valid extension!')
+    this.bill = fileList[0]
 
-    this.fortisBill = fileList[0]
     // make a request to back end to upload the file
-    this.fileUploadService.uploadFortisBill(fileList[0])
-      .then(response =>
-        console.log('backend returned: ' + JSON.stringify(response)))
+    this.fileUploadService.uploadFortisBill(fileList[0]).then(response => {
+        const jsonResponse: Array<JSON> = (response as Array<JSON>)
+        console.log('backend returned: ' + JSON.stringify(jsonResponse))
+        console.log(jsonResponse)
+        for (const row of jsonResponse) {
+          this.addRow(this.dataSource, this.table, row)
+        }
+    })
   }
 
   // TODO: store this function elsewhere and reference it (duplicated in hydro component)
@@ -52,16 +52,21 @@ export class FortisComponent implements OnInit {
     return (extension.toLowerCase() === 'csv' ? true : false)
   }
 
-  // TODO: Reuse code
-  deleteFortisRow(row: number): void {
-    this.dataSource.data.splice(row, 1) // deletes the row
-    this.renderTable()
+  addRow(dataSource: MatTableDataSource<any>, table: MatTable<any>, row: any): void {
+    dataSource.data.push(row)
+    this.renderTable(table)
   }
 
   // TODO: Reuse code
-  private renderTable() {
-    if (this.table) { // table can be null when it isn't displayed because of *ngIf
-      this.table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
+  deleteRow(row: number, table: MatTable<any>): void {
+    this.dataSource.data.splice(row, 1) // deletes the row
+    this.renderTable(table)
+  }
+
+  // TODO: Reuse code
+  private renderTable(table: MatTable<any>): void {
+    if (table) { // table can be null when it isn't displayed because of *ngIf
+      table.renderRows() // The table doesn't re render unless we tell it to. How very non-angular.
     }
   }
 
