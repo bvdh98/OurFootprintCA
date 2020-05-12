@@ -4,3 +4,7 @@ __pycache__/
 /password.py
 /setup.sql
 /static/*
+# ignore everything inside the migrations folder except __init__ and the folder itself
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py

@@ -12,13 +12,13 @@ def add_commute_to_db(commute, uid):
     year = commute.get('year')
     transmission = commute.get('transmission')
     distance = commute.get('distance')
-    city_perc = commute.get('city_perc')
+    highway_perc = commute.get('highway_perc')
 
     # Create a reference to the user-commute bridge
     user_commute_entry = UserCommute(user_id=user_entry)
     user_commute_entry.save()
 
     # Add entry to commute table using the bridge reference
-    commute_entry = Commute(commute_id=user_commute_entry, car=vehicle, car_year=year, transmission=transmission,
-                            distance=distance, city_perc=city_perc)
+    commute_entry = Commute(commute_id=user_commute_entry, vehicle=vehicle, vehicle_year=year, transmission=transmission,
+                            distance=distance, highway_perc=highway_perc)
     commute_entry.save()
