@@ -3,11 +3,9 @@ from vehicle.models import Vehicles
 from calculator.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
-# Ratio of kg of carbon edited per KJ of energy used
-EMISSION_FACTOR_FORTIS = 0.719
-EMISSION_FACTOR_HYDRO = 3.00
-
-KWH_TO_GJ = 0.0036
+# Ratio of kg of carbon edited per kJ of energy used
+EMISSION_FACTOR_FORTIS = 0.719  # kg/kJ
+EMISSION_FACTOR_HYDRO = 0.010670  # kg/kWh
 
 # Other useful constants
 MILE_TO_KM_RATIO = 1.609
@@ -24,7 +22,6 @@ def hydro_calculations(consumption):
     :param consumption: This is the consumption value from the hydro bill (unit: kWh)
     :return carbon_footprint: This is the total footprint from the hydro bill (unit: metric tonnes of carbon)
     """
-    consumption = consumption * KWH_TO_GJ  # kWh to GJ
     carbon_footprint = (consumption * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
 
