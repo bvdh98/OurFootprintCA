@@ -52,6 +52,7 @@ export class FortisComponent implements OnInit {
     return (extension.toLowerCase() === 'csv' ? true : false)
   }
 
+  // TODO: Reuse code
   addRow(dataSource: MatTableDataSource<any>, table: MatTable<any>, row: any): void {
     dataSource.data.push(row)
     this.renderTable(table)
@@ -59,6 +60,7 @@ export class FortisComponent implements OnInit {
 
   // TODO: Reuse code
   deleteRow(row: number, table: MatTable<any>): void {
+    // TODO: Delete the row from the backed DB
     this.dataSource.data.splice(row, 1) // deletes the row
     this.renderTable(table)
   }
