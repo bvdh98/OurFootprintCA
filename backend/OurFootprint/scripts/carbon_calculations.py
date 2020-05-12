@@ -3,13 +3,14 @@ from vehicle.models import Vehicles
 from calculator.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
+# Ratio of kg of carbon edited per KJ of energy used
 EMISSION_FACTOR_FORTIS = 0.719
 EMISSION_FACTOR_HYDRO = 0.010670
 
 # Other useful constants
 MILE_TO_KM_RATIO = 1.609
 GALLON_TO_LITRES_RATIO = 3.785
-PER_100MILES_TO_KM_RATIO = 160.934
+HUNDRED_MILES_TO_1_KM_RATIO = 160.934
 EMISSION_FACTOR_FUEL_PRODUCTION = 0.43
 METRIC_TONNE_TO_KG_RATIO = 1000
 DAYS_IN_MONTH = 30.4375  # average number of days in a month
@@ -100,7 +101,7 @@ def _calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_
     converted_city_fuel_eff = (city_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO
 
     # calculating highway distance
-    highway_distance = (highway_percentage / 100) * distance
+    highway_distance = highway_percentage * distance
     # calculating highway fuel
     highway_fuel = highway_distance / ((highway_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO)
     # calculating city distance
@@ -138,11 +139,11 @@ def _electric_vehicles_footprint(commute: Commute, city_fuel_eff, highway_fuel_e
     highway_percentage = commute.highway_perc
 
     # converting the city and highway data into proper units
-    converted_city_kwh = city_fuel_eff / PER_100MILES_TO_KM_RATIO
-    converted_highway_kwh = highway_fuel_eff / PER_100MILES_TO_KM_RATIO
+    converted_city_kwh = city_fuel_eff / HUNDRED_MILES_TO_1_KM_RATIO
+    converted_highway_kwh = highway_fuel_eff / HUNDRED_MILES_TO_1_KM_RATIO
 
     # calculating highway distance
-    highway_distance = (highway_percentage / 100) * distance
+    highway_distance = highway_percentage * distance
     # calculating city distance
     city_distance = distance - highway_distance
     # calculating city kwh
