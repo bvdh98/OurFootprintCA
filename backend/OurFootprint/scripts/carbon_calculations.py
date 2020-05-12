@@ -4,12 +4,15 @@ from calculator.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
 EMISSION_FACTOR_FORTIS = 0.719
-EMISSION_FACTOR = 0.010670
+EMISSION_FACTOR_HYDRO = 0.010670
+
+# Other useful constants
 MILE_TO_KM_RATIO = 1.609
 GALLON_TO_LITRES_RATIO = 3.785
 PER_100MILES_TO_KM_RATIO = 160.934
 EMISSION_FACTOR_FUEL_PRODUCTION = 0.43
 METRIC_TONNE_TO_KG_RATIO = 1000
+DAYS_IN_MONTH = 30.4375  # average number of days in a month
 
 
 def hydro_calculations(bill_entries):
@@ -19,7 +22,7 @@ def hydro_calculations(bill_entries):
     :return carbon_footprint: This is the total footprint from the hydro bill
     """
     total_kwh = sum(bill_entries)
-    carbon_footprint = (total_kwh * EMISSION_FACTOR) / METRIC_TONNE_TO_KG_RATIO  # in metric tonnes
+    carbon_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # in metric tonnes
     return carbon_footprint
 
 
@@ -34,115 +37,122 @@ def fortis_calculations(bill_entries):
     return carbon_footprint
 
 
-class CommuteCalculations:
-    def __init__(self, commute: Commute):
-        """
-        Initializer for the class , method _get_emission_efficiency checks if the
-        vehicle is electric or not
-        :param commute: commute object stores attributes for each commute.
-        """
-        self.commute = commute
-        self.common_emissions = None
-        self.city_fuel_eff = None
-        self.highway_fuel_eff = None
-        self.is_electric = None
-        self._get_emission_efficiency()
+def calculate_commute_emissions(commute: Commute):
+    """
+    Calculate carbon footprint for a commute
+    :param commute: a Commute entry from the database
+    :return: Total monthly carbon footprint for the commute
+    """
+    # get the vehicle(s) from the database that match the specifications of the user's vehicle
+    matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.vehicle_year,
+                                                       trany=commute.transmission).values())
 
-    def calculate_footprint(self):
-        """
-        Checks if the vehicle is electric or not and calls the corresponding methods to
-        calculate carbon footprint
-        """
+    # get the first vehicle and see if it is an electric vehicle
+    # a vehicle is electric if the value of cityE is not 0
+    if matching_vehicles[0].cityE != 0:
+        emission_info = get_info_gasoline(matching_vehicles)
+        return _calculate_footprint_gasoline(commute, **emission_info)
+    else:
+        emission_info = get_info_gasoline(matching_vehicles)
+        return _electric_vehicles_footprint(commute, **emission_info)
 
-        distance = self.commute.distance
-        highway_percentage = self.commute.highway_perc
-        if self.is_electric:
-            return self._electric_vehicles_footprint(distance, highway_percentage)
-        else:
-            return self._calculate_footprint_gasoline(distance, highway_percentage)
 
-    def _get_emission_efficiency(self):
-        required_rows = list(Vehicles.objects.all().filter(name=self.commute.vehicle, year=self.commute.vehicle_year,
-                                                           trany=self.commute.transmission).values())
-        if required_rows[0].cityE != 0:
-            self.is_electric = True
-            self._get_electric_vehicle_kwh(required_rows)
-        else:
-            self._get_emission_efficiency_gasoline(required_rows)
+def get_info_gasoline(matching_vehicles):
+    """
+    Return the info required to calculate carbon footprint of a car that runs on gasoline or any non electric fuel
+    :param matching_vehicles: a list of vehicles from the database that match the description of user's vehicle
+    """
+    return {'emissions': _mean(matching_vehicles, 'co2TailpipeGpm'),
+            'city_fuel_eff': _mean(matching_vehicles, 'city08'),
+            'highway_fuel_eff': _mean(matching_vehicles, 'highway08')}
 
-    def _get_emission_efficiency_gasoline(self, required_rows):
-        """
-        This method is called for the non electric vehicles and reads the database for the co2TailpipeGpm ,
-        city08 and highway08
-        co2TailpipeGpm: This is the emissions of co2 from each vehicle
-        city08: Fuel efficiency of the vehicle in the city
-        highway08: Fuel efficiency of the vehicle on the highway
-        :param required_rows: It is a list of dictionary which stores all the required data of a vehicle
-        """
-        self.common_emissions = self._mean(required_rows, 'co2TailpipeGpm')
-        self.city_fuel_eff = self._mean(required_rows, 'city08')
-        self.highway_fuel_eff = self._mean(required_rows, 'highway08')
 
-    def _get_electric_vehicle_kwh(self, required_rows):
-        """
-        This method is called for the  electric vehicles and reads the database for the cityE ,
-        highwayE for a vehicle
-        cityE: kwh of the vehicle in the city
-        highwayE: kwh of the vehicle on the highway
-        """
-        self.city_fuel_eff = self._mean(required_rows, 'cityE')
-        self.highway_fuel_eff = self._mean(required_rows, 'highwayE')
+def get_info_electric(matching_rows):
+    """
+    Return the info required to calculate carbon footprint of a car that runs on electricity
+    :param matching_rows: a list of vehicles from the database that match the description of user's vehicle
+    :return:
+    """
+    return {'city_fuel_eff': _mean(matching_rows, 'cityE'),
+            'highway_fuel_eff': _mean(matching_rows, 'highwayE')}
 
-    @classmethod
-    def _mean(cls, lst, key):
-        """
-        Find the mean of a particular property in a list of dicts
-        :param lst: the list of dicts
-        :param key: the property whose mean is needed
-        """
-        return float(sum(d[key] for d in lst)) / len(lst)
 
-    def _calculate_footprint_gasoline(self, distance, highway_percentage) -> double:
-        # converting city  fuel efficiency to km per litres
-        converted_city_fuel_eff = (self.city_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO
+def _mean(lst, key):
+    """
+    Find the mean of a particular property in a list of dicts
+    :param lst: the list of dicts
+    :param key: the property whose mean is needed
+    """
+    return float(sum(d[key] for d in lst)) / len(lst)
 
-        # calculating highway distance
-        highway_distance = (highway_percentage / 100) * distance
-        # calculating highway fuel
-        highway_fuel = highway_distance / ((self.highway_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO)
-        # calculating city distance
-        city_distance = distance - highway_distance
-        # calculating city fuel
-        city_fuel = city_distance / converted_city_fuel_eff
-        # converting emissions to KGco2 per km
-        common_emm = self.common_emissions / (MILE_TO_KM_RATIO * METRIC_TONNE_TO_KG_RATIO)
-        # calculating footprint for  decomposition city
-        fuel_decomposition_city = common_emm * city_distance
-        # calculating footprint for  decomposition highway
-        fuel_decomposition_highway = highway_distance * common_emm
-        # calculating footprint for  fuel production city
-        fuel_production_city = city_fuel * EMISSION_FACTOR_FUEL_PRODUCTION
-        # calculating footprint for  fuel production city
-        fuel_production_highway = highway_fuel * EMISSION_FACTOR_FUEL_PRODUCTION
-        # calculating total footprint for the commute
-        total_footprint = (fuel_decomposition_city + fuel_production_city + fuel_decomposition_highway
-                           + fuel_production_highway) / METRIC_TONNE_TO_KG_RATIO  # in metric tonnes
-        print(total_footprint)
-        return total_footprint
 
-    def _electric_vehicles_footprint(self, distance, highway_percentage):
-        # converting the city and highway data into proper units
-        converted_city_kwh = self.city_fuel_eff / PER_100MILES_TO_KM_RATIO
-        converted_highway_kwh = self.highway_fuel_eff / PER_100MILES_TO_KM_RATIO
+def _calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_eff, emissions) -> double:
+    """
+    Calculate carbon footprint for a gasoline based/ non electric vehicle
+    :param commute: Commute object to access details about user's commute
+    :param city_fuel_eff: fuel efficiency of the vehicle in the city
+    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway
+    :param emissions: Total amount of carbon emissions made by the vehicle for the monthly commute
+    """
+    distance = commute.distance
+    highway_percentage = commute.highway_perc
+    # converting city  fuel efficiency to km per litres
+    converted_city_fuel_eff = (city_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO
 
-        # calculating highway distance
-        highway_distance = (highway_percentage / 100) * distance
-        # calculating city distance
-        city_distance = distance - highway_distance
-        # calculating city kwh
-        total_city_kwh = converted_city_kwh * city_distance
-        # calculating highway kwh
-        total_highway_kwh = converted_highway_kwh * highway_distance
-        total_kwh = total_city_kwh + total_highway_kwh
-        total_footprint = (total_kwh * EMISSION_FACTOR) / METRIC_TONNE_TO_KG_RATIO  # metric tonnes
-        return total_footprint
+    # calculating highway distance
+    highway_distance = (highway_percentage / 100) * distance
+    # calculating highway fuel
+    highway_fuel = highway_distance / ((highway_fuel_eff * MILE_TO_KM_RATIO) / GALLON_TO_LITRES_RATIO)
+    # calculating city distance
+    city_distance = distance - highway_distance
+    # calculating city fuel
+    city_fuel = city_distance / converted_city_fuel_eff
+    # converting emissions to KGco2 per km
+    common_emm = emissions / (MILE_TO_KM_RATIO * METRIC_TONNE_TO_KG_RATIO)
+    # calculating footprint for  decomposition city
+    fuel_decomposition_city = common_emm * city_distance
+    # calculating footprint for  decomposition highway
+    fuel_decomposition_highway = highway_distance * common_emm
+    # calculating footprint for  fuel production city
+    fuel_production_city = city_fuel * EMISSION_FACTOR_FUEL_PRODUCTION
+    # calculating footprint for  fuel production city
+    fuel_production_highway = highway_fuel * EMISSION_FACTOR_FUEL_PRODUCTION
+    # calculating total footprint for the commute
+    total_footprint = (fuel_decomposition_city + fuel_production_city + fuel_decomposition_highway
+                       + fuel_production_highway) / METRIC_TONNE_TO_KG_RATIO  # in metric tonnes
+
+    # convert weekly footprint to monthly
+    monthly_footprint = (total_footprint / 7) * DAYS_IN_MONTH
+
+    return monthly_footprint
+
+
+def _electric_vehicles_footprint(commute: Commute, city_fuel_eff, highway_fuel_eff) -> double:
+    """
+    Calculate carbon footprint for an electric vehicle
+    :param commute: Commute object to access details about user's commute
+    :param city_fuel_eff: fuel efficiency of the vehicle in the city
+    :param highway_fuel_eff: fuel efficiency of the vehicle in the highway
+    """
+    distance = commute.distance
+    highway_percentage = commute.highway_perc
+
+    # converting the city and highway data into proper units
+    converted_city_kwh = city_fuel_eff / PER_100MILES_TO_KM_RATIO
+    converted_highway_kwh = highway_fuel_eff / PER_100MILES_TO_KM_RATIO
+
+    # calculating highway distance
+    highway_distance = (highway_percentage / 100) * distance
+    # calculating city distance
+    city_distance = distance - highway_distance
+    # calculating city kwh
+    total_city_kwh = converted_city_kwh * city_distance
+    # calculating highway kwh
+    total_highway_kwh = converted_highway_kwh * highway_distance
+    total_kwh = total_city_kwh + total_highway_kwh
+    total_footprint = (total_kwh * EMISSION_FACTOR_HYDRO) / METRIC_TONNE_TO_KG_RATIO  # metric tonnes
+
+    # convert weekly footprint to monthly
+    monthly_footprint = (total_footprint / 7) * DAYS_IN_MONTH
+
+    return monthly_footprint
