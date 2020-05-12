@@ -7,7 +7,7 @@
     (uploadClicked)="onUploadClickedHydro($event)">
 </mat-file-upload>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table"> <!-- *ngIf="dataSource.data.length > 0" -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
     <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
     
       <!-- Consumption Column -->
