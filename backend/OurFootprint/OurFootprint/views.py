@@ -63,3 +63,8 @@ def get_vehicles_json(request):
         data = json.load(file)
 
     return JsonResponse(data, safe=False)
+
+
+def calculate_footprint(request):
+    calculate_footprint_for_user(100)
+    return JsonResponse([])
