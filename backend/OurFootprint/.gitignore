@@ -4,3 +4,6 @@ __pycache__/
 /password.py
 /setup.sql
 /static/*
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
