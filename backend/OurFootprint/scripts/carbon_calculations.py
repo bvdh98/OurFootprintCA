@@ -46,16 +46,16 @@ def calculate_commute_emissions(commute: Commute):
     """
     # get the vehicle(s) from the database that match the specifications of the user's vehicle
     matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.vehicle_year,
-                                                       trany=commute.transmission).values())
+                                                           trany=commute.transmission).values())
 
     # get the first vehicle and see if it is an electric vehicle
     # a vehicle is electric if the value of cityE is not 0
     if matching_vehicles[0].cityE != 0:
         emission_info = get_info_gasoline(matching_vehicles)
-        return _calculate_footprint_gasoline(commute, **emission_info)
+        return calculate_footprint_gasoline(commute, **emission_info)
     else:
         emission_info = get_info_gasoline(matching_vehicles)
-        return _electric_vehicles_footprint(commute, **emission_info)
+        return calculate_footprint_electric(commute, **emission_info)
 
 
 def get_info_gasoline(matching_vehicles):
@@ -63,9 +63,9 @@ def get_info_gasoline(matching_vehicles):
     Return the info required to calculate carbon footprint of a car that runs on gasoline or any non electric fuel
     :param matching_vehicles: a list of vehicles from the database that match the description of user's vehicle
     """
-    return {'emissions': _mean(matching_vehicles, 'co2TailpipeGpm'),
-            'city_fuel_eff': _mean(matching_vehicles, 'city08'),
-            'highway_fuel_eff': _mean(matching_vehicles, 'highway08')}
+    return {'emissions': property_mean(matching_vehicles, 'co2TailpipeGpm'),
+            'city_fuel_eff': property_mean(matching_vehicles, 'city08'),
+            'highway_fuel_eff': property_mean(matching_vehicles, 'highway08')}
 
 
 def get_info_electric(matching_rows):
@@ -74,11 +74,11 @@ def get_info_electric(matching_rows):
     :param matching_rows: a list of vehicles from the database that match the description of user's vehicle
     :return:
     """
-    return {'city_fuel_eff': _mean(matching_rows, 'cityE'),
-            'highway_fuel_eff': _mean(matching_rows, 'highwayE')}
+    return {'city_fuel_eff': property_mean(matching_rows, 'cityE'),
+            'highway_fuel_eff': property_mean(matching_rows, 'highwayE')}
 
 
-def _mean(lst, key):
+def property_mean(lst, key):
     """
     Find the mean of a particular property in a list of dicts
     :param lst: the list of dicts
@@ -87,7 +87,7 @@ def _mean(lst, key):
     return float(sum(d[key] for d in lst)) / len(lst)
 
 
-def _calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_eff, emissions) -> double:
+def calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_eff, emissions) -> double:
     """
     Calculate carbon footprint for a gasoline based/ non electric vehicle
     :param commute: Commute object to access details about user's commute
@@ -128,7 +128,7 @@ def _calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_
     return monthly_footprint
 
 
-def _electric_vehicles_footprint(commute: Commute, city_fuel_eff, highway_fuel_eff) -> double:
+def calculate_footprint_electric(commute: Commute, city_fuel_eff, highway_fuel_eff) -> double:
     """
     Calculate carbon footprint for an electric vehicle
     :param commute: Commute object to access details about user's commute
