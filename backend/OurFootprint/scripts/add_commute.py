@@ -19,6 +19,6 @@ def add_commute_to_db(commute, uid):
     user_commute_entry.save()
 
     # Add entry to commute table using the bridge reference
-    commute_entry = Commute(commute_id=user_commute_entry, car=vehicle, car_year=year, transmission=transmission,
+    commute_entry = Commute(commute_id=user_commute_entry, vehicle=vehicle, vehicle_year=year, transmission=transmission,
                             distance=distance, highway_perc=highway_perc)
     commute_entry.save()
