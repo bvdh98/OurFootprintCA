@@ -26,7 +26,7 @@ class Commute(models.Model):
     vehicle_year = models.IntegerField()
     transmission = models.TextField()
     distance = models.FloatField()
-    city_perc = models.FloatField()
+    highway_perc = models.FloatField()
 
 
 class FortisBillField(models.Model):
