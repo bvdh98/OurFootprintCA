@@ -15,13 +15,11 @@ def add_commute_to_db(commute, uid):
     highway_perc = commute.get('highway_perc')
 
     # Create a reference to the user-commute bridge
-    user_commute_entry, created = UserCommute.objects.get_or_create(user_id=user_entry)
-    if created:
-        user_commute_entry.save()
+    user_commute_entry = UserCommute(user_id=user_entry)
+    user_commute_entry.save()
 
     # Add entry to commute table using the bridge reference
-    commute_entry, created = Commute.objects.get_or_create(commute_id=user_commute_entry, vehicle=vehicle,
-                                                           vehicle_year=year, transmission=transmission,
-                                                           distance=distance, highway_perc=highway_perc)
-    if created:
-        commute_entry.save()
+    commute_entry = Commute(commute_id=user_commute_entry, vehicle=vehicle, vehicle_year=year,
+                            transmission=transmission, distance=distance, highway_perc=highway_perc)
+
+    commute_entry.save()
