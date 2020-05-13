@@ -16,5 +16,6 @@ class Vehicles(models.Model):
     ghgScore = models.FloatField()
     highway08 = models.FloatField()
     highwayE = models.FloatField()
+    co2TailpipeGpm = models.FloatField()
     UCity = models.FloatField()
     youSaveSpend = models.FloatField()
