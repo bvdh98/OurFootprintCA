@@ -3,7 +3,7 @@ from vehicle.models import Vehicles
 from calculator.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
-# Ratio of kg of carbon edited per kJ of energy used
+# Ratio of kg of carbon edited per unit of energy used
 EMISSION_FACTOR_FORTIS = 0.719  # kg of carbon/kJ
 EMISSION_FACTOR_HYDRO = 0.010670  # kg of carbon/kWh
 
