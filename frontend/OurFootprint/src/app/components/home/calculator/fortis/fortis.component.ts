@@ -41,7 +41,7 @@ export class FortisComponent implements OnInit {
         console.log('backend returned: ' + JSON.stringify(jsonResponse))
         console.log(jsonResponse)
         for (const row of jsonResponse) {
-          this.addRow(this.dataSource, this.table, row)
+          this.addRow(row, this.table, this.dataSource)
         }
     })
   }
@@ -53,15 +53,15 @@ export class FortisComponent implements OnInit {
   }
 
   // TODO: Reuse code
-  addRow(dataSource: MatTableDataSource<any>, table: MatTable<any>, row: any): void {
+  addRow(row: any, table: MatTable<any>, dataSource: MatTableDataSource<any>): void {
     dataSource.data.push(row)
     this.renderTable(table)
   }
 
   // TODO: Reuse code
-  deleteRow(row: number, table: MatTable<any>): void {
+  deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>): void {
     // TODO: Delete the row from the backed DB
-    this.dataSource.data.splice(row, 1) // deletes the row
+    dataSource.data.splice(row, 1) // deletes the row
     this.renderTable(table)
   }
 

@@ -10,27 +10,16 @@ import { MatTableDataSource, MatTable } from '@angular/material/table'
 })
 export class HydroComponent implements OnInit {
 
-  @ViewChild(MatTable) table: MatTable</* HydroRow */ any>
+  @ViewChild(MatTable) table: MatTable< /* HydroRow */ any>
 
-  readonly displayedColumns: string[] = ['consumption', 'avgtemp']
-  dataSource = new MatTableDataSource</* FortisRow */ any>()
+  readonly displayedColumns: string[] = ['month', 'consumption', 'delete']
+  dataSource = new MatTableDataSource< /* HydroRow */ any>()
 
   private bill: File
 
   constructor(private snackBar: MatSnackBar, private fileUploadService: FileUploadService) { }
 
   ngOnInit(): void {
-  }
-
-  onUploadClickedHydro(fileList) {
-    if (!this.validateFile(fileList[0].name)) {
-      this.snackBar.open('Unsupported File Type!', 'Undo', {duration: 3000})
-      return
-    }
-    // make a request to back end to upload the file
-    this.fileUploadService.uploadHydroBill(fileList[0])
-      .then(response =>
-        console.log('backend returned: ' + JSON.stringify(response)))
   }
 
   onUploadClicked(fileList) {
@@ -46,7 +35,7 @@ export class HydroComponent implements OnInit {
 
     this.bill = fileList[0]
     // make a request to back end to upload the file
-    this.fileUploadService.uploadFortisBill(fileList[0]).then(response => {
+    this.fileUploadService.uploadHydroBill(fileList[0]).then(response => {
         const jsonResponse: Array<JSON> = (response as Array<JSON>)
         console.log('backend returned: ' + JSON.stringify(jsonResponse))
         console.log(jsonResponse)
@@ -69,8 +58,9 @@ export class HydroComponent implements OnInit {
   }
 
   // TODO: Reuse code
-  deleteRow(row: number, table: MatTable<any>): void {
-    this.dataSource.data.splice(row, 1) // deletes the row
+  deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>): void {
+    // TODO: Delete the row from the backed DB
+    dataSource.data.splice(row, 1) // deletes the row
     this.renderTable(table)
   }
 
