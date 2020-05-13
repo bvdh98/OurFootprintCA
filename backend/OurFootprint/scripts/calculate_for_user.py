@@ -15,10 +15,10 @@ def calculate_footprint_for_user(uid):
     user_commute_entries = UserCommute.objects.filter(user_id=uid)
     commute_entries = list(Commute.objects.filter(commute_id__in=user_commute_entries))
 
-    return get_detailed_json(fortis_entries, hydro_entries, commute_entries)
+    return compiled_footprint_json(fortis_entries, hydro_entries, commute_entries)
 
 
-def get_detailed_json(fortis_entries, hydro_entries, commute_entries):
+def compiled_footprint_json(fortis_entries, hydro_entries, commute_entries):
     """
     Take the necessary db entries and create a detailed object to return to frontend
     :param fortis_entries: All the fortis info that exists in the db about the user
