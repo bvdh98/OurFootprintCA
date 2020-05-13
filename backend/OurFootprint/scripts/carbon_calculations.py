@@ -48,12 +48,12 @@ def calculate_commute_emissions(commute: Commute):
 
     # get the first vehicle and see if it is an electric vehicle
     # a vehicle is electric if the value of cityE is not 0
-    if matching_vehicles[0].cityE != 0:
-        emission_info = get_info_gasoline(matching_vehicles)
-        return calculate_footprint_gasoline(commute, **emission_info)
+    if matching_vehicles[0]['cityE'] != 0:
+        emission_info = get_info_electric(matching_vehicles)
+        return calculate_footprint_electric(commute, **emission_info)
     else:
         emission_info = get_info_gasoline(matching_vehicles)
-        return calculate_footprint_electric(commute, **emission_info)
+        return calculate_footprint_gasoline(commute, **emission_info)
 
 
 def get_info_gasoline(matching_vehicles):
