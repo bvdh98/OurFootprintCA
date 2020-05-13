@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
+import { ChartsModule } from 'ng2-charts'
 
 import { HttpClientModule } from '@angular/common/http'
 import { FlexLayoutModule } from '@angular/flex-layout'
@@ -18,6 +19,9 @@ import { SponsorsComponent } from './components/sponsors/sponsors.component'
 import { CalculatorComponent } from './components/home/calculator/calculator.component'
 import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component'
 import { TransportationComponent } from './components/home/calculator/transportation/transportation.component'
+import { DashBoardComponent } from './components/dash-board/dash-board.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ import { TransportationComponent } from './components/home/calculator/transporta
     CalculatorComponent,
     UtilitiesComponent,
     TransportationComponent,
+    DashBoardComponent,
+    ChartsModule,
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -39,6 +46,7 @@ import { TransportationComponent } from './components/home/calculator/transporta
     MaterialModule,
     FlexLayoutModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
