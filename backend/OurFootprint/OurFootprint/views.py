@@ -66,5 +66,5 @@ def get_vehicles_json(request):
 
 
 def calculate_footprint(request):
-    calculate_footprint_for_user(100)
-    return JsonResponse([])
+    response = calculate_footprint_for_user(100)
+    return JsonResponse(response)
