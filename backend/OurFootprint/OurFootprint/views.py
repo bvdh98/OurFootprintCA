@@ -1,6 +1,4 @@
 import json
-import time
-import pandas as pd
 
 from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
