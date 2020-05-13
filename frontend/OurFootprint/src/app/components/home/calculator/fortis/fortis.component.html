@@ -4,7 +4,7 @@
     [uploadButtonText]="'Upload'"
     [selectButtonText]="'Select File'"
     [allowMultipleFiles]="false"
-    (uploadClicked)="onUploadClickedFortis($event)">
+    (uploadClicked)="onUploadClicked($event)">
 </mat-file-upload>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">

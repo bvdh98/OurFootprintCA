@@ -9,10 +9,13 @@ import { MatTableDataSource, MatTable } from '@angular/material/table'
   styleUrls: ['./hydro.component.scss'],
 })
 export class HydroComponent implements OnInit {
-
+  // A reference to the mat table that is a child of this component
   @ViewChild(MatTable) table: MatTable< /* HydroRow */ any>
 
+  // This is referenced in the html and used to define what columns should be displayed.
   readonly displayedColumns: string[] = ['month', 'consumption', 'delete']
+
+  // An object that is essentially a list that holds the data that will be displayed in the table rows
   dataSource = new MatTableDataSource< /* HydroRow */ any>()
 
   private bill: File
@@ -23,8 +26,9 @@ export class HydroComponent implements OnInit {
   }
 
   onUploadClicked(fileList) {
+    // TODO: Handle this case more gracefully, the upload button shouldn't be available when there is no file to be uploaded
     if (!fileList || !fileList[0]){
-      console.log('oopsies')
+      console.error('A file could not be found, was it already uploaded?')
       return
     }
 
