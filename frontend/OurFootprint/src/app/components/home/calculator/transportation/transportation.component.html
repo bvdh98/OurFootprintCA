@@ -44,46 +44,57 @@
       <input matInput type="number" min="{{minDistance}}" max="{{maxDistance}}" formControlName="distance" name="distance" required>
     </mat-form-field>
     <!-- Link to google maps to calculate the commute distance -->
-    <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">Calculate Commute Distance</a>
+    <!-- TODO: The button was making styling difficult. Button is low priority so it was purged. Add it back if we get a chance  -->
+    <!-- <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">
+      <div class="button-text-container">
+        Calculate Commute Distance
+      </div>
+    </a> -->
   </div>
 </form>
-<button id="add-commute-button" mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
-  <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
-  
-    <!-- Vehicle Column -->
-    <ng-container matColumnDef="vehicle">
-      <th mat-header-cell *matHeaderCellDef> Vehicle </th>
-      <td mat-cell *matCellDef="let element"> {{element.tableFormat.vehicle}} </td>
-    </ng-container>
-  
-    <!-- Distance in Km Column -->
-    <ng-container matColumnDef="distance">
-      <th mat-header-cell *matHeaderCellDef> Distance in Km </th>
-      <td mat-cell *matCellDef="let element"> {{element.tableFormat.distance}} </td>
-    </ng-container>
-  
-    <!-- Frequency / Month Column -->
-    <ng-container matColumnDef="frequency">
-      <th mat-header-cell *matHeaderCellDef> Frequency / Month </th>
-      <td mat-cell *matCellDef="let element"> {{element.tableFormat.frequency}} </td>
-    </ng-container>
+<div id="add-commute-button-container">
+  <button id="add-commute-button" mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
+</div>
+<div id="table-outter-container">
+  <div id="table-inner-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table" *ngIf="dataSource.data.length > 0">
+      <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
+      
+        <!-- Vehicle Column -->
+        <ng-container matColumnDef="vehicle">
+          <th mat-header-cell *matHeaderCellDef> Vehicle </th>
+          <td mat-cell *matCellDef="let element"> {{element.tableFormat.vehicle}} </td>
+        </ng-container>
+      
+        <!-- Distance in Km Column -->
+        <ng-container matColumnDef="distance">
+          <th mat-header-cell *matHeaderCellDef> Distance in Km </th>
+          <td mat-cell *matCellDef="let element"> {{element.tableFormat.distance}} </td>
+        </ng-container>
+      
+        <!-- Frequency / Month Column -->
+        <ng-container matColumnDef="frequency">
+          <th mat-header-cell *matHeaderCellDef> Frequency / Month </th>
+          <td mat-cell *matCellDef="let element"> {{element.tableFormat.frequency}} </td>
+        </ng-container>
 
-     <!-- Delete Column -->
-     <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let element; let i=index">
-        <button mat-icon-button aria-label="Delete commute button" (click)="deleteCommute(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element; let i=index">
+            <button mat-icon-button aria-label="Delete commute button" (click)="deleteCommute(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <!-- The actual rendered content -->
-  
-    <!-- Header row for column names -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- The actual rendered content -->
+      
+        <!-- Header row for column names -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-    <!-- Data rows -->
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <!-- Data rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

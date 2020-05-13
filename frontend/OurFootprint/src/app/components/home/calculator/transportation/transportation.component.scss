@@ -11,13 +11,29 @@
 
 }
 
-#add-commute-button {
+#add-commute-button-container{
+    display: flex;
+    justify-content: center;
     margin-top: 1em;
 }
 
-.commute-table{
-    margin-top: 2em;
-    width: 100%;
+.table-outter-container{
+    overflow: auto;
+
+    .table-inner-container{
+        min-width: 605px;
+
+        .table {
+            margin-top: 2em;
+            width: 100%;
+        }
+    }
 }
 
+.button-text-container {
+    // this should work but the width of the parent is defined wierdly
+    // TODO: Implement the button that uses this or remove this as it doesn't reference anything
+    white-space: pre-wrap;
+    max-width: 100%;
+}
 

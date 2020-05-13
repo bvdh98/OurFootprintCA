@@ -1,8 +1,10 @@
 
 .calculator-tab {
     padding: 2em;
+    padding-bottom: 0;
 }
 
-.calculate-button {
-    margin: 1em;
+#calculate-button-container{
+    display: flex;
+    justify-content: center;
 }
