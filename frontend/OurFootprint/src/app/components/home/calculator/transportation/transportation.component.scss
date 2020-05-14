@@ -9,6 +9,16 @@
         flex-direction: column;
     }
 
+    .slider-control-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    * {
+        flex: 1 1 0px;
+        margin: 0 1em 0 1em;
+    }
+
 }
 
 #add-commute-button-container{

@@ -29,11 +29,11 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Frequency of trips / month input -->
-  <mat-form-field appearance="standard" hintLabel="Max 60 trips">
-    <mat-label>Trips per month</mat-label>
-    <input matInput type="number" min="{{minFrequency}}" max="{{maxFrequency}}" formControlName="frequency" name="frequency" required>
-  </mat-form-field>
+  <!-- Highway Percent Slider -->
+  <div class="slider-control-container">
+    <mat-label>Percent driven in highway conditions</mat-label>
+    <mat-slider formControlName="highwayPercent" [max]="100" [min]="0" [thumbLabel]="true"></mat-slider>
+  </div>
 
   <!-- Distance input -->
   <!-- TODO: Consider if we should automatically double the frequency because to + from. -->
@@ -71,11 +71,11 @@
           <th mat-header-cell *matHeaderCellDef> Distance in Km </th>
           <td mat-cell *matCellDef="let element"> {{element.tableFormat.distance}} </td>
         </ng-container>
-      
-        <!-- Frequency / Month Column -->
-        <ng-container matColumnDef="frequency">
-          <th mat-header-cell *matHeaderCellDef> Frequency / Month </th>
-          <td mat-cell *matCellDef="let element"> {{element.tableFormat.frequency}} </td>
+
+        <!-- Highway Percent Column -->
+        <ng-container matColumnDef="highwayPercent">
+          <th mat-header-cell *matHeaderCellDef> Percent of distance driven in highway conditions </th>
+          <td mat-cell *matCellDef="let element"> {{element.tableFormat.highwayPercent}} </td>
         </ng-container>
 
         <!-- Delete Column -->

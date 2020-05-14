@@ -15,7 +15,7 @@ import { VehicleService } from 'src/app/services/vehicle.service'
 export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Commute>
 
-  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'delete']
+  readonly displayedColumns: string[] = ['vehicle', 'distance', 'delete']
   dataSource = new MatTableDataSource<Commute>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
@@ -29,15 +29,16 @@ export class TransportationComponent implements OnInit {
   // min max values for form validation
   readonly minDistance: number = 0
   readonly maxDistance: number = 250
-  readonly minFrequency: number = 0
-  readonly maxFrequency: number = 60
+  // readonly minFrequency: number = 0
+  // readonly maxFrequency: number = 60
 
   // TODO: better form validation
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl({value: '', disabled: true}),
     distance: new FormControl('', [Validators.min(this.minDistance), Validators.max(this.maxDistance)]),
-    frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
+    // frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
+    highwayPercent: new FormControl(),
   })
 
   vehicles: Array<AutocompleteVehicle> = []
