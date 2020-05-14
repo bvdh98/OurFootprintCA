@@ -89,7 +89,7 @@ export class TransportationComponent implements OnInit {
   }
 
   addCommute(): void {
-    console.log(this.commuteForm.value)
+    // TODO: send commute to back end
     this.dataSource.data.push(new Commute(this.commuteForm.value))
     this.commuteForm.reset()
     this.renderTable()
