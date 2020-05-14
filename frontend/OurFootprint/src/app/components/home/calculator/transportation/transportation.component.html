@@ -1,46 +1,4 @@
 <form [formGroup]="commuteForm" class="commute-form">
-  <!-- Vehicle make / model input -->
-  <!-- TODO: Give an option to estimate fuel economy instead of entering a vehicle make / model -->
-  <!-- TODO: Auto complete make / model - force the value to match something from our data -->
-  <mat-form-field appearance="standard">
-    <mat-label>Vehicle Make / Model</mat-label>
-    <input 
-      matInput 
-      required
-      formControlName="vehicle" 
-      name="vehicle"
-      aria-label="Vehicle"
-      [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayVehicle">
-      <mat-option *ngFor="let vehicle of filteredVehicles | async" [value]="vehicle">
-        {{vehicle.name}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
-  <!-- Vehicle year input -->
-  <mat-form-field appearance="standard">
-    <mat-label>Select Year</mat-label>
-    <mat-select aria-required formControlName="year" name="year" required>
-      <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmission">
-      <!-- <mat-option *ngFor="let yearTransmission of yearTransmissions" [value]="yearTransmission"> -->
-        {{yearTransmission.yr}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-    <!-- Vehicle transmission input -->
-    <!-- <mat-form-field appearance="standard" *ngIf="transmissions && (transmissions | async)?.length > 1"> -->
-    <mat-form-field appearance="standard" *ngIf="transmissions && transmissions.length > 1">
-      <mat-label>Select Transmission</mat-label>
-      <mat-select aria-required formControlName="transmission" name="transmission">
-        <!-- <mat-option *ngFor="let transmission of transmissions | async" [value]="transmission"> -->
-        <mat-option *ngFor="let transmission of transmissions" [value]="transmission">
-          {{transmission}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
   <!-- Highway Percent Slider -->
   <div class="slider-control-container">
     <mat-label>Percent driven in highway conditions</mat-label>
@@ -63,6 +21,48 @@
       </div>
     </a> -->
   </div>
+
+  <!-- Vehicle transmission input -->
+  <!-- <mat-form-field appearance="standard" *ngIf="transmissions && (transmissions | async)?.length > 1"> -->
+    <mat-form-field appearance="standard" *ngIf="transmissions && transmissions.length > 1">
+      <mat-label>Select Transmission</mat-label>
+      <mat-select aria-required formControlName="transmission" name="transmission">
+        <!-- <mat-option *ngFor="let transmission of transmissions | async" [value]="transmission"> -->
+        <mat-option *ngFor="let transmission of transmissions" [value]="transmission">
+          {{transmission}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  <!-- Vehicle year input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Select Year</mat-label>
+    <mat-select aria-required formControlName="year" name="year" required>
+      <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmission">
+      <!-- <mat-option *ngFor="let yearTransmission of yearTransmissions" [value]="yearTransmission"> -->
+        {{yearTransmission.yr}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Vehicle make / model input -->
+  <!-- TODO: Give an option to estimate fuel economy instead of entering a vehicle make / model -->
+  <!-- TODO: Auto complete make / model - force the value to match something from our data -->
+  <mat-form-field appearance="standard">
+    <mat-label>Vehicle Make / Model</mat-label>
+    <input 
+      matInput 
+      required
+      formControlName="vehicle" 
+      name="vehicle"
+      aria-label="Vehicle"
+      [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayVehicle">
+      <mat-option *ngFor="let vehicle of filteredVehicles | async" [value]="vehicle">
+        {{vehicle.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
 </form>
 <div id="add-commute-button-container">
   <button id="add-commute-button" mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
