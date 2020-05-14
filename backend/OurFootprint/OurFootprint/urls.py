@@ -13,9 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+
+from django.contrib import admin
+admin.autodiscover()
 
 # reroute all the requests to users endpoint to the users app
 urlpatterns = [
@@ -27,4 +31,8 @@ urlpatterns = [
     path('api/commute', views.add_commute, name='add a commute/ get all commutes'),
     path('api/vehicles/', views.get_vehicles_json, name="get vehicles in json format"),
     path('api/calculate/', views.calculate_footprint, name="calculate the carbon footprint for this user"),
+    path('api/signup/', views.register, name="Signup user"),
+    path('api/logout/', views.signout, name="Logout user"),
+    path('api/signin/', views.signin, name="Logout user"),
+    url(r'^admin/', admin.site.urls),
 ]

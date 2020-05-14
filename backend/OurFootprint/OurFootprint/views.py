@@ -1,5 +1,8 @@
 import json
 
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
@@ -20,6 +23,7 @@ def e2(request):
 
 
 @csrf_exempt
+@login_required
 def fortis_bill(request):
     response = []
     status = 500
@@ -36,6 +40,7 @@ def fortis_bill(request):
 
 
 @csrf_exempt
+@login_required
 def hydro_bill(request):
     response = []
     status = 500
@@ -52,6 +57,7 @@ def hydro_bill(request):
 
 
 @csrf_exempt
+@login_required(login_url='/api/signup')
 def add_commute(request):
     response = []
     if request.method == 'POST':
@@ -70,3 +76,49 @@ def get_vehicles_json(request):
 def calculate_footprint(request):
     response = calculate_footprint_for_user(100)
     return JsonResponse(response)
+
+
+@csrf_exempt
+def signin(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        raw_password = request.POST['password']
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return JsonResponse({'Done': 'Yes'})
+
+
+def signout(request):
+    logout(request)
+    return JsonResponse({'done': 'y'})
+
+
+@csrf_exempt
+def register(request):
+    if request.method == "POST":
+        postdata = request.POST.copy()
+        username = postdata.get('username', '')
+        email = postdata.get('email', '')
+        password = postdata.get('password', '')
+
+        # check if user does not exist
+        if User.objects.filter(username=username).exists():
+            username_unique_error = True
+
+        if User.objects.filter(email=email).exists():
+            email_unique_error = True
+
+        else:
+            create_new_user = User.objects.create_user(username, email, password)
+
+            create_new_user.save()
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            if create_new_user is not None:
+                if create_new_user.is_active:
+                    return JsonResponse({'done?': 'y'})
+                else:
+                    print("The password is valid, but the account has been disabled!")
+
+    return JsonResponse({})
+
