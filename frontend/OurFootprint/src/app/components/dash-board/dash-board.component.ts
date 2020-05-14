@@ -43,8 +43,7 @@ export class DashBoardComponent implements OnInit {
   vehicleChartLegend = true
   vehicleChartPlugins = []
   vehicleChartData: ChartDataSets[]
-
-
+  readonly data: string = 'to do'
   constructor() { }
 
   // TODO: Remove hardcoded data
@@ -83,6 +82,8 @@ export class DashBoardComponent implements OnInit {
     this.vehicleChartData = [
       { data: [this.total_footprint_commute() , 0.10] , label: 'Commute Footprint'},
     ]
+    console.log('Dollars' , this.tree_to_dollars())
+    console.log('Trees' , this.footprint_to_tree())
   }
 
   total_footprint_fortis() {
@@ -131,6 +132,18 @@ export class DashBoardComponent implements OnInit {
       allValues.push(dataEntry.footprint)
     }
     return allValues
+  }
+
+  footprint_to_tree(){
+    const footprint = this.total_footprint_user()
+    const tonnesCo2ToTreeRatio = 0.0217724
+    return Math.ceil(footprint / tonnesCo2ToTreeRatio)
+  }
+
+  tree_to_dollars(){
+    const noOfTrees = this.footprint_to_tree()
+    const costOfOneTree = 4
+    return noOfTrees * costOfOneTree
   }
 
 
