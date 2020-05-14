@@ -22,12 +22,24 @@
   <mat-form-field appearance="standard">
     <mat-label>Select Year</mat-label>
     <mat-select aria-required formControlName="year" name="year" required>
-      <!-- <mat-option *ngFor="let year of years | async" [value]="year"> -->
       <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmission">
+      <!-- <mat-option *ngFor="let yearTransmission of yearTransmissions" [value]="yearTransmission"> -->
         {{yearTransmission.yr}}
       </mat-option>
     </mat-select>
   </mat-form-field>
+
+    <!-- Vehicle transmission input -->
+    <!-- <mat-form-field appearance="standard" *ngIf="transmissions && (transmissions | async)?.length > 1"> -->
+    <mat-form-field appearance="standard" *ngIf="transmissions && transmissions.length > 1">
+      <mat-label>Select Transmission</mat-label>
+      <mat-select aria-required formControlName="transmission" name="transmission">
+        <!-- <mat-option *ngFor="let transmission of transmissions | async" [value]="transmission"> -->
+        <mat-option *ngFor="let transmission of transmissions" [value]="transmission">
+          {{transmission}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
   <!-- Highway Percent Slider -->
   <div class="slider-control-container">

@@ -5,6 +5,7 @@ export class Commute {
     private vehicleMakeModel: string // TODO: consider making a vehicle model
     private year: number // the year of the vehicle
     private distance: number // distance of commute in km
+    private transmission: string // the transmission that the vehicle uses
 
     // number from 0 to 1 representing the amount of the distance that is driven in highway conditions (vs city)
     private highwayPercent: number
@@ -20,8 +21,8 @@ export class Commute {
         this.vehicleMakeModel = formData.vehicle.name
         this.year = formData.year.yr
         this.distance = formData.distance
-        // TODO: formData.highwayPercent
-        this.highwayPercent = 0.5 // formData.highwayPercent
+        this.highwayPercent = formData.highwayPercent / 100
+        this.transmission = formData.transmission
 
         this.tableFormat = this.getTableFormat()
     }
@@ -32,7 +33,8 @@ export class Commute {
      */
     private getTableFormat(): CommuteRowData {
         return {
-            vehicle: `${this.year} ${this.vehicleMakeModel}`, // year make model
+            // year make model transmission
+            vehicle: `${this.year} ${this.vehicleMakeModel}${this.transmission ? ` ${this.transmission}` : ''}`,
             distance: `${this.distance} km`, // ends in km
             highwayPercent: `${this.highwayPercent * 100}%`,
         }
