@@ -1,0 +1,33 @@
+from calculator.models import FortisBillField, HydroBillField, UserCommute, Commute
+from calculator.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer, CommuteSerializer
+
+
+def get_fortis(uid):
+    fortis_refs = list(FortisBillField.objects.filter(user_id=uid))
+    return [FortisBillFieldSerializer(i).data for i in fortis_refs]
+
+
+def get_fortis_with_id(fortis_id):
+    instance = FortisBillField.objects.get(id=fortis_id)
+    return FortisBillFieldSerializer(instance).data
+
+
+def get_hydro(uid):
+    hydro_refs = list(HydroBillField.objects.filter(user_id=uid))
+    return [HydroBillFieldSerializer(i).data for i in hydro_refs]
+
+
+def get_hydro_with_id(hydro_id):
+    instance = HydroBillField.objects.get(id=hydro_id)
+    return HydroBillFieldSerializer(instance).data
+
+
+def get_commute(uid):
+    user_commute_refs = UserCommute.objects.filter(user_id=uid)
+    commute_refs = list(Commute.objects.filter(commute_id__in=user_commute_refs))
+    return [CommuteSerializer(i).data for i in commute_refs]
+
+
+def get_commute_with_id(commute_id):
+    instance = Commute.objects.get(commute_id=commute_id)
+    return CommuteSerializer(instance).data
