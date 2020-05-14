@@ -29,29 +29,6 @@ class Commute(models.Model):
     highway_perc = models.FloatField()
 
 
-class FortisBillField(models.Model):
-    """
-    Each entry in this table corresponds to an entry in users' Fortis bill.
-    """
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    num_days = models.SmallIntegerField()
-    consumption = models.FloatField()
-    avg_temp = models.FloatField()
-
-
-class HydroBillField(models.Model):
-    """
-    Each entry in this table corresponds to an entry in users' Fortis bill.
-    """
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    num_days = models.SmallIntegerField()
-    consumption = models.FloatField()
-    city = models.TextField()
-
-
 class UserEmissions(models.Model):
     """
     Store the users' emissions fo reach month that we have visibility on
