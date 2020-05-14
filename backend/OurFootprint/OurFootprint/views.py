@@ -4,12 +4,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.utils.datastructures import MultiValueDictKeyError
 from django.views.decorators.csrf import csrf_exempt
 
 from scripts.dels import del_fortis, del_hydro, del_commute
-from scripts.gets import get_fortis, get_hydro, get_commute, get_fortis_with_id, get_hydro_with_id, get_commute_with_id
-from scripts.process_file import process_fortis, process_hydro
+from scripts.gets import get_fortis, get_hydro, get_commute
+from scripts.posts import post_fortis, post_hydro
 from scripts.add_commute import add_commute_to_db
 from scripts.calculate_for_user import calculate_footprint_for_user
 
@@ -24,6 +23,7 @@ def e2(request):
     return JsonResponse(a)
 
 
+# TODO: Replace with class based views
 @csrf_exempt
 @login_required
 def fortis_bill(request, pk=0):
@@ -31,24 +31,15 @@ def fortis_bill(request, pk=0):
     status = 500
     uid = request.user.id
     if request.method == 'POST':
-        try:
-            file = request.FILES['fortis']
-        except MultiValueDictKeyError:
-            response = {'error': 'Unexpected key, expected "fortis"'}
-            status = 400
-        else:
-            response = process_fortis(file, uid)
-            status = 200
+        response, status = post_fortis(request, uid)
     elif request.method == 'GET':
-        if pk == 0:
-            response = get_fortis(uid)
-        else:
-            response = get_fortis_with_id(pk)
+        response = get_fortis(uid, pk)
     elif request.method == 'DELETE':
         del_fortis(pk)
     return JsonResponse(response, safe=False, status=status)
 
 
+# TODO: Replace with class based views
 @csrf_exempt
 @login_required
 def hydro_bill(request, pk=0):
@@ -56,24 +47,15 @@ def hydro_bill(request, pk=0):
     response = []
     status = 500
     if request.method == 'POST':
-        try:
-            file = request.FILES['hydro']
-        except MultiValueDictKeyError:
-            response = {'error': 'Unexpected key, expected "hydro"'}
-            status = 400
-        else:
-            response = process_hydro(file, uid)
-            status = 200
+        response, status = post_hydro(request, uid)
     elif request.method == 'GET':
-        if pk == 0:
-            response = get_hydro(uid)
-        else:
-            response = get_hydro_with_id(pk)
+        response = get_hydro(uid, pk)
     elif request.method == 'DELETE':
         del_hydro(pk)
     return JsonResponse(response, safe=False, status=status)
 
 
+# TODO: Replace with class based views
 @csrf_exempt
 @login_required(login_url='/api/signup')
 def add_commute(request, pk=0):
@@ -83,10 +65,7 @@ def add_commute(request, pk=0):
         commute = json.loads(request.body)
         response = add_commute_to_db(commute, uid)
     elif request.method == 'GET':
-        if pk == 0:
-            response = get_commute(uid)
-        else:
-            response = get_commute_with_id(uid)
+        response = get_commute(uid, pk)
     elif request.method == 'DELETE':
         del_commute(pk)
     return JsonResponse(response, safe=False)
@@ -106,7 +85,7 @@ def calculate_footprint(request):
 
 
 @csrf_exempt
-def signin(request):
+def sign_in(request):
     if request.method == 'POST':
         username = request.POST['username']
         raw_password = request.POST['password']
@@ -117,7 +96,7 @@ def signin(request):
         return JsonResponse({'Done': 'Yes'})
 
 
-def signout(request):
+def sign_out(request):
     logout(request)
     return JsonResponse({'done': 'y'})
 
@@ -125,10 +104,10 @@ def signout(request):
 @csrf_exempt
 def register(request):
     if request.method == "POST":
-        postdata = request.POST.copy()
-        username = postdata.get('username', '')
-        email = postdata.get('email', '')
-        password = postdata.get('password', '')
+        post_data = request.POST.copy()
+        username = post_data.get('username', '')
+        email = post_data.get('email', '')
+        password = post_data.get('password', '')
 
         # check if user does not exist
         if User.objects.filter(username=username).exists():
