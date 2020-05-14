@@ -2,3 +2,16 @@
     display: flex;
     flex-direction: column;
 }
+
+.table-outter-container {
+    overflow: auto;
+
+    .table-inner-container {
+        min-width: 605px;
+
+        .table {
+            margin-top: 2em;
+            width: 100%;
+        }
+    }
+}

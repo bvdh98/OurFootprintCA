@@ -1,12 +1,22 @@
 .commute-form {
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: space-around;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     
     .distance-input {
         display: flex;
         flex-direction: column;
+    }
+
+    .slider-control-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    * {
+        flex: 1 1 0px;
+        margin: 0 1em 0 1em;
     }
 
 }
@@ -17,10 +27,10 @@
     margin-top: 1em;
 }
 
-.table-outter-container{
+.table-outter-container {
     overflow: auto;
 
-    .table-inner-container{
+    .table-inner-container {
         min-width: 605px;
 
         .table {
