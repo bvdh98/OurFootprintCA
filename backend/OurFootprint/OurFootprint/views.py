@@ -84,6 +84,8 @@ def signin(request):
         username = request.POST['username']
         raw_password = request.POST['password']
         user = authenticate(username=username, password=raw_password)
+        if user is None:
+            return JsonResponse({'Done': 'No'})
         login(request, user)
         return JsonResponse({'Done': 'Yes'})
 
