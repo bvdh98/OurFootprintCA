@@ -19,7 +19,6 @@ import { SponsorsComponent } from './components/sponsors/sponsors.component'
 import { CalculatorComponent } from './components/home/calculator/calculator.component'
 import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component'
 import { TransportationComponent } from './components/home/calculator/transportation/transportation.component'
-import { BarChartComponent } from './components/dash-board/charts/bar-chart/bar-chart.component'
 import { DashBoardComponent } from './components/dash-board/dash-board.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
@@ -37,7 +36,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     UtilitiesComponent,
     TransportationComponent,
     DashBoardComponent,
-    BarChartComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
