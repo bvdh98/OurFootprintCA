@@ -1,0 +1,44 @@
+@import '../../../styles.scss';
+
+.banner-image {
+    height: 400px;
+    width: 100%;
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.outter-about-container{
+    max-width: 100%;
+    padding: 2em;
+
+    .inner-calculator-container {
+        width: 100%;
+        // max-width: 1000px;
+        margin: auto;
+
+        .container-card {
+            // overwrite padding from mat-card
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+
+            .title-card {
+                // should this really be here?
+                // TODO: Should not have a literal colour here, should be using material
+                // rgba(0,0,0,.06);
+                background: $title-grey;
+                padding: 1em;
+                // width: 100%;
+            }
+
+            .about-text{
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+}
+
