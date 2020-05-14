@@ -39,7 +39,7 @@ urlpatterns = [
     path('api/vehicles/', views.get_vehicles_json, name="get vehicles in json format"),
     path('api/calculate/', views.calculate_footprint, name="calculate the carbon footprint for this user"),
     path('api/signup/', views.register, name="Signup user"),
-    path('api/logout/', views.signout, name="Logout user"),
-    path('api/signin/', views.signin, name="Logout user"),
+    path('api/logout/', views.sign_out, name="Logout user"),
+    path('api/login/', views.sign_in, name="Sign in user"),
     url(r'^admin/', admin.site.urls),
 ]
