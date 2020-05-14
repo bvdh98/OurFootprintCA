@@ -1,3 +1,6 @@
+import calendar
+from datetime import datetime
+
 from calculator.models import FortisBillField, HydroBillField, UserCommute, Commute
 from calculator.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer, CommuteSerializer
 from scripts.carbon_calculations import fortis_calculations, hydro_calculations, calculate_commute_emissions
@@ -18,6 +21,14 @@ def calculate_footprint_for_user(uid):
     return compile_footprint_json(fortis_entries, hydro_entries, commute_entries)
 
 
+def get_month(date):
+    date = datetime.strptime(date, "%Y-%m-%d")
+    if date.day <= 15:
+        return calendar.month_name[date.month]
+    else:
+        return calendar.month_name[date.month + 1] if date.month != 12 else 'January'
+
+
 def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
     """
     Take the necessary db entries and create a detailed object to return to frontend
@@ -35,6 +46,7 @@ def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
         detailed_dict = FortisBillFieldSerializer(entry).data
         # Attach the 'footprint' to the dict
         detailed_dict['footprint'] = footprint
+        detailed_dict['month'] = get_month(detailed_dict['start_date'])
         # Add it to the ultimate json
         return_json['fortis'].append(detailed_dict)
 
@@ -45,6 +57,7 @@ def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
         detailed_dict = HydroBillFieldSerializer(entry).data
         # Attach the 'footprint' to the dict
         detailed_dict['footprint'] = footprint
+        detailed_dict['month'] = get_month(detailed_dict['start_date'])
         # Add it to the ultimate json
         return_json['hydro'].append(detailed_dict)
 
