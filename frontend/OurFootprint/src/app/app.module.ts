@@ -19,7 +19,8 @@ import { CalculatorComponent } from './components/home/calculator/calculator.com
 import { UtilitiesComponent } from './components/home/calculator/utilities/utilities.component'
 import { TransportationComponent } from './components/home/calculator/transportation/transportation.component'
 import { HydroComponent } from './components/home/calculator/hydro/hydro.component'
-import { FortisComponent } from './components/home/calculator/fortis/fortis.component'
+import { FortisComponent } from './components/home/calculator/fortis/fortis.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component'
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { FortisComponent } from './components/home/calculator/fortis/fortis.comp
     TransportationComponent,
     HydroComponent,
     FortisComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
