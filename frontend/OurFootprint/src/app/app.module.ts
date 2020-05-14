@@ -22,6 +22,9 @@ import { TransportationComponent } from './components/home/calculator/transporta
 import { DashBoardComponent } from './components/dash-board/dash-board.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
+import { HydroComponent } from './components/home/calculator/hydro/hydro.component'
+import { FortisComponent } from './components/home/calculator/fortis/fortis.component'
+
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
     UtilitiesComponent,
     TransportationComponent,
     DashBoardComponent,
+    HydroComponent,
+    FortisComponent,
+
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

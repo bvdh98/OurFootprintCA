@@ -1,8 +1,9 @@
 
 .calculator-tab {
-    padding: 2em;
+    padding: 0 2em 0 2em;
 }
 
-.calculate-button {
-    margin: 1em;
+#calculate-button-container{
+    display: flex;
+    justify-content: center;
 }

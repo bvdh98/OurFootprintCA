@@ -25,5 +25,6 @@ urlpatterns = [
     path('api/fortis', views.fortis_bill, name='upload fortis bill/ get previous fortis bills'),
     path('api/hydro', views.hydro_bill, name='upload hydro bill/ get previous hydro bills'),
     path('api/commute', views.add_commute, name='add a commute/ get all commutes'),
-    path('api/vehicles/', views.get_vehicles_json, name="get_vehicles_json"),
+    path('api/vehicles/', views.get_vehicles_json, name="get vehicles in json format"),
+    path('api/calculate/', views.calculate_footprint, name="calculate the carbon footprint for this user"),
 ]

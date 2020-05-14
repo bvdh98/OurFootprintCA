@@ -2,7 +2,7 @@ import json
 import pandas as pd
 
 cols = ['make', 'model', 'year', 'trany', 'charge120', 'charge240', 'city08', 'cityE', 'combE', 'feScore', 'fuelCost08',
-        'ghgScore', 'highway08', 'highwayE', 'UCity', 'youSaveSpend']
+        'ghgScore', 'highway08', 'highwayE', 'co2TailpipeGpm', 'UCity', 'youSaveSpend']
 
 data = pd.read_csv('../static/csv_files/vehicles.csv', usecols=cols)
 

@@ -3,9 +3,9 @@ from vehicle.models import Vehicles
 from calculator.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
-# Ratio of kg of carbon edited per KJ of energy used
-EMISSION_FACTOR_FORTIS = 0.719
-EMISSION_FACTOR_HYDRO = 0.010670
+# Ratio of kg of carbon edited per unit of energy used
+EMISSION_FACTOR_FORTIS = 0.719  # kg of carbon/kJ
+EMISSION_FACTOR_HYDRO = 0.010670  # kg of carbon/kWh
 
 # Other useful constants
 MILE_TO_KM_RATIO = 1.609
@@ -48,12 +48,12 @@ def calculate_commute_emissions(commute: Commute):
 
     # get the first vehicle and see if it is an electric vehicle
     # a vehicle is electric if the value of cityE is not 0
-    if matching_vehicles[0].cityE != 0:
-        emission_info = get_info_gasoline(matching_vehicles)
-        return calculate_footprint_gasoline(commute, **emission_info)
+    if matching_vehicles[0]['cityE'] != 0:
+        emission_info = get_info_electric(matching_vehicles)
+        return calculate_footprint_electric(commute, **emission_info)
     else:
         emission_info = get_info_gasoline(matching_vehicles)
-        return calculate_footprint_electric(commute, **emission_info)
+        return calculate_footprint_gasoline(commute, **emission_info)
 
 
 def get_info_gasoline(matching_vehicles):
