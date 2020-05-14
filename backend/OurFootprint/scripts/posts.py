@@ -18,6 +18,8 @@ def post_fortis(request, uid):
 
 
 def post_hydro(request, uid):
+    response = []
+    status = 500
     try:
         file = request.FILES['hydro']
     except MultiValueDictKeyError:

@@ -41,5 +41,6 @@ urlpatterns = [
     path('api/signup/', views.register, name="Signup user"),
     path('api/logout/', views.sign_out, name="Logout user"),
     path('api/login/', views.sign_in, name="Sign in user"),
+    # TODO: Remove for production
     url(r'^admin/', admin.site.urls),
 ]
