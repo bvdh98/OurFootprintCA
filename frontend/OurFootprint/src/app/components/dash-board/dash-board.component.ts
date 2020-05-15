@@ -8,33 +8,37 @@ import { Color, Label } from 'ng2-charts'
   styleUrls: ['./dash-board.component.scss'],
 })
 export class DashBoardComponent implements OnInit {
+  // (Chart #1) bar chart to compare users' total annual footprint to the provincial average
   totalChartOptions: ChartOptions = {
     responsive: true,
   }
-  totalChartLabels: Label[] = ['Your Total Footprint', 'Average User Footprint']
+  totalChartLabels: Label[] = ['Your Total Annual Footprint', 'Annual average footprint for BC']
   totalChartType: ChartType = 'bar'
   totalChartLegend = true
   totalChartPlugins = []
   totalChartData: ChartDataSets[]
 
+  // (Chart #2) bar chart to compare month to month carbon footprint based on fortis consumption bills
+  fortisChartOptions: ChartOptions = {
+    responsive: true,
+  }
   fortisChartLabels: Label[]
   fortisChartData: ChartDataSets[]
   fortisChartType: ChartType = 'bar'
   fortisChartPlugins = []
   fortisChartLegend = true
-  fortisChartOptions: ChartOptions = {
-    responsive: true,
-  }
 
+  // (Chart #3) bar chart to compare month to month carbon footprint based on BC Hydro consumption bills
   hydroChartOptions: ChartOptions = {
     responsive: true,
   }
-  hydroChartLabels: Label[] 
+  hydroChartLabels: Label[]
   hydroChartType: ChartType = 'bar'
   hydroChartLegend = true
   hydroChartPlugins = []
   hydroChartData: ChartDataSets[]
 
+  // (Chart #4) bar chart to compare users' carbon emissions from transportation to the US average
   vehicleChartOptions: ChartOptions = {
     responsive: true,
   }
@@ -43,6 +47,27 @@ export class DashBoardComponent implements OnInit {
   vehicleChartLegend = true
   vehicleChartPlugins = []
   vehicleChartData: ChartDataSets[]
+
+  // (Chart #5) bar chart to compare users' carbon emissions from Fortis bills to the BC average
+  compfortisChartOptions: ChartOptions = {
+    responsive: true,
+  }
+  compfortisChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
+  compfortisChartType: ChartType = 'bar'
+  compfortisChartLegend = true
+  compfortisChartPlugins = []
+  compfortisChartData: ChartDataSets[]
+
+  // (Chart #6) bar chart to compare users' carbon emissions from BC Hydro bills to the BC average
+  comphydroChartOptions: ChartOptions = {
+    responsive: true,
+  }
+  comphydroChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
+  comphydroChartType: ChartType = 'bar'
+  comphydroChartLegend = true
+  comphydroChartPlugins = []
+  comphydroChartData: ChartDataSets[]
+
   totalFootprint: number
   commuteFootprint: number
   fortisFootprint: number
@@ -50,12 +75,18 @@ export class DashBoardComponent implements OnInit {
   totalTrees: number
   dollars: number
 
-
+  // TODO: Research the exact annual average BC Hydro consumption
+  readonly averageYearlyHydroemmision = Math.round(900 * 0.010670 * 12) / 1000
+  // TODO: Research the exact annual average Fortis consumption
+  readonly averageYearlyFortisemmision = Math.round(8 * 0.719 * 12) / 1000
+  // TODO: Research the exact annual average commute emmissions
+  readonly averageYearlyCommuteemmision = 4.60
+  readonly totalYearly = this.averageYearlyCommuteemmision + this.averageYearlyFortisemmision + this.averageYearlyHydroemmision
 
   // TODO: Remove hardcoded data
   readonly userdata = {
     fortis: [{ start_date: '2020-03-24', end_date: '2020-04-21', num_days: 29, consumption: 5.4, footprint: 0.0038826 , month: 'April' },
-    { start_date: '2020-02-22', end_date: '2020-03-23', num_days: 31, consumption: 8.6, footprint: 0.0061833999999999995 , month: 'march' },
+    { start_date: '2020-02-22', end_date: '2020-03-23', num_days: 31, consumption: 8.6, footprint: 0.0061833999999999995 , month: 'march'},
     { start_date: '2020-01-24', end_date: '2020-02-21', num_days: 29, consumption: 10.8, footprint: 0.0077652 , month: 'February' },
     { start_date: '2019-12-24', end_date: '2020-01-23', num_days: 31, consumption: 11.6, footprint: 0.0083404 , month: 'January' },
     { start_date: '2019-11-22', end_date: '2019-12-23', num_days: 32, consumption: 13.4, footprint: 0.0096346 , month: 'December' },
@@ -74,10 +105,11 @@ export class DashBoardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
     this.totalChartData = [
-      { data: [this.total_footprint_user(), 0.09], label: 'Total Footprint in Metric tonnes ' },
+      { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
     ]
-    // allFortisValues = this.fortis_values().concat
+
     this.fortisChartData = [
       { data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' },
     ]
@@ -90,37 +122,42 @@ export class DashBoardComponent implements OnInit {
 
     ]
     this.vehicleChartData = [
-      { data: [this.total_footprint_commute() , 0.10] , label: 'Commute Footprint'},
+      { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
     ]
+    this.compfortisChartData = [
+      { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
+    ]
+    this.comphydroChartData = [
+      { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
+    ]
+
     this.totalFootprint = this.total_footprint_user()
     this.commuteFootprint = this.total_footprint_commute()
     this.fortisFootprint = this.total_footprint_fortis()
     this.hydroFootprint = this.total_footprint_hydro()
     this.totalTrees = this.footprint_to_tree()
     this.dollars = this.tree_to_dollars()
-    console.log('Dollars' , this.tree_to_dollars())
-    console.log('Trees' , this.footprint_to_tree())
-    console.log(this.totalFootprint)
+
   }
 
   total_footprint_fortis() {
     const totalFoot = this.userdata.fortis.reduce((sum, current) => sum + current.footprint, 0)
-    console.log('This is fortis total footprint', totalFoot)
+
     return Math.round(totalFoot * 100) / 100
   }
 
   total_footprint_hydro() {
-    console.log(this.userdata)
+
     const totalFoot = this.userdata.hydro.reduce((sum, current) => sum + current.footprint, 0)
-    console.log('This is hydro total footprint', totalFoot)
+
     return Math.round(totalFoot * 100) / 100
   }
 
   total_footprint_commute() {
 
     const totalFoot = this.userdata.commute.reduce((sum, current) => sum + current.footprint, 0)
-    console.log('This is total commute footprint', totalFoot)
-    return Math.round(totalFoot * 100) / 100
+
+    return Math.round(totalFoot * 100 * 12) / 100
   }
 
   total_footprint_user() {
@@ -128,7 +165,7 @@ export class DashBoardComponent implements OnInit {
     const fortisFootprint: number = this.total_footprint_fortis()
     const commuteFootprint: number = this.total_footprint_commute()
     const totalFoot = hydroFootprint + fortisFootprint + commuteFootprint
-    console.log('Total user footprint' + totalFoot)
+    // TO DO find a better way to round off for all MATH.round
     return Math.round(totalFoot * 100) / 100
   }
 
@@ -139,11 +176,11 @@ export class DashBoardComponent implements OnInit {
       allValues.push(dataEntry.footprint)
     }
 
-    console.log(allValues)
-    console.log(typeof (allValues))
-    // console.log(typeof(all_values))
+
+
     return allValues
   }
+  // returns all the hydro footprint values as an array
   hydro_values(){
     const allValues = []
     for (const dataEntry of this.userdata.hydro){
@@ -151,18 +188,19 @@ export class DashBoardComponent implements OnInit {
     }
     return allValues
   }
-
+// gives no of trees to offset the carbon emmission based on the total footprint
   footprint_to_tree(){
     const footprint = this.total_footprint_user()
     const tonnesCo2ToTreeRatio = 0.0217724
     return Math.ceil(footprint / tonnesCo2ToTreeRatio)
   }
-
+// returns the dollars to plant no of trees on the basis of total footprint
   tree_to_dollars(){
     const noOfTrees = this.footprint_to_tree()
     const costOfOneTree = 4
     return noOfTrees * costOfOneTree
   }
+  // returns the array of month based on  fortis object
   fortis_labels(){
     const allValues = []
     for (const dataEntry of this.userdata.fortis){
@@ -170,6 +208,7 @@ export class DashBoardComponent implements OnInit {
     }
     return allValues
   }
+  // returns the array of months based on hydro object
   hydro_labels(){
     const allValues = []
     for (const dataEntry of this.userdata.hydro){
