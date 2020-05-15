@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'
-import { UtilitiesComponent } from './utilities/utilities.component'
+import { Component, OnInit } from '@angular/core'
+import { CalculateService } from 'src/app/services/calculate.service'
 
 @Component({
   selector: 'app-calculator',
@@ -8,15 +8,16 @@ import { UtilitiesComponent } from './utilities/utilities.component'
 })
 export class CalculatorComponent implements OnInit {
 
-  @ViewChild(UtilitiesComponent) utilities
-
-  constructor() { }
+  constructor(private calculateService: CalculateService) { }
 
   ngOnInit(): void {
   }
 
+  // TODO: This method should actually be used in the ngOnInit of the dashboard page
   calculate() {
-    // TODO: send the calculation request to back end
+    this.calculateService.calculateFootprint().subscribe(response => {
+      console.log(response)
+    })
   }
 
 }
