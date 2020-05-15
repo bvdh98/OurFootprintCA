@@ -110,24 +110,15 @@ export class TransportationComponent implements OnInit {
 
     // send the commute to the back end
     this.commuteService.addCommute(commute).toPromise().then((responseCommute: Commute) => {
-      if (responseCommute) {
-        // set the id of the commute which is used for deleting
-        commute.commute_id = responseCommute.commute_id
-      } else {
-        console.error('a response commute was not returned, this commute will not be able to be deleted until the page is reloaded')
-      }
-
-      // ? would it be better to just pass responseCommute to getTableFormat?
-
       // display the commute in the table
-      this.dataSource.data.push(Commute.getTableFormat(commute))
+      this.dataSource.data.push(Commute.getTableFormat(responseCommute))
       this.renderTable()
 
       // clear the form
       this.commuteForm.reset()
     }, error => {
       console.error(error)
-      this.snackBar.open('An error occurred while adding that commute!', 'Ok', {duration: 5000})
+      this.snackBar.open('An error occurred while adding that commute! (Promise rejected)', 'Ok', {duration: 5000})
     })
   }
 

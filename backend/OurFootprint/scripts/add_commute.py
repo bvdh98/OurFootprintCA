@@ -1,4 +1,5 @@
 from calculator.models import User, UserCommute, Commute
+from calculator.serializers import CommuteSerializer
 
 
 def add_commute_to_db(commute, uid):
@@ -23,3 +24,5 @@ def add_commute_to_db(commute, uid):
                             transmission=transmission, distance=distance, highway_perc=highway_perc)
 
     commute_entry.save()
+
+    return CommuteSerializer(commute_entry).data

@@ -23,7 +23,7 @@ export class Commute {
         this.highway_perc = formData.highwayPercent / 100
         if (formData.transmission) {
             this.transmission = formData.transmission
-        } else if (formData.year.tr.length === 1) {
+        } else if (formData.year.tr.length === 1) { // there is only one possible transmission for this year
             this.transmission = formData.year.tr[0]
         } else {
             // TODO: Catch this and show a snack bar
