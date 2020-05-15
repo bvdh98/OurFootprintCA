@@ -37,9 +37,8 @@ def process_fortis(file, uid):
                                                                    consumption=consumption, avg_temp=avg_temp)
         if created:
             new_entry.save()
-
-        # append a dict to the list to send response back
-        response.append(FortisBillFieldSerializer(new_entry).data)
+            # append a dict to the list to send response back
+            response.append(FortisBillFieldSerializer(new_entry).data)
 
     return response, 200
 
@@ -71,8 +70,7 @@ def process_hydro(file, uid):
                                                                   num_days=num_days, consumption=consumption, city=city)
         if created:
             new_entry.save()
-
-        # append a dict to the list to send response back
-        response.append(HydroBillFieldSerializer(new_entry).data)
+            # append a dict to the list to send response back
+            response.append(HydroBillFieldSerializer(new_entry).data)
 
     return response, 200
