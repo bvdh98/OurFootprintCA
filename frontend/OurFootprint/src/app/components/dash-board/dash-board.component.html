@@ -37,70 +37,76 @@
   </mat-grid-tile>
 </mat-grid-list>
 
-
-<!-- <div class="graph-container"> -->
-  <div class="chart-wrapper1">
-      <canvas class="graph" baseChart
-        [datasets]="totalChartData"
-        [labels]="totalChartLabels"
-        [options]="totalChartOptions"
-        [plugins]="totalChartPlugins"
-        [legend]="totalChartLegend"
-        [chartType]="totalChartType">
+<mat-tab-group>
+  <mat-tab label="Total">
+    <div class="chart-wrapper1">
+        <canvas class="graph" baseChart
+          [datasets]="totalChartData"
+          [labels]="totalChartLabels"
+          [options]="totalChartOptions"
+          [plugins]="totalChartPlugins"
+          [legend]="totalChartLegend"
+          [chartType]="totalChartType">
+        </canvas>
+    </div>
+  </mat-tab>
+  <mat-tab label="Fortis">
+    <div class="chart-wrapper2">
+      <canvas class="graph" baseChart class
+        [datasets]="fortisChartData"
+        [labels]="fortisChartLabels"s
+        [options]="fortisChartOptions"
+        [plugins]="fortisChartPlugins"
+        [legend]="fortisChartLegend"
+        [chartType]="fortisChartType">
       </canvas>
-  </div>
-  <div class="chart-wrapper2">
-    <canvas class="graph" baseChart class
-      [datasets]="fortisChartData"
-      [labels]="fortisChartLabels"s
-      [options]="fortisChartOptions"
-      [plugins]="fortisChartPlugins"
-      [legend]="fortisChartLegend"
-      [chartType]="fortisChartType">
-    </canvas>
-  </div>
-
-  <div class="chart-wrapper3">
-    <canvas class="graph" baseChart 
-      [datasets]="hydroChartData"
-      [labels]="hydroChartLabels"
-      [options]="hydroChartOptions"
-      [plugins]="hydroChartPlugins"
-      [legend]="hydroChartLegend"
-      [chartType]="hydroChartType">
-    </canvas>
-  </div>
-  <div class="chart-wrapper4">
-    <canvas class="graph" baseChart 
-      [datasets]="vehicleChartData"
-      [labels]="vehicleChartLabels"
-      [options]="vehicleChartOptions"
-      [plugins]="vehicleChartPlugins"
-      [legend]="vehicleChartLegend"
-      [chartType]="vehicleChartType">
-    </canvas>
-  </div>
-  <div class="chart-wrapper5">
-    <canvas class="graph" baseChart 
-      [datasets]="compfortisChartData"
-      [labels]="compfortisChartLabels"
-      [options]="compfortisChartOptions"
-      [plugins]="compfortisChartPlugins"
-      [legend]="compfortisChartLegend"
-      [chartType]="compfortisChartType">
-    </canvas>
-  </div>
-
-  <div class="chart-wrapper6">
-    <canvas class="graph" baseChart 
-      [datasets]="comphydroChartData"
-      [labels]="comphydroChartLabels"
-      [options]="comphydroChartOptions"
-      [plugins]="comphydroChartPlugins"
-      [legend]="comphydroChartLegend"
-      [chartType]="comphydroChartType">
-    </canvas>
-  </div>
+    </div>
+    <div class="chart-wrapper5">
+      <canvas class="graph" baseChart 
+        [datasets]="compfortisChartData"
+        [labels]="compfortisChartLabels"
+        [options]="compfortisChartOptions"
+        [plugins]="compfortisChartPlugins"
+        [legend]="compfortisChartLegend"
+        [chartType]="compfortisChartType">
+      </canvas>
+    </div>
+  </mat-tab>
+  <mat-tab label="Hydro">
+    <div class="chart-wrapper3">
+      <canvas class="graph" baseChart 
+        [datasets]="hydroChartData"
+        [labels]="hydroChartLabels"
+        [options]="hydroChartOptions"
+        [plugins]="hydroChartPlugins"
+        [legend]="hydroChartLegend"
+        [chartType]="hydroChartType">
+      </canvas>
+    </div>
+    <div class="chart-wrapper6">
+      <canvas class="graph" baseChart 
+        [datasets]="comphydroChartData"
+        [labels]="comphydroChartLabels"
+        [options]="comphydroChartOptions"
+        [plugins]="comphydroChartPlugins"
+        [legend]="comphydroChartLegend"
+        [chartType]="comphydroChartType">
+      </canvas>
+    </div>
+  </mat-tab>
+  <mat-tab label="Transportation">
+    <div class="chart-wrapper4">
+      <canvas class="graph" baseChart 
+        [datasets]="vehicleChartData"
+        [labels]="vehicleChartLabels"
+        [options]="vehicleChartOptions"
+        [plugins]="vehicleChartPlugins"
+        [legend]="vehicleChartLegend"
+        [chartType]="vehicleChartType">
+      </canvas>
+    </div>
+  </mat-tab>
+</mat-tab-group>
 <!-- </div> -->
 
 <div class="offset-carbon-container">
