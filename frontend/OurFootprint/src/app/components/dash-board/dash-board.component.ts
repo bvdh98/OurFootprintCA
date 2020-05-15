@@ -140,35 +140,35 @@ export class DashBoardComponent implements OnInit {
       { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
     ]
     // TODO: Find some way to randomize/ automate filling color list
-    this.totalChartColors = [{ backgroundColor:["#FF7360", "#6FC8CE"] }]
+    this.totalChartColors = [{ backgroundColor:"#FF7360" }]
 
     this.fortisChartData = [
       { data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' },
     ]
 
     this.fortisChartLabels = this.fortis_labels()
-    this.fortisChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+    this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
     this.hydroChartLabels = this.hydro_labels()
 
     this.hydroChartData = [
       { data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' },
     ]
-    this.hydroChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+    this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
 
     this.vehicleChartData = [
       { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
     ]
-    this.vehicleChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+    this.vehicleChartColors = [{ backgroundColor: this.getRandomColor() }]
 
     this.compfortisChartData = [
       { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
     ]
-    this.compfortisChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+    this.compfortisChartColors = [{ backgroundColor: this.getRandomColor() }]
 
     this.comphydroChartData = [
       { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
     ]
-    this.comphydroChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+    this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
 
     this.totalFootprint = this.total_footprint_user()
     this.commuteFootprint = this.total_footprint_commute()
