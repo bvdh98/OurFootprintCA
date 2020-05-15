@@ -129,8 +129,8 @@ export class DashBoardComponent implements OnInit {
       vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd',
       distance: 100.0, footprint: 0.0,
     },
-    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.0 },
-    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.0 }],
+    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.12 },
+    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.23 }],
   }
   constructor() { }
 

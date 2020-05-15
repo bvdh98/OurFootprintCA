@@ -1,14 +1,44 @@
-.graph-container{
-    position: relative;
+@import '../../../styles.scss';
+
+.emissions-container {
+    margin-top: 1em;
     display: flex;
     flex-wrap: wrap;
-    max-width: 700px;
-    margin: 0 auto;
+    justify-content: space-around;
+
+    mat-card {
+        margin: 1em 0.5em;
+        min-width: 300px;
+    }
+}
+
+.outer-graph-container {
+    max-width: 100%;
+    padding: 2em;
     
-    //.graph{
-    //    height: 100%;
-    //    width: 100%;
-    //}
+    .inner-graph-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+
+        .container-card {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+
+            .title-card {
+                background: $title-grey;
+                padding: 1em;
+            }
+
+            .content-card {
+                display: flex;
+                flex-wrap: wrap;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+        }
+    }
 }
 
 .emissions-container {
@@ -19,20 +49,6 @@
 .largeText {
     font-size: 40px;
     text-emphasis: bold;
-}
-
-.chart-wrapper1,.chart-wrapper2,.chart-wrapper3,.chart-wrapper4{
-    // height: 500px;
-    // width: 500px;
-    // margin:2em;
-    // .canvas{
-    //     height: 100%;
-    //     width: 100%;
-    // }
-    max-width: 600px;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    border: 1px solid grey;
 }
 
 .offset-carbon-container {
