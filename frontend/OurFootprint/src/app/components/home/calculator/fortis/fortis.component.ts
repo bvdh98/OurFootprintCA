@@ -25,11 +25,7 @@ export class FortisComponent implements OnInit {
 
   ngOnInit(): void {
     // Load previous rows from that this user entered
-    this.utilitiesService.getFortisRows().pipe(
-      // make sure an array was returned before calling map on it
-      // convert the rows into a format that the ui table can read
-      map((rows) => rows.map ? rows.map(row => row) : [])
-    ).subscribe((rows) =>
+    this.utilitiesService.getFortisRows().subscribe((rows) =>
       this.dataSource.data.push(...rows)
     )
   }
