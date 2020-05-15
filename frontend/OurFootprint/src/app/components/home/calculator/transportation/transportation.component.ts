@@ -8,6 +8,8 @@ import { AutocompleteVehicle } from 'src/app/models/vehicle/autocomplete-vehicle
 import { VehicleService } from 'src/app/services/vehicle.service'
 import { CommuteFormData } from 'src/app/models/commute/commute-form-data.model'
 import { CommuteService } from 'src/app/services/commute.service'
+import { CommuteRowData } from 'src/app/models/commute/commute-row-data.model'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-transportation',
@@ -18,7 +20,7 @@ export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Commute>
 
   readonly displayedColumns: string[] = ['vehicle', 'distance', 'highwayPercent', 'delete']
-  dataSource = new MatTableDataSource<Commute>()
+  dataSource = new MatTableDataSource<CommuteRowData>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
   readonly endYear = new Date().getFullYear() + 1 // plus one because car companies like to release next years cars early
@@ -44,11 +46,16 @@ export class TransportationComponent implements OnInit {
   vehicles: Array<AutocompleteVehicle> = []
   filteredVehicles: Observable<AutocompleteVehicle[]>
 
-  constructor(private vehicleService: VehicleService, private commuteService: CommuteService) { }
+  constructor(private vehicleService: VehicleService, private commuteService: CommuteService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
-    this.commuteService.getCommutes().toPromise().then(x => console.log(x))
+    this.commuteService.getCommutes().pipe(
+      map((commutes: Commute[]) => commutes.map ? commutes.map(commute => Commute.getTableFormat(commute)) : [])
+    ).subscribe((commutes: CommuteRowData[]) => {
+      console.log(commutes)
+      this.dataSource.data.push(...commutes)
+    })
 
     // TODO: consider using listeners instead of (click) in html
 
@@ -99,13 +106,34 @@ export class TransportationComponent implements OnInit {
   }
 
   addCommute(): void {
-    // TODO: send commute to back end
-    this.dataSource.data.push(new Commute((this.commuteForm.value as CommuteFormData)))
-    this.commuteForm.reset()
-    this.renderTable()
+    const commute: Commute = new Commute((this.commuteForm.value as CommuteFormData))
+
+    // send the commute to the back end
+    this.commuteService.addCommute(commute).toPromise().then((responseCommute: Commute) => {
+      if (responseCommute) {
+        // set the id of the commute which is used for deleting
+        commute.commute_id = responseCommute.commute_id
+      } else {
+        console.error('a response commute was not returned, this commute will not be able to be deleted until the page is reloaded')
+      }
+
+      // ? would it be better to just pass responseCommute to getTableFormat?
+
+      // display the commute in the table
+      this.dataSource.data.push(Commute.getTableFormat(commute))
+      this.renderTable()
+
+      // clear the form
+      this.commuteForm.reset()
+    }, error => {
+      console.error(error)
+      this.snackBar.open('An error occurred while adding that commute!', 'Ok', {duration: 5000})
+    })
   }
 
-  deleteCommute(row: number): void {
+  deleteCommute(id: number, row: number): void {
+    this.commuteService.deleteCommute(id).toPromise()
+
     this.dataSource.data.splice(row, 1) // deletes the row
     this.renderTable()
   }
