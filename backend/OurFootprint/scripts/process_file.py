@@ -2,6 +2,7 @@ from datetime import datetime
 from calendar import monthrange
 import pandas as pd
 from calculator.models import FortisBillField, User, HydroBillField
+from calculator.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer
 
 
 def process_fortis(file, uid):
@@ -16,14 +17,18 @@ def process_fortis(file, uid):
         if created:
             user_entry.save()
 
-        # Extract the useful info from the csv row
-        s_date = row['Bill from date']
-        start_date = datetime.strptime(s_date, " %d/%m/%Y")
-        e_date = row['Bill to date']
-        end_date = datetime.strptime(e_date, " %d/%m/%Y")
-        num_days = row['# of days']
-        consumption = row['Billed GJ']
-        avg_temp = row['Average temperature']
+        try:
+            # Extract the useful info from the csv row
+            s_date = row['Bill from date']
+            start_date = datetime.strptime(s_date, " %d/%m/%Y")
+            e_date = row['Bill to date']
+            end_date = datetime.strptime(e_date, " %d/%m/%Y")
+            num_days = row['# of days']
+            consumption = row['Billed GJ']
+            avg_temp = row['Average temperature']
+
+        except KeyError:
+            return {"error": "Invalid file"}, 422
 
         # Push the row to the db if it doesnt already exist
         new_entry, created = FortisBillField.objects.get_or_create(user_id=user_entry, start_date=start_date,
@@ -33,10 +38,9 @@ def process_fortis(file, uid):
             new_entry.save()
 
         # append a dict to the list to send response back
-        response.append({'start_date': s_date, 'end_date': e_date, 'num_days': num_days, 'consumption': consumption,
-                         'avg_temp': avg_temp})
+        response.append(FortisBillFieldSerializer(new_entry).data)
 
-    return response
+    return response, 200
 
 
 def process_hydro(file, uid):
@@ -50,12 +54,16 @@ def process_hydro(file, uid):
         if created:
             user_entry.save()
 
-        # Extract the useful info from the csv row
-        s_date = row['Interval Start Date/Time']
-        start_date = datetime.strptime(s_date, "%Y-%m-%d")
-        num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
-        consumption = row['Net Consumption (kWh)']
-        city = row['City']
+        try:
+            # Extract the useful info from the csv row
+            s_date = row['Interval Start Date/Time']
+            start_date = datetime.strptime(s_date, "%Y-%m-%d")
+            num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
+            consumption = row['Net Consumption (kWh)']
+            city = row['City']
+
+        except KeyError:
+            return {"error": "Invalid file"}, 422
 
         # Push the row to the db if it doesnt already exist
         new_entry, created = HydroBillField.objects.get_or_create(user_id=user_entry, start_date=start_date,
@@ -64,6 +72,6 @@ def process_hydro(file, uid):
             new_entry.save()
 
         # append a dict to the list to send response back
-        response.append({'start_date': s_date, 'num_days': num_days, 'consumption': consumption})
+        response.append(HydroBillFieldSerializer(new_entry).data)
 
     return response
