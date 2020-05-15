@@ -1,7 +1,6 @@
 import json
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -25,50 +24,54 @@ def e2(request):
 
 # TODO: Replace with class based views
 @csrf_exempt
-@login_required
 def fortis_bill(request, pk=0):
     response = []
     status = 500
     uid = request.user.id
+    if uid is None:
+        return JsonResponse({"error": "Not Authorized"}, status=401)
     if request.method == 'POST':
         response, status = post_fortis(request, uid)
     elif request.method == 'GET':
-        response = get_fortis(uid, pk)
+        response, status = get_fortis(uid, pk)
     elif request.method == 'DELETE':
-        del_fortis(pk)
+        response, status = del_fortis(uid, pk)
     return JsonResponse(response, safe=False, status=status)
 
 
 # TODO: Replace with class based views
 @csrf_exempt
-@login_required
 def hydro_bill(request, pk=0):
     uid = request.user.id
     response = []
     status = 500
+    if uid is None:
+        return JsonResponse({"error": "Not Authorized"}, status=401)
     if request.method == 'POST':
         response, status = post_hydro(request, uid)
     elif request.method == 'GET':
-        response = get_hydro(uid, pk)
+        response, status = get_hydro(uid, pk)
     elif request.method == 'DELETE':
-        del_hydro(pk)
+        response, status = del_hydro(uid, pk)
     return JsonResponse(response, safe=False, status=status)
 
 
 # TODO: Replace with class based views
 @csrf_exempt
-@login_required(login_url='/api/signup')
 def add_commute(request, pk=0):
     uid = request.user.id
     response = []
+    status = 500
+    if uid is None:
+        return JsonResponse({"error": "Not Authorized"}, status=401)
     if request.method == 'POST':
         commute = json.loads(request.body)
-        response = add_commute_to_db(commute, uid)
+        response, status = add_commute_to_db(commute, uid)
     elif request.method == 'GET':
-        response = get_commute(uid, pk)
+        response, status = get_commute(uid, pk)
     elif request.method == 'DELETE':
-        del_commute(pk)
-    return JsonResponse(response, safe=False)
+        response, status = del_commute(uid, pk)
+    return JsonResponse(response, safe=False, status=status)
 
 
 def get_vehicles_json(request):
@@ -80,6 +83,8 @@ def get_vehicles_json(request):
 
 def calculate_footprint(request):
     uid = request.user.id
+    if uid is None:
+        return JsonResponse({"error": "Not Authorized"}, status=401)
     response = calculate_footprint_for_user(uid)
     return JsonResponse(response)
 
@@ -91,18 +96,20 @@ def sign_in(request):
         raw_password = request.POST['password']
         user = authenticate(username=username, password=raw_password)
         if user is None:
-            return JsonResponse({'Done': 'No'})
+            return JsonResponse({"error": "Invalid username or password"}, status=400)
         login(request, user)
-        return JsonResponse({'Done': 'Yes'})
+        return JsonResponse({"success": "ok"})
 
 
 def sign_out(request):
     logout(request)
-    return JsonResponse({'done': 'y'})
+    return JsonResponse({"success": "ok"})
 
 
 @csrf_exempt
 def register(request):
+    response = {}
+    status = 500
     if request.method == "POST":
         post_data = request.POST.copy()
         username = post_data.get('username', '')
@@ -111,10 +118,12 @@ def register(request):
 
         # check if user does not exist
         if User.objects.filter(username=username).exists():
-            username_unique_error = True
+            response = {"error": "Username already exists"}
+            status = 409
 
         if User.objects.filter(email=email).exists():
-            email_unique_error = True
+            response = {"error": "Username already exists"}
+            status = 409
 
         else:
             create_new_user = User.objects.create_user(username, email, password)
@@ -124,9 +133,11 @@ def register(request):
             login(request, user)
             if create_new_user is not None:
                 if create_new_user.is_active:
-                    return JsonResponse({'done?': 'y'})
+                    response = {"Success": "ok"}
+                    status = 200
                 else:
-                    print("The password is valid, but the account has been disabled!")
+                    response = {"error": "The password is valid, but the account has been disabled!"}
+                    status = 503
 
-    return JsonResponse({})
+    return JsonResponse(response, status=status)
 
