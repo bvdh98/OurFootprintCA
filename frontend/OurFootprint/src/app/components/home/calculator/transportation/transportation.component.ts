@@ -49,15 +49,16 @@ export class TransportationComponent implements OnInit {
   constructor(private vehicleService: VehicleService, private commuteService: CommuteService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    // TODO: load previous commutes from that this user entered (do after init?)
-    this.commuteService.getCommutes().pipe(
-      map((commutes: Commute[]) => commutes.map ? commutes.map(commute => Commute.getTableFormat(commute)) : [])
-    ).subscribe((commutes: CommuteRowData[]) => {
-      console.log(commutes)
-      this.dataSource.data.push(...commutes)
-    })
-
     // TODO: consider using listeners instead of (click) in html
+
+    // Load previous commutes from that this user entered
+    this.commuteService.getCommutes().pipe(
+      // make sure an array was returned before calling map on it
+      // convert the commutes into a format that the ui table can read
+      map((commutes: Commute[]) => commutes.map ? commutes.map(commute => Commute.getTableFormat(commute)) : [])
+    ).subscribe((commutes: CommuteRowData[]) =>
+      this.dataSource.data.push(...commutes)
+    )
 
     // get the vehicles from the back end
     this.vehicleService.getVehicles().toPromise().then(vehicles => this.vehicles = vehicles)
