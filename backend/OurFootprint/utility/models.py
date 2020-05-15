@@ -1,5 +1,7 @@
 from django.db import models
 
+from calculator.models import User
+
 
 class BillField(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

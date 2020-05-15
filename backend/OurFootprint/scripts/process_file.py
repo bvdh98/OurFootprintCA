@@ -1,7 +1,8 @@
 from datetime import datetime
 from calendar import monthrange
 import pandas as pd
-from calculator.models import FortisBillField, User, HydroBillField
+from calculator.models import User
+from utility.models import FortisBillField, HydroBillField
 
 
 def process_fortis(file, uid):

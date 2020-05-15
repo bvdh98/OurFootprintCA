@@ -1,11 +1,14 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render
 
 # TODO: Replace with class based views
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
-from scripts.gets import get_fortis
+from scripts.dels import del_fortis, del_hydro
+from scripts.gets import get_fortis, get_hydro
+from scripts.posts import post_fortis, post_hydro
 
 
 @csrf_exempt
@@ -23,9 +26,22 @@ def fortis_bill(request, pk=0):
     return JsonResponse(response, safe=False, status=status)
 
 
-class FortisBill(View):
-    def get(self, request, pk=None):
-        response = get_fortis(uid, pk)
+# @csrf_exempt
+# @login_required
+# class FortisBill(View):
+#     def get(self, request, pk=None):
+#         uid = request.user.id
+#         response = get_fortis(uid, pk)
+#         return JsonResponse(response, safe=False)
+#
+#     def post(self, request):
+#         uid = request.user.id
+#         response, status = post_fortis(request, uid)
+#         return JsonResponse(response, safe=False, status=status)
+#
+#     def delete(self, request, pk):
+#         del_fortis(pk)
+#         return JsonResponse({}, safe=False, status=204)
 
 
 # TODO: Replace with class based views

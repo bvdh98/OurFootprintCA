@@ -1,6 +1,8 @@
-from calculator.models import FortisBillField, HydroBillField, UserCommute, Commute
-from calculator.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer, CommuteSerializer
+from calculator.models import UserCommute, Commute
+from calculator.serializers import CommuteSerializer
 from scripts.carbon_calculations import fortis_calculations, hydro_calculations, calculate_commute_emissions
+from utility.models import FortisBillField, HydroBillField
+from utility.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer
 
 
 def calculate_footprint_for_user(uid):

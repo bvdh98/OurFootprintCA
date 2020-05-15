@@ -27,10 +27,12 @@ urlpatterns = [
     path('api/endpoint2', views.e2, name='e2'),
     path('api/users/', include('users.urls')),
 
-    path('api/fortis/', views.fortis_bill, name='upload fortis bill/ get previous fortis bills'),
-    path('api/fortis/<int:pk>/', views.fortis_bill, name='upload fortis bill/ get previous fortis bills'),
+    path('api/fortis/', include('utility.urls')),
 
-    path('api/hydro/', views.hydro_bill, name='upload hydro bill/ get previous hydro bills'),
+    # path('api/fortis/', views.fortis_bill, name='upload fortis bill/ get previous fortis bills'),
+    # path('api/fortis/<int:pk>/', views.fortis_bill, name='upload fortis bill/ get previous fortis bills'),
+
+    path('api/hydro/', views.hy, name='upload hydro bill/ get previous hydro bills'),
     path('api/hydro/<int:pk>/', views.hydro_bill, name='upload hydro bill/ get previous hydro bills'),
 
     path('api/commute/', views.add_commute, name='add a commute/ get all commutes'),

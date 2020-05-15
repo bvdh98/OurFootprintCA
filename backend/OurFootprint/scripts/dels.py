@@ -1,4 +1,5 @@
-from calculator.models import FortisBillField, HydroBillField, Commute
+from calculator.models import Commute
+from utility.models import FortisBillField, HydroBillField
 
 
 def del_fortis(fortis_id):

@@ -1,5 +1,7 @@
-from calculator.models import FortisBillField, HydroBillField, UserCommute, Commute
-from calculator.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer, CommuteSerializer
+from calculator.models import UserCommute, Commute
+from calculator.serializers import CommuteSerializer
+from utility.models import FortisBillField, HydroBillField
+from utility.serializers import FortisBillFieldSerializer, HydroBillFieldSerializer
 
 
 def get_fortis(uid, fortis_id):
