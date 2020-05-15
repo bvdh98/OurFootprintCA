@@ -1,65 +1,75 @@
 
+  <div class="total-carbon-emissions-container">
     <mat-card>
       <mat-card-title>Total Carbon Emmissions</mat-card-title>
-      <mat-card-content>{{data}}</mat-card-content>
+      <mat-card-content>{{totalFootprint}} tonnes CO2</mat-card-content>
     </mat-card>
+  </div>
 
+  <div class="transportation-emissions-container">
     <mat-card>
       <mat-card-title>Transportation Emmissions</mat-card-title>
-      <mat-card-content>{{data}}</mat-card-content>
+      <mat-card-content>{{commuteFootprint}} tonnes CO2</mat-card-content>
     </mat-card>
+  </div>
 
+  <div class="fortis-bc-emissions-container">
     <mat-card>
       <mat-card-title>Fortis BC Emmissions</mat-card-title>
-      <mat-card-content>{{data}}</mat-card-content>
+      <mat-card-content>{{fortisFootprint}} tonnes CO2</mat-card-content>
     </mat-card>
+  </div>
 
+  <div class="bc-hydro-emissions-container">
     <mat-card>
       <mat-card-title>BC Hydro Emmissions</mat-card-title>
-      <mat-card-content>{{data}}</mat-card-content>
+      <mat-card-content>{{hydroFootprint}}  tonnes CO2</mat-card-content>
     </mat-card>
+  </div>
 
 
-<div class="chart-wrapper1">
-    <canvas baseChart 
-    [datasets]="totalChartData"
-    [labels]="totalChartLabels"
-    [options]="totalChartOptions"
-    [plugins]="totalChartPlugins"
-    [legend]="totalChartLegend"
-    [chartType]="totalChartType">
-  </canvas>
+<div class="graph-container">
+  <!-- <div class="chart-wrapper1"> -->
+      <canvas class="graph" baseChart
+        [datasets]="totalChartData"
+        [labels]="totalChartLabels"
+        [options]="totalChartOptions"
+        [plugins]="totalChartPlugins"
+        [legend]="totalChartLegend"
+        [chartType]="totalChartType">
+      </canvas>
+  <!-- </div> -->
+  <!-- <div class="chart-wrapper2"> -->
+    <canvas class="graph" baseChart class
+      [datasets]="fortisChartData"
+      [labels]="fortisChartLabels"s
+      [options]="fortisChartOptions"
+      [plugins]="fortisChartPlugins"
+      [legend]="fortisChartLegend"
+      [chartType]="fortisChartType">
+    </canvas>
+  <!-- </div> -->
 
-</div>
-<div class="chart-wrapper2">
-  <canvas baseChart 
-  [datasets]="fortisChartData"
-  [labels]="fortisChartLabels"s
-  [options]="fortisChartOptions"
-  [plugins]="fortisChartPlugins"
-  [legend]="fortisChartLegend"
-  [chartType]="fortisChartType">
-</canvas>
-</div>
-<div class="chart-wrapper3">
-  <canvas baseChart 
-  [datasets]="hydroChartData"
-  [labels]="hydroChartLabels"
-  [options]="hydroChartOptions"
-  [plugins]="hydroChartPlugins"
-  [legend]="hydroChartLegend"
-  [chartType]="hydroChartType">
-</canvas>
-</div>
-<div class="chart-wrapper4">
-  <canvas baseChart 
-  [datasets]="vehicleChartData"
-  [labels]="vehicleChartLabels"
-  [options]="vehicleChartOptions"
-  [plugins]="vehicleChartPlugins"
-  [legend]="vehicleChartLegend"
-  [chartType]="vehicleChartType">
-</canvas>
+  <!-- <div class="chart-wrapper3"> -->
+    <canvas class="graph" baseChart 
+      [datasets]="hydroChartData"
+      [labels]="hydroChartLabels"
+      [options]="hydroChartOptions"
+      [plugins]="hydroChartPlugins"
+      [legend]="hydroChartLegend"
+      [chartType]="hydroChartType">
+    </canvas>
+  <!-- </div> -->
+  <!-- <div class="chart-wrapper4"> -->
+    <canvas class="graph" baseChart 
+      [datasets]="vehicleChartData"
+      [labels]="vehicleChartLabels"
+      [options]="vehicleChartOptions"
+      [plugins]="vehicleChartPlugins"
+      [legend]="vehicleChartLegend"
+      [chartType]="vehicleChartType">
+    </canvas>
+  <!-- </div> -->
 </div>
 
 <div class="offset-carbon-container">
@@ -67,8 +77,8 @@
     <mat-card-content>
       <div class="offset-text">
         <h2 class="mat-h2">For you to offset your carbon:</h2>
-        <h2 class="mat-h2">X trees would need to be planted</h2>
-        <h2 class="mat-h2">which would cost $ Y</h2>
+        <h2 class="mat-h2">{{totalTrees}} trees would need to be planted</h2>
+        <h2 class="mat-h2">which would cost $ {{dollars}}</h2>
       </div>
     </mat-card-content>
     <div class="donate-button-container">
