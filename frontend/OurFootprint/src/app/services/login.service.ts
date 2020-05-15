@@ -10,11 +10,17 @@ export class LoginService {
   constructor(private http: HttpClient) { }
 
   login(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post('/api/login', credentials)
+    const fd = new FormData()
+    fd.append('username', credentials.username)
+    fd.append('password', credentials.password)
+    return this.http.post('/api/login/', fd)
   }
 
   signUp(credentials: {username: string, password: string}): Observable<any> {
-    return this.http.post('/api/signup', credentials)
+    const fd = new FormData()
+    fd.append('username', credentials.username)
+    fd.append('password', credentials.password)
+    return this.http.post('/api/signup/', fd)
   }
 
 }

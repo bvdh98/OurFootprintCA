@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators'
 import { AutocompleteVehicle } from 'src/app/models/vehicle/autocomplete-vehicle.model'
 import { VehicleService } from 'src/app/services/vehicle.service'
 import { CommuteFormData } from 'src/app/models/commute/commute-form-data.model'
+import { CommuteService } from 'src/app/services/commute.service'
 
 @Component({
   selector: 'app-transportation',
@@ -43,10 +44,12 @@ export class TransportationComponent implements OnInit {
   vehicles: Array<AutocompleteVehicle> = []
   filteredVehicles: Observable<AutocompleteVehicle[]>
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService, private commuteService: CommuteService) { }
 
   ngOnInit(): void {
     // TODO: load previous commutes from that this user entered (do after init?)
+    this.commuteService.getCommutes().toPromise().then(x => console.log(x))
+
     // TODO: consider using listeners instead of (click) in html
 
     // get the vehicles from the back end
