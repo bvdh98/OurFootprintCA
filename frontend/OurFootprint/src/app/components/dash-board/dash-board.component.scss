@@ -2,16 +2,28 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    height: 10vh;
-    // .graph{
-    //     height: 100%;
-    //     width: 100%;
-    // }
+    max-width: 700px;
+    margin: 0 auto;
+    
+    //.graph{
+    //    height: 100%;
+    //    width: 100%;
+    //}
 }
 
-.chart-wrapper1,.chart-wrapper2,.chart-wrapper3,.chart-wrapper4,.chart-wrapper5,.chart-wrapper6{
-    height: 500px;
-    width: 500px;
+.emissions-container {
+    text-align: center;
+    line-height: 3em;
+}
+
+.largeText {
+    font-size: 40px;
+    text-emphasis: bold;
+}
+
+.chart-wrapper1,.chart-wrapper2,.chart-wrapper3,.chart-wrapper4{
+    // height: 500px;
+    // width: 500px;
     // margin:2em;
     // .canvas{
     //     height: 100%;
@@ -21,6 +33,10 @@
     margin: 0 auto;
     margin-bottom: 20px;
     border: 1px solid grey;
+}
+
+.offset-carbon-container {
+    margin-top: 2em;
 }
 
 .offset-text{
