@@ -72,6 +72,7 @@ export class FortisComponent implements OnInit {
   }
 
   // TODO: Reuse code
+  // TODO: Don't delete from UI until after response from back end (other files too)
   /**
    * Remove a row from the ui table and the database
    * @param row the row index in the UI table
