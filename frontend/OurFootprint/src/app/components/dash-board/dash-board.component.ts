@@ -11,62 +11,92 @@ export class DashBoardComponent implements OnInit {
   // (Chart #1) bar chart to compare users' total annual footprint to the provincial average
   totalChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Total Footprint (metric tonnes)',
+      display: true,
+    },
   }
   totalChartLabels: Label[] = ['Your Total Annual Footprint', 'Annual average footprint for BC']
   totalChartType: ChartType = 'bar'
-  totalChartLegend = true
+  totalChartLegend = false
   totalChartPlugins = []
   totalChartData: ChartDataSets[]
+  totalChartColors: any[]
 
   // (Chart #2) bar chart to compare month to month carbon footprint based on fortis consumption bills
   fortisChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Monthly natural gas Footprint (metric tonnes)',
+      display: true,
+    },
   }
   fortisChartLabels: Label[]
   fortisChartData: ChartDataSets[]
   fortisChartType: ChartType = 'bar'
   fortisChartPlugins = []
-  fortisChartLegend = true
+  fortisChartLegend = false
+  fortisChartColors: any[]
 
   // (Chart #3) bar chart to compare month to month carbon footprint based on BC Hydro consumption bills
   hydroChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Monthly electricity Footprint (metric tonnes)',
+      display: true,
+    },
   }
   hydroChartLabels: Label[]
   hydroChartType: ChartType = 'bar'
-  hydroChartLegend = true
+  hydroChartLegend = false
   hydroChartPlugins = []
   hydroChartData: ChartDataSets[]
+  hydroChartColors: any[]
 
   // (Chart #4) bar chart to compare users' carbon emissions from transportation to the US average
   vehicleChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Total transportation Footprint (metric tonnes)',
+      display: true,
+    },
   }
   vehicleChartLabels: Label[] = ['Total Commute Footprint monthly', 'Average user monthly  Footprint']
   vehicleChartType: ChartType = 'bar'
-  vehicleChartLegend = true
+  vehicleChartLegend = false
   vehicleChartPlugins = []
   vehicleChartData: ChartDataSets[]
+  vehicleChartColors: any[]
 
   // (Chart #5) bar chart to compare users' carbon emissions from Fortis bills to the BC average
   compfortisChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Annual natural gas Footprint (metric tonnes)',
+      display: true,
+    },
   }
   compfortisChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
   compfortisChartType: ChartType = 'bar'
-  compfortisChartLegend = true
+  compfortisChartLegend = false
   compfortisChartPlugins = []
   compfortisChartData: ChartDataSets[]
+  compfortisChartColors: any[]
 
   // (Chart #6) bar chart to compare users' carbon emissions from BC Hydro bills to the BC average
   comphydroChartOptions: ChartOptions = {
     responsive: true,
+    title: {
+      text: 'Annual electricity Footprint (metric tonnes)',
+      display: true,
+    },
   }
   comphydroChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
   comphydroChartType: ChartType = 'bar'
-  comphydroChartLegend = true
+  comphydroChartLegend = false
   comphydroChartPlugins = []
   comphydroChartData: ChartDataSets[]
+  comphydroChartColors: any[]
 
   totalFootprint: number
   commuteFootprint: number
@@ -109,27 +139,36 @@ export class DashBoardComponent implements OnInit {
     this.totalChartData = [
       { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
     ]
+    // TODO: Find some way to randomize/ automate filling color list
+    this.totalChartColors = [{ backgroundColor:["#FF7360", "#6FC8CE"] }]
 
     this.fortisChartData = [
       { data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' },
     ]
 
     this.fortisChartLabels = this.fortis_labels()
+    this.fortisChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
     this.hydroChartLabels = this.hydro_labels()
 
     this.hydroChartData = [
       { data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' },
-
     ]
+    this.hydroChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+
     this.vehicleChartData = [
       { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
     ]
+    this.vehicleChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+
     this.compfortisChartData = [
       { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
     ]
+    this.compfortisChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
+
     this.comphydroChartData = [
       { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
     ]
+    this.comphydroChartColors = [{ backgroundColor: this.getRandomColorsList(12) }]
 
     this.totalFootprint = this.total_footprint_user()
     this.commuteFootprint = this.total_footprint_commute()
@@ -138,6 +177,26 @@ export class DashBoardComponent implements OnInit {
     this.totalTrees = this.footprint_to_tree()
     this.dollars = this.tree_to_dollars()
 
+  }
+
+  getRandomColorsList(len) {
+    const colors: string[] = []
+    let i: number
+    for (i = 0; i < len; i++) {
+        colors.push(this.getRandomColor())
+    }
+    return colors
+  }
+
+  getRandomColor() {
+    length = 6
+    const chars = '0123456789ABCDEF'
+    let hex = '#'
+    while (length--) {
+      console.log(Math.random() * 16)
+      hex += chars[Math.trunc(Math.random() * 16)]
+    }
+    return hex
   }
 
   total_footprint_fortis() {
@@ -165,7 +224,7 @@ export class DashBoardComponent implements OnInit {
     const fortisFootprint: number = this.total_footprint_fortis()
     const commuteFootprint: number = this.total_footprint_commute()
     const totalFoot = hydroFootprint + fortisFootprint + commuteFootprint
-    // TO DO find a better way to round off for all MATH.round
+    // TODO find a better way to round off for all MATH.round
     return Math.round(totalFoot * 100) / 100
   }
 
@@ -175,8 +234,6 @@ export class DashBoardComponent implements OnInit {
     for (const dataEntry of this.userdata.fortis) {
       allValues.push(dataEntry.footprint)
     }
-
-
 
     return allValues
   }
@@ -216,6 +273,4 @@ export class DashBoardComponent implements OnInit {
     }
     return allValues
   }
-
-
 }
