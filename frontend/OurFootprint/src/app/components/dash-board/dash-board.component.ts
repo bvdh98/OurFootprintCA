@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js'
 import { Color, Label } from 'ng2-charts'
+import { CalculateService } from 'src/app/services/calculate.service'
 
 @Component({
   selector: 'app-dash-board',
@@ -114,113 +115,101 @@ export class DashBoardComponent implements OnInit {
   readonly totalYearly = this.averageYearlyCommuteemmision + this.averageYearlyFortisemmision + this.averageYearlyHydroemmision
 
   // TODO: Remove hardcoded data
-  readonly userdata = {
-    fortis: [{ start_date: '2020-03-24', end_date: '2020-04-21', num_days: 29, consumption: 5.4, footprint: 0.0038826 , month: 'April' },
-    { start_date: '2020-02-22', end_date: '2020-03-23', num_days: 31, consumption: 8.6, footprint: 0.0061833999999999995 , month: 'march'},
-    { start_date: '2020-01-24', end_date: '2020-02-21', num_days: 29, consumption: 10.8, footprint: 0.0077652 , month: 'February' },
-    { start_date: '2019-12-24', end_date: '2020-01-23', num_days: 31, consumption: 11.6, footprint: 0.0083404 , month: 'January' },
-    { start_date: '2019-11-22', end_date: '2019-12-23', num_days: 32, consumption: 13.4, footprint: 0.0096346 , month: 'December' },
-    { start_date: '2019-10-24', end_date: '2019-11-21', num_days: 29, consumption: 11.3, footprint: 0.0081247 , month: 'November' },
-    { start_date: '2019-09-20', end_date: '2019-10-23', num_days: 34, consumption: 10.9, footprint: 0.0078371 , month: 'October' }],
-    hydro: [{ start_date: '2020-01-01', num_days: 31, consumption: 936.0, footprint: 0.00998712 , month: 'January' },
-    { start_date: '2020-02-01', num_days: 29, consumption: 880.0, footprint: 0.0093896 , month: 'February' },
-    { start_date: '2020-03-01', num_days: 31, consumption: 1136.0, footprint: 0.01212112 , month: 'March' }],
-    commute: [{
-      vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd',
-      distance: 100.0, footprint: 0.0,
-    },
-    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.12 },
-    { vehicle: 'Alfa Romeo Spider Veloce 2000', vehicle_year: 1985, transmission: 'Manual 5-spd', distance: 100.0, footprint: 0.23 }],
-  }
-  constructor() { }
+  userdata
+
+  constructor(private calculateService: CalculateService) { }
 
   ngOnInit(): void {
-
-    this.totalChartOptions = {
-      scales : {
-        yAxes: [{
-            ticks: {
-              min: 0,
-              max : 6,
-            },
-        }, ],
-      },
-    }
-
-    this.totalChartData = [
-      { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
-    ]
-    // TODO: Find some way to randomize/ automate filling color list
-    this.totalChartColors = [{ backgroundColor:"#FF7360" }]
-
-    this.fortisChartData = [
-      { data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' },
-    ]
-
-    this.fortisChartLabels = this.fortis_labels()
-    this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
-    this.compfortisChartOptions = {
-      scales : {
-        yAxes: [{
-            ticks: {
-              min: 0,
-              max : 0.3,
-            },
-        }, ],
-      },
-    }
-
-    this.vehicleChartOptions = {
-      scales : {
-        yAxes: [{
-            ticks: {
-              min: 0,
-              max : 5,
-            },
-        }, ],
-      },
-    }
-    this.hydroChartLabels = this.hydro_labels()
-
-    this.hydroChartData = [
-      { data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' },
-    ]
-    this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
-
-    this.comphydroChartOptions = {
-      scales : {
-        yAxes: [{
-            ticks: {
-              min: 0,
-              max : 0.2,
-            },
-        }, ],
-      },
-    }
-
-    this.vehicleChartData = [
-      { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
-    ]
-    this.vehicleChartColors = [{ backgroundColor: this.getRandomColor() }]
-
-    this.compfortisChartData = [
-      { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
-    ]
-    this.compfortisChartColors = [{ backgroundColor: this.getRandomColor() }]
-
-    this.comphydroChartData = [
-      { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
-    ]
-    this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+    this.calculateService.calculateFootprint().subscribe(response => {
+      console.log(response)
+      this.userdata = response
 
 
-    this.totalFootprint = this.total_footprint_user()
-    this.commuteFootprint = this.total_footprint_commute()
-    this.fortisFootprint = this.total_footprint_fortis()
-    this.hydroFootprint = this.total_footprint_hydro()
-    this.totalTrees = this.footprint_to_tree()
-    this.dollars = this.tree_to_dollars()
+      this.totalChartOptions = {
+        scales : {
+          yAxes: [{
+              ticks: {
+                min: 0,
+                max : 6,
+              },
+          }, ],
+        },
+      }
 
+      this.totalChartData = [
+        { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
+      ]
+      // TODO: Find some way to randomize/ automate filling color list
+      this.totalChartColors = [{ backgroundColor: '#FF7360' }]
+
+      this.fortisChartData = [
+        { data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' },
+      ]
+
+      this.fortisChartLabels = this.fortis_labels()
+      this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
+      this.compfortisChartOptions = {
+        scales : {
+          yAxes: [{
+              ticks: {
+                min: 0,
+                max : 0.3,
+              },
+          }, ],
+        },
+      }
+
+      this.vehicleChartOptions = {
+        scales : {
+          yAxes: [{
+              ticks: {
+                min: 0,
+                max : 5,
+              },
+          }, ],
+        },
+      }
+      this.hydroChartLabels = this.hydro_labels()
+
+      this.hydroChartData = [
+        { data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' },
+      ]
+      this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+
+      this.comphydroChartOptions = {
+        scales : {
+          yAxes: [{
+              ticks: {
+                min: 0,
+                max : 0.2,
+              },
+          }, ],
+        },
+      }
+
+      this.vehicleChartData = [
+        { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
+      ]
+      this.vehicleChartColors = [{ backgroundColor: this.getRandomColor() }]
+
+      this.compfortisChartData = [
+        { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
+      ]
+      this.compfortisChartColors = [{ backgroundColor: this.getRandomColor() }]
+
+      this.comphydroChartData = [
+        { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
+      ]
+      this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+
+
+      this.totalFootprint = this.total_footprint_user()
+      this.commuteFootprint = this.total_footprint_commute()
+      this.fortisFootprint = this.total_footprint_fortis()
+      this.hydroFootprint = this.total_footprint_hydro()
+      this.totalTrees = this.footprint_to_tree()
+      this.dollars = this.tree_to_dollars()
+    })
   }
 
   getRandomColorsList(len) {

@@ -21,9 +21,9 @@ def process_fortis(file, uid):
         try:
             # Extract the useful info from the csv row
             s_date = row['Bill from date']
-            start_date = datetime.strptime(s_date, " %d/%m/%Y")
+            start_date = datetime.strptime(s_date, " %d/%m/%Y").date()
             e_date = row['Bill to date']
-            end_date = datetime.strptime(e_date, " %d/%m/%Y")
+            end_date = datetime.strptime(e_date, " %d/%m/%Y").date()
             num_days = row['# of days']
             consumption = row['Billed GJ']
             avg_temp = row['Average temperature']
