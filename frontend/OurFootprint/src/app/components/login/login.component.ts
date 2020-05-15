@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login({
       username: formValues.username,
       password: formValues.password,
-    })
+    }).toPromise()
   }
 
   signUp() {
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     this.loginService.signUp({
       username: formValues.username,
       password: formValues.password,
-    })
+    }).toPromise()
   }
 
 }

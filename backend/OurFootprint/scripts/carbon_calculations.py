@@ -43,7 +43,7 @@ def calculate_commute_emissions(commute: Commute):
     :return: Total monthly carbon footprint for the commute  (unit: metric tonnes of carbon)
     """
     # get the vehicle(s) from the database that match the specifications of the user's vehicle
-    matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.vehicle_year,
+    matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.year,
                                                            trany=commute.transmission).values())
 
     # get the first vehicle and see if it is an electric vehicle

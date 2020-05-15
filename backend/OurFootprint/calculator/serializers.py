@@ -17,4 +17,4 @@ class HydroBillFieldSerializer(serializers.ModelSerializer):
 class CommuteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commute
-        fields = ('commute_id', 'vehicle', 'vehicle_year', 'transmission', 'distance')
+        fields = ('commute_id', 'vehicle', 'year', 'transmission', 'distance', 'highway_perc')
