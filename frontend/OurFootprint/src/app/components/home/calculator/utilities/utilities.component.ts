@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { FileUploadService } from 'src/app/services/file-upload.service'
+import { UtilitiesService } from 'src/app/services/utilities.service'
 
 @Component({
   selector: 'app-utilities',
@@ -11,7 +11,7 @@ export class UtilitiesComponent implements OnInit {
 
   private fortisBill: File
 
-  constructor(private snackBar: MatSnackBar, private fileUploadService: FileUploadService) { }
+  constructor(private snackBar: MatSnackBar, private utilitiesService: UtilitiesService) { }
 
   ngOnInit(): void {
   }
@@ -35,7 +35,7 @@ export class UtilitiesComponent implements OnInit {
 
     this.fortisBill = fileList[0]
     // make a request to back end to upload the file
-    this.fileUploadService.uploadFortisBill(fileList[0])
+    this.utilitiesService.uploadFortisBill(fileList[0])
       .then(response =>
         console.log('backend returned: ' + (response as {example: string}).example))
   }
@@ -46,7 +46,7 @@ export class UtilitiesComponent implements OnInit {
       return
     }
     // make a request to back end to upload the file
-    this.fileUploadService.uploadHydroBill(fileList[0])
+    this.utilitiesService.uploadHydroBill(fileList[0])
       .then(response =>
         console.log('backend returned: ' + (response as {example: string}).example))
   }
