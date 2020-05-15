@@ -35,7 +35,7 @@ def fortis_bill(request, pk=0):
     elif request.method == 'GET':
         response, status = get_fortis(uid, pk)
     elif request.method == 'DELETE':
-        response = del_fortis(uid, pk)
+        response, status = del_fortis(uid, pk)
     return JsonResponse(response, safe=False, status=status)
 
 
@@ -52,7 +52,7 @@ def hydro_bill(request, pk=0):
     elif request.method == 'GET':
         response, status = get_hydro(uid, pk)
     elif request.method == 'DELETE':
-        response = del_hydro(uid, pk)
+        response, status = del_hydro(uid, pk)
     return JsonResponse(response, safe=False, status=status)
 
 
@@ -103,7 +103,7 @@ def sign_in(request):
 
 def sign_out(request):
     logout(request)
-    return JsonResponse({'done': 'y'})
+    return JsonResponse({"success": "ok"})
 
 
 @csrf_exempt

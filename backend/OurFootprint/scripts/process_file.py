@@ -17,6 +17,7 @@ def process_fortis(file, uid):
         if created:
             user_entry.save()
 
+        # TODO: have a 415 check? (file is not csv)
         try:
             # Extract the useful info from the csv row
             s_date = row['Bill from date']

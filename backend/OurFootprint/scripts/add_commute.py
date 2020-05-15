@@ -9,7 +9,7 @@ def add_commute_to_db(commute, uid):
         user_entry.save()
 
     try:
-        # Extract the useful info from the csv row
+        # Extract the useful info from the json
         vehicle = commute.get('vehicle')
         year = commute.get('year')
         transmission = commute.get('transmission')
