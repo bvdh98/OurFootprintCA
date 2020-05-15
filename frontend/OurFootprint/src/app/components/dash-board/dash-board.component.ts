@@ -226,7 +226,6 @@ export class DashBoardComponent implements OnInit {
     const chars = '0123456789ABCDEF'
     let hex = '#'
     while (length--) {
-      console.log(Math.random() * 16)
       hex += chars[Math.trunc(Math.random() * 16)]
     }
     return hex
