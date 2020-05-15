@@ -14,7 +14,7 @@
     max-width: 100%;
     padding: 2em;
 
-    .inner-calculator-container {
+    .inner-about-container {
         width: 100%;
         max-width: 1000px;
         margin: auto;
@@ -33,8 +33,9 @@
             }
 
             .about-text{
-                width: 100%;
-                text-align: center;
+                margin: 2em;
+                font-size: large;
+                white-space: pre-wrap;
             }
         }
     }
