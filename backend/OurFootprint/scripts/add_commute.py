@@ -1,4 +1,5 @@
 from calculator.models import User, UserCommute, Commute
+from calculator.serializers import CommuteSerializer
 
 
 def add_commute_to_db(commute, uid):
@@ -7,12 +8,16 @@ def add_commute_to_db(commute, uid):
     if created:
         user_entry.save()
 
-    # Extract the useful info from the csv row
-    vehicle = commute.get('vehicle')
-    year = commute.get('year')
-    transmission = commute.get('transmission')
-    distance = commute.get('distance')
-    highway_perc = commute.get('highway_perc')
+    try:
+        # Extract the useful info from the csv row
+        vehicle = commute.get('vehicle')
+        year = commute.get('year')
+        transmission = commute.get('transmission')
+        distance = commute.get('distance')
+        highway_perc = commute.get('highway_perc')
+
+    except KeyError:
+        return {"error": "Invalid request body"}, 400
 
     # Create a reference to the user-commute bridge
     user_commute_entry = UserCommute(user_id=user_entry)
@@ -23,3 +28,5 @@ def add_commute_to_db(commute, uid):
                             transmission=transmission, distance=distance, highway_perc=highway_perc)
 
     commute_entry.save()
+
+    return CommuteSerializer(commute_entry).data, 200
