@@ -62,7 +62,7 @@ export class DashBoardComponent implements OnInit {
       display: true,
     },
   }
-  vehicleChartLabels: Label[] = ['Total Commute Footprint monthly', 'Average user monthly  Footprint']
+  vehicleChartLabels: Label[] = ['Total Commute Footprint annualy', 'Average user annual Footprint']
   vehicleChartType: ChartType = 'bar'
   vehicleChartLegend = false
   vehicleChartPlugins = []
