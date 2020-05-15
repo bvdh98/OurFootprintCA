@@ -74,4 +74,4 @@ def process_hydro(file, uid):
         # append a dict to the list to send response back
         response.append(HydroBillFieldSerializer(new_entry).data)
 
-    return response
+    return response, 200

@@ -12,8 +12,7 @@ def post_fortis(request, uid):
         response = {'error': 'Unexpected key, expected "fortis"'}
         status = 400
     else:
-        response = process_fortis(file, uid)
-        status = 200
+        response, status = process_fortis(file, uid)
     return response, status
 
 
@@ -26,6 +25,5 @@ def post_hydro(request, uid):
         response = {'error': 'Unexpected key, expected "hydro"'}
         status = 400
     else:
-        response = process_hydro(file, uid)
-        status = 200
+        response, status = process_hydro(file, uid)
     return response, status
