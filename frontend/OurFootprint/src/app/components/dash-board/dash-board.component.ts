@@ -136,6 +136,17 @@ export class DashBoardComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.totalChartOptions = {
+      scales : {
+        yAxes: [{
+            ticks: {
+              min: 0,
+              max : 6,
+            },
+        }, ],
+      },
+    }
+
     this.totalChartData = [
       { data: [this.total_footprint_user(), this.totalYearly], label: 'Total Footprint in Metric tonnes ' },
     ]
@@ -148,12 +159,44 @@ export class DashBoardComponent implements OnInit {
 
     this.fortisChartLabels = this.fortis_labels()
     this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
+    this.compfortisChartOptions = {
+      scales : {
+        yAxes: [{
+            ticks: {
+              min: 0,
+              max : 0.3,
+            },
+        }, ],
+      },
+    }
+
+    this.vehicleChartOptions = {
+      scales : {
+        yAxes: [{
+            ticks: {
+              min: 0,
+              max : 5,
+            },
+        }, ],
+      },
+    }
     this.hydroChartLabels = this.hydro_labels()
 
     this.hydroChartData = [
       { data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' },
     ]
     this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+
+    this.comphydroChartOptions = {
+      scales : {
+        yAxes: [{
+            ticks: {
+              min: 0,
+              max : 0.2,
+            },
+        }, ],
+      },
+    }
 
     this.vehicleChartData = [
       { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
@@ -169,6 +212,7 @@ export class DashBoardComponent implements OnInit {
       { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
     ]
     this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+
 
     this.totalFootprint = this.total_footprint_user()
     this.commuteFootprint = this.total_footprint_commute()
