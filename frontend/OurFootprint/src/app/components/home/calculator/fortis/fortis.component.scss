@@ -4,13 +4,14 @@
 }
 
 .table-outter-container {
-    overflow: auto;
+    margin-top: 2em;
+    overflow-x: auto;
+    overflow-y: hidden;
 
     .table-inner-container {
         min-width: 605px;
 
         .table {
-            margin-top: 2em;
             width: 100%;
         }
     }
