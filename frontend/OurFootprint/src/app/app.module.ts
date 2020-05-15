@@ -23,6 +23,7 @@ import { DashBoardComponent } from './components/dash-board/dash-board.component
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HydroComponent } from './components/home/calculator/hydro/hydro.component'
 import { FortisComponent } from './components/home/calculator/fortis/fortis.component'
+import { LoginComponent } from './components/login/login.component'
 
 
 @NgModule({
@@ -40,7 +41,7 @@ import { FortisComponent } from './components/home/calculator/fortis/fortis.comp
     DashBoardComponent,
     HydroComponent,
     FortisComponent,
-
+    LoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

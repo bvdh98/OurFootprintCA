@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list'
 import { MatSnackBarModule} from '@angular/material/snack-bar'
 import { MatCardModule } from '@angular/material/card'
 import { MatGridListModule} from '@angular/material/grid-list'
+import { MatSliderModule } from '@angular/material/slider'
 
 import { MatFileUploadModule } from 'mat-file-upload' // a separate node package - not official angular material
 
@@ -47,6 +48,7 @@ import { MatFileUploadModule } from 'mat-file-upload' // a separate node package
     MatCardModule,
     MatFileUploadModule,
     MatGridListModule,
+    MatSliderModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -67,6 +69,7 @@ import { MatFileUploadModule } from 'mat-file-upload' // a separate node package
     MatCardModule,
     MatFileUploadModule,
     MatGridListModule,
+    MatSliderModule,
   ],
 })
 export class MaterialModule {}

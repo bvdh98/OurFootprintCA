@@ -2,3 +2,17 @@
     display: flex;
     flex-direction: column;
 }
+
+.table-outter-container {
+    margin-top: 2em;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    .table-inner-container {
+        min-width: 405px;
+
+        .table {
+            width: 100%;
+        }
+    }
+}

@@ -6,6 +6,10 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { AutocompleteVehicle } from 'src/app/models/vehicle/autocomplete-vehicle.model'
 import { VehicleService } from 'src/app/services/vehicle.service'
+import { CommuteFormData } from 'src/app/models/commute/commute-form-data.model'
+import { CommuteService } from 'src/app/services/commute.service'
+import { CommuteRowData } from 'src/app/models/commute/commute-row-data.model'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'app-transportation',
@@ -15,8 +19,8 @@ import { VehicleService } from 'src/app/services/vehicle.service'
 export class TransportationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<Commute>
 
-  readonly displayedColumns: string[] = ['vehicle', 'distance', 'frequency', 'delete']
-  dataSource = new MatTableDataSource<Commute>()
+  readonly displayedColumns: string[] = ['vehicle', 'distance', 'highwayPercent', 'delete']
+  dataSource = new MatTableDataSource<CommuteRowData>()
 
   // ? Consider if this should be static, as a separate instance is not needed for each object.
   readonly endYear = new Date().getFullYear() + 1 // plus one because car companies like to release next years cars early
@@ -24,33 +28,40 @@ export class TransportationComponent implements OnInit {
   // a range from end year to starting year
   readonly defaultYears = [...Array(this.endYear - this.startingYear + 1).keys()].map(x => this.endYear - x)
   yearTransmissions: Observable<{yr: number, tr: string[]}[]>
-  // years: Observable<number[]>
+  transmissions: string[] = []
 
   // min max values for form validation
   readonly minDistance: number = 0
   readonly maxDistance: number = 250
-  readonly minFrequency: number = 0
-  readonly maxFrequency: number = 60
 
   // TODO: better form validation
   commuteForm = new FormGroup({
     vehicle: new FormControl(),
     year: new FormControl({value: '', disabled: true}),
+    transmission: new FormControl(),
     distance: new FormControl('', [Validators.min(this.minDistance), Validators.max(this.maxDistance)]),
-    frequency: new FormControl('', [Validators.min(this.minFrequency), Validators.max(this.maxFrequency)]),
+    highwayPercent: new FormControl(),
   })
 
   vehicles: Array<AutocompleteVehicle> = []
   filteredVehicles: Observable<AutocompleteVehicle[]>
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService, private commuteService: CommuteService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    // TODO: load previous commutes from that this user entered (do after init?)
     // TODO: consider using listeners instead of (click) in html
 
+    // Load previous commutes from that this user entered
+    this.commuteService.getCommutes().pipe(
+      // make sure an array was returned before calling map on it
+      // convert the commutes into a format that the ui table can read
+      map((commutes: Commute[]) => commutes.map ? commutes.map(commute => Commute.getTableFormat(commute)) : [])
+    ).subscribe((commutes: CommuteRowData[]) =>
+      this.dataSource.data.push(...commutes)
+    )
+
     // get the vehicles from the back end
-    this.vehicleService.getVehicles().subscribe(vehicles => this.vehicles = vehicles)
+    this.vehicleService.getVehicles().toPromise().then(vehicles => this.vehicles = vehicles)
 
     // set up autocomplete filter for vehicles
     this.filteredVehicles = this.commuteForm.controls.vehicle.valueChanges.pipe(
@@ -65,13 +76,20 @@ export class TransportationComponent implements OnInit {
         map((vehicle: AutocompleteVehicle) => vehicle ? vehicle.details : [])
     )
 
+    // enable the year drop down if a valid vehicle is selected from the dropdown else disable + reset it
     this.commuteForm.controls.vehicle.valueChanges.subscribe((vehicle: string | AutocompleteVehicle) => {
       if (vehicle && (vehicle as AutocompleteVehicle).details) {
         this.commuteForm.controls.year.enable()
       } else {
         this.commuteForm.controls.year.disable()
+        this.commuteForm.controls.year.reset() // needed to make sure the transmission dropdown only shows up when needed
       }
     })
+
+    // display available transmissions for the given year
+    this.commuteForm.controls.year.valueChanges.subscribe(yearTransmission =>
+      this.transmissions = yearTransmission && (yearTransmission as {tr: string[]}).tr ? yearTransmission.tr : []
+    )
   }
 
   displayVehicle(vehicle: AutocompleteVehicle): string {
@@ -89,13 +107,25 @@ export class TransportationComponent implements OnInit {
   }
 
   addCommute(): void {
-    console.log(this.commuteForm.value)
-    this.dataSource.data.push(new Commute(this.commuteForm.value))
-    this.commuteForm.reset()
-    this.renderTable()
+    const commute: Commute = new Commute((this.commuteForm.value as CommuteFormData))
+
+    // send the commute to the back end
+    this.commuteService.addCommute(commute).toPromise().then((responseCommute: Commute) => {
+      // display the commute in the table
+      this.dataSource.data.push(Commute.getTableFormat(responseCommute))
+      this.renderTable()
+
+      // clear the form
+      this.commuteForm.reset()
+    }, error => {
+      console.error(error)
+      this.snackBar.open('An error occurred while adding that commute! (Promise rejected)', 'Ok', {duration: 5000})
+    })
   }
 
-  deleteCommute(row: number): void {
+  deleteCommute(id: number, row: number): void {
+    this.commuteService.deleteCommute(id).toPromise()
+
     this.dataSource.data.splice(row, 1) // deletes the row
     this.renderTable()
   }
