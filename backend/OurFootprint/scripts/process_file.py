@@ -58,7 +58,7 @@ def process_hydro(file, uid):
         try:
             # Extract the useful info from the csv row
             s_date = row['Interval Start Date/Time']
-            start_date = datetime.strptime(s_date, "%Y-%m-%d")
+            start_date = datetime.strptime(s_date, "%Y-%m-%d").date()
             num_days = monthrange(start_date.year, start_date.month)[1] - start_date.day + 1
             consumption = row['Net Consumption (kWh)']
             city = row['City']
