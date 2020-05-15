@@ -76,7 +76,7 @@ export class HydroComponent implements OnInit {
    */
    deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>, id: number): void {
     // Delete the row from the backed DB
-    this.utilitiesService.deleteFortisRow(id).toPromise()
+    this.utilitiesService.deleteHydroRow(id).toPromise()
 
     // delete the row from the UI
     dataSource.data.splice(row, 1) // deletes the row
