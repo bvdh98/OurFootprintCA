@@ -14,6 +14,8 @@ def calculate_footprint(request):
     Method to return user's total carbon footprint as a complex json that can be parsed by frontend
     """
     uid = request.user.id
+    if uid is None:
+        return JsonResponse({"error": "Not Authorized"}, status=401)
     response = calculate_footprint_for_user(uid)
     return JsonResponse(response)
 

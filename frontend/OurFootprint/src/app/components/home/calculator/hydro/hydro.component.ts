@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { FileUploadService } from 'src/app/services/file-upload.service'
+import { UtilitiesService } from 'src/app/services/utilities.service'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
+import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-hydro',
@@ -20,9 +21,13 @@ export class HydroComponent implements OnInit {
 
   private bill: File
 
-  constructor(private snackBar: MatSnackBar, private fileUploadService: FileUploadService) { }
+  constructor(private snackBar: MatSnackBar, private utilitiesService: UtilitiesService) { }
 
   ngOnInit(): void {
+    // Load previous rows from that this user entered
+    this.utilitiesService.getHydroRows().subscribe((rows) =>
+      this.dataSource.data.push(...rows)
+    )
   }
 
   onUploadClicked(fileList) {
@@ -39,7 +44,7 @@ export class HydroComponent implements OnInit {
 
     this.bill = fileList[0]
     // make a request to back end to upload the file
-    this.fileUploadService.uploadHydroBill(fileList[0]).then(response => {
+    this.utilitiesService.uploadHydroBill(fileList[0]).then(response => {
         const jsonResponse: Array<JSON> = (response as Array<JSON>)
         console.log('backend returned: ' + JSON.stringify(jsonResponse))
         console.log(jsonResponse)
@@ -62,8 +67,18 @@ export class HydroComponent implements OnInit {
   }
 
   // TODO: Reuse code
-  deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>): void {
-    // TODO: Delete the row from the backed DB
+  /**
+   * Remove a row from the ui table and the database
+   * @param row the row index in the UI table
+   * @param table a reference to the able that will need to be re-rendered
+   * @param dataSource a reference to the datasource that the row should be removed from (for ui)
+   * @param id the id in the database
+   */
+   deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>, id: number): void {
+    // Delete the row from the backed DB
+    this.utilitiesService.deleteHydroRow(id).toPromise()
+
+    // delete the row from the UI
     dataSource.data.splice(row, 1) // deletes the row
     this.renderTable(table)
   }

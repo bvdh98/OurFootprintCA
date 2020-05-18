@@ -1,4 +1,51 @@
+<!-- TODO: Make it clear that the distances are meant to be listed as *weekly* -->
 <form [formGroup]="commuteForm" class="commute-form">
+  <!-- Highway Percent Slider -->
+  <div class="slider-control-container">
+    <mat-label>Percent driven in highway conditions</mat-label>
+    <mat-slider formControlName="highwayPercent" [max]="100" [min]="0" [thumbLabel]="true"></mat-slider>
+  </div>
+
+  <!-- Distance input -->
+  <!-- TODO: Consider if we should automatically double the frequency because to + from. -->
+  <!-- TODO: If so, we should explain that with a note somehow -->
+  <div class="distance-input">
+    <mat-form-field appearance="standard" hintLabel="Max 250km">
+      <mat-label>Distance in Km</mat-label>
+      <input matInput type="number" min="{{minDistance}}" max="{{maxDistance}}" formControlName="distance" name="distance" required>
+    </mat-form-field>
+    <!-- Link to google maps to calculate the commute distance -->
+    <!-- TODO: The button was making styling difficult. Button is low priority so it was purged. Add it back if we get a chance  -->
+    <!-- <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">
+      <div class="button-text-container">
+        Calculate Commute Distance
+      </div>
+    </a> -->
+  </div>
+
+  <!-- Vehicle transmission input -->
+  <!-- <mat-form-field appearance="standard" *ngIf="transmissions && (transmissions | async)?.length > 1"> -->
+    <mat-form-field appearance="standard" *ngIf="transmissions && transmissions.length > 1">
+      <mat-label>Select Transmission</mat-label>
+      <mat-select aria-required formControlName="transmission" name="transmission">
+        <!-- <mat-option *ngFor="let transmission of transmissions | async" [value]="transmission"> -->
+        <mat-option *ngFor="let transmission of transmissions" [value]="transmission">
+          {{transmission}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  <!-- Vehicle year input -->
+  <mat-form-field appearance="standard">
+    <mat-label>Select Year</mat-label>
+    <mat-select aria-required formControlName="year" name="year" required>
+      <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmission">
+      <!-- <mat-option *ngFor="let yearTransmission of yearTransmissions" [value]="yearTransmission"> -->
+        {{yearTransmission.yr}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <!-- Vehicle make / model input -->
   <!-- TODO: Give an option to estimate fuel economy instead of entering a vehicle make / model -->
   <!-- TODO: Auto complete make / model - force the value to match something from our data -->
@@ -17,72 +64,38 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-
-  <!-- Vehicle year input -->
-  <mat-form-field appearance="standard">
-    <mat-label>Select Year</mat-label>
-    <mat-select aria-required formControlName="year" name="year" required>
-      <!-- <mat-option *ngFor="let year of years | async" [value]="year"> -->
-      <mat-option *ngFor="let yearTransmission of yearTransmissions | async" [value]="yearTransmission">
-        {{yearTransmission.yr}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <!-- Frequency of trips / month input -->
-  <mat-form-field appearance="standard" hintLabel="Max 60 trips">
-    <mat-label>Trips per month</mat-label>
-    <input matInput type="number" min="{{minFrequency}}" max="{{maxFrequency}}" formControlName="frequency" name="frequency" required>
-  </mat-form-field>
-
-  <!-- Distance input -->
-  <!-- TODO: Consider if we should automatically double the frequency because to + from. -->
-  <!-- TODO: If so, we should explain that with a note somehow -->
-  <div class="distance-input">
-    <mat-form-field appearance="standard" hintLabel="Max 250km">
-      <mat-label>Distance in Km</mat-label>
-      <input matInput type="number" min="{{minDistance}}" max="{{maxDistance}}" formControlName="distance" name="distance" required>
-    </mat-form-field>
-    <!-- Link to google maps to calculate the commute distance -->
-    <!-- TODO: The button was making styling difficult. Button is low priority so it was purged. Add it back if we get a chance  -->
-    <!-- <a mat-raised-button color="primary" href="https://maps.google.com" target="_blank">
-      <div class="button-text-container">
-        Calculate Commute Distance
-      </div>
-    </a> -->
-  </div>
 </form>
 <div id="add-commute-button-container">
   <button id="add-commute-button" mat-raised-button color="primary" [disabled]="!commuteForm.valid" (click)="addCommute()">Add Commute</button>
 </div>
-<div id="table-outter-container">
-  <div id="table-inner-container">
+<div class="table-outter-container">
+  <div class="table-inner-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table" *ngIf="dataSource.data.length > 0">
       <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
       
         <!-- Vehicle Column -->
         <ng-container matColumnDef="vehicle">
           <th mat-header-cell *matHeaderCellDef> Vehicle </th>
-          <td mat-cell *matCellDef="let element"> {{element.tableFormat.vehicle}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.vehicle}} </td>
         </ng-container>
       
         <!-- Distance in Km Column -->
         <ng-container matColumnDef="distance">
           <th mat-header-cell *matHeaderCellDef> Distance in Km </th>
-          <td mat-cell *matCellDef="let element"> {{element.tableFormat.distance}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.distance}} </td>
         </ng-container>
-      
-        <!-- Frequency / Month Column -->
-        <ng-container matColumnDef="frequency">
-          <th mat-header-cell *matHeaderCellDef> Frequency / Month </th>
-          <td mat-cell *matCellDef="let element"> {{element.tableFormat.frequency}} </td>
+
+        <!-- Highway Percent Column -->
+        <ng-container matColumnDef="highwayPercent">
+          <th mat-header-cell *matHeaderCellDef> % Highway </th>
+          <td mat-cell *matCellDef="let element"> {{element.highwayPercent}} </td>
         </ng-container>
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete">
           <th mat-header-cell *matHeaderCellDef> Delete </th>
           <td mat-cell *matCellDef="let element; let i=index">
-            <button mat-icon-button aria-label="Delete commute button" (click)="deleteCommute(i)">
+            <button mat-icon-button aria-label="Delete commute button" (click)="deleteCommute(element.id, i)">
               <mat-icon>delete</mat-icon>
             </button>
           </td>

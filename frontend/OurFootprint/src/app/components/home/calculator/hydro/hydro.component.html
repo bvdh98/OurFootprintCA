@@ -7,36 +7,40 @@
     (uploadClicked)="onUploadClicked($event)">
 </mat-file-upload>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 commute-table" *ngIf="dataSource.data.length > 0">
-    <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
-    
-      <!-- Month/Date Column -->
-      <ng-container matColumnDef="month">
-        <th mat-header-cell *matHeaderCellDef> Month </th>
-        <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
-      </ng-container>
+<div class="table-outter-container">
+  <div class="table-inner-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table" *ngIf="dataSource.data.length > 0">
+      <!--- Note that these columns are not rendered until they are set as a property on the row definition. -->
+      
+        <!-- Month/Date Column -->
+        <ng-container matColumnDef="month">
+          <th mat-header-cell *matHeaderCellDef> Month </th>
+          <td mat-cell *matCellDef="let element"> {{element.start_date}} </td>
+        </ng-container>
 
-      <!-- Net Consumption Column -->
-      <ng-container matColumnDef="consumption">
-        <th mat-header-cell *matHeaderCellDef> Net Consumption </th>
-        <td mat-cell *matCellDef="let element"> {{element.consumption}} </td>
-      </ng-container>
-  
-       <!-- Delete Column -->
-       <ng-container matColumnDef="delete">
-        <th mat-header-cell *matHeaderCellDef> Delete </th>
-        <td mat-cell *matCellDef="let element; let i=index">
-          <button mat-icon-button aria-label="Delete hydro row button" (click)="deleteRow(i, table, dataSource)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <!-- The actual rendered content -->
+        <!-- Net Consumption Column -->
+        <ng-container matColumnDef="consumption">
+          <th mat-header-cell *matHeaderCellDef> Net Consumption </th>
+          <td mat-cell *matCellDef="let element"> {{element.consumption}} </td>
+        </ng-container>
     
-      <!-- Header row for column names -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  
-      <!-- Data rows -->
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef> Delete </th>
+          <td mat-cell *matCellDef="let element; let i=index">
+            <button mat-icon-button aria-label="Delete hydro row button" (click)="deleteRow(i, table, dataSource, element.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+        <!-- The actual rendered content -->
+      
+        <!-- Header row for column names -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    
+        <!-- Data rows -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
