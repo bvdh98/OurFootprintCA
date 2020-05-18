@@ -1,11 +1,13 @@
+from django.contrib.auth.models import User
 from django.db import models
-
-from calculator.models import User
 
 
 class BillField(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     consumption = models.FloatField()
+
+    class Meta:
+        abstract = True
 
 
 class FortisBillField(BillField):

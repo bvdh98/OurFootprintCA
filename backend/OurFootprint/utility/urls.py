@@ -13,10 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
-from django.contrib import admin
-from django.urls import path, include
-from . import views
+from django.urls import path
+from .views import bc_hydro, fortis_bc
 
 from django.contrib import admin
 
@@ -24,6 +22,8 @@ admin.autodiscover()
 
 # reroute all the requests to users endpoint to the users app
 urlpatterns = [
-    path('', views.fortis_bill, name='fick'),
-    path('/<int:pk>/', views.fortis_bill, name='fick'),
+    path('fortis/', fortis_bc.FortisBill.as_view(), name='fuck'),
+    path('fortis/<int:pk>/', fortis_bc.FortisBill.as_view(), name='fuck'),
+    path('hydro/', bc_hydro.HydroBill.as_view(), name='shit'),
+    path('hydro/<int:pk>/', bc_hydro.HydroBill.as_view(), name='shit'),
 ]
