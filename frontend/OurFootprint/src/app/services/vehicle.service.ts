@@ -11,6 +11,6 @@ export class VehicleService {
   constructor(private http: HttpClient) { }
 
   getVehicles(): Observable<AutocompleteVehicle[]> {
-    return this.http.get<AutocompleteVehicle[]>('/api/vehicles')
+    return this.http.get<AutocompleteVehicle[]>('/api/vehicles/')
   }
 }
