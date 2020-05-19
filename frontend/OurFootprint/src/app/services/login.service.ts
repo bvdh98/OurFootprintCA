@@ -13,7 +13,6 @@ export class LoginService {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
-
     return this.http.post('/api/login/', fd)
   }
 
@@ -24,5 +23,4 @@ export class LoginService {
     fd.append('email' , credentials.email)
     return this.http.post('/api/signup/', fd)
   }
-
 }
