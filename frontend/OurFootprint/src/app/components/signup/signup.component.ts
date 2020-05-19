@@ -31,6 +31,7 @@ disabledBtn: boolean
     this.onChanges()
 
   }
+  // Displays the error message if the passwords do not match
   onChanges(): void {
     this.form.get('confirmpassword').valueChanges.subscribe(val => {
       if (val === '') {
