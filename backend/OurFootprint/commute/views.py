@@ -13,7 +13,6 @@ from scripts.decorators import login_required
 from scripts.err_handling import check_invalid_db_ref
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class CommuteView(View):
     def get(self, request, pk=0):
