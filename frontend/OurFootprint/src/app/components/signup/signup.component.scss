@@ -1,42 +1,58 @@
 @import '../../../styles.scss';
 
-.outter-signup-container{
-    max-width: 100%;
-    padding: 2em;
+// .outter-signup-container{
+//     max-width: 100%;
+//     padding: 2em;
 
-    .inner-signup-container {
-        width: 100%;
-        max-width: 1000px;
-        margin: auto;
+//     .inner-signup-container {
+//         width: 100%;
+//         max-width: 1000px;
+//         margin: auto;
 
-        .signup-container-card {
-            // overwrite padding from mat-card
-            padding-top: 0;
-            padding-left: 0;
-            padding-right: 0;
+//         .signup-container-card {
+//             // overwrite padding from mat-card
+//             padding-top: 0;
+//             padding-left: 0;
+//             padding-right: 0;
 
-            .title-card {
-                // should this really be here?
-                // TODO: Should not have a literal colour here, should be using material
-                background: $title-grey;
-                padding: 1em;
-            }
+//             .title-card {
+//                 // should this really be here?
+//                 // TODO: Should not have a literal colour here, should be using material
+//                 background: $title-grey;
+//                 padding: 1em;
+//             }
 
-            .form{
-                display: flex;
-                flex-direction: column;
+//             .form{
+//                 display: flex;
+//                 flex-direction: column;
 
-                .username-password-field{
-                    margin-left: 2em;
-                    margin-right: auto;
-                }
+//                 .username-password-field{
+//                     margin-left: 2em;
+//                     margin-right: auto;
+//                 }
 
-                .signup-submit-button{
-                    margin-left: 2em;
-                    margin-right: auto;
-                    text-align: left;
-                }
-            }
-        }
-    }
+//                 .signup-submit-button{
+//                     margin-left: 2em;
+//                     margin-right: auto;
+//                     text-align: left;
+//                 }
+//             }
+//         }
+//     }
+// }
+mat-card {
+    max-width: 400px;
+    margin: 2em auto;
+    text-align: center;
+  }
+  
+  mat-form-field {
+    display: block;
+  }
+  .orpara{
+    margin-top: 15px;
+}
+.error{
+    text-align: left;
+    color: red;
 }
