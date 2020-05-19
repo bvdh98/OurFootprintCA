@@ -15,8 +15,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private loginService: LoginService) { }
 
-  loginInvalid: boolean
-
   ngOnInit(): void {
   }
 
