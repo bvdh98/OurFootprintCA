@@ -1,0 +1,19 @@
+<div class="outter-signup-container">
+    <div class="inner-signup-container">
+        <mat-card class="signup-container-card">
+            <mat-card-title class="title-card">Sign up</mat-card-title>
+            <mat-card-content>
+                <form class="form" [formGroup]="form" (ngSubmit)="signup()">
+                        <mat-form-field class="username-password-field">
+                            <input type="text" matInput placeholder="Username" formControlName="username">
+                        </mat-form-field>
+                        <mat-form-field class="username-password-field">
+                            <input type="password" matInput placeholder="Password" formControlName="password">
+                        </mat-form-field>
+                    <button class="signup-submit-button" mat-button>Sign Up</button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
