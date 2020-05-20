@@ -16,6 +16,7 @@ from utility.serializers import HydroBillFieldSerializer
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class HydroBill(View):
     def get(self, request, pk=0):
         uid = request.user.id
@@ -33,8 +34,8 @@ class HydroBill(View):
             response = HydroBillFieldSerializer(instance).data
             status = 200
         else:
-            fortis_refs = list(HydroBillField.objects.filter(user_id=uid))
-            response = [HydroBillFieldSerializer(i).data for i in fortis_refs]
+            hydro_refs = list(HydroBillField.objects.filter(user_id=uid))
+            response = [HydroBillFieldSerializer(i).data for i in hydro_refs]
             status = 200
 
         return JsonResponse(response, safe=False, status=status)

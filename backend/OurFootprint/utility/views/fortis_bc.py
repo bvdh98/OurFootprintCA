@@ -15,6 +15,7 @@ from utility.serializers import FortisBillFieldSerializer
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class FortisBill(View):
     def get(self, request, pk=0):
         uid = request.user.id

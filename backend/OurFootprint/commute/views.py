@@ -14,6 +14,7 @@ from scripts.err_handling import check_invalid_db_ref
 
 
 @method_decorator(login_required, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class CommuteView(View):
     def get(self, request, pk=0):
         uid = request.user.id
