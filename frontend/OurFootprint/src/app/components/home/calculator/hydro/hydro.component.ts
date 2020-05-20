@@ -46,8 +46,6 @@ export class HydroComponent implements OnInit {
     // make a request to back end to upload the file
     this.utilitiesService.uploadHydroBill(fileList[0]).then(response => {
         const jsonResponse: Array<JSON> = (response as Array<JSON>)
-        // console.log('backend returned: ' + JSON.stringify(jsonResponse))
-        // console.log(jsonResponse)
         for (const row of jsonResponse) {
           this.addRow(row, this.table, this.dataSource)
         }
