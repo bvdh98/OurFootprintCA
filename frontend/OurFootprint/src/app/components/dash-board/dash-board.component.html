@@ -29,46 +29,41 @@
           <mat-tab label="Total">
             <div class="chart-wrapper">
               <canvas baseChart 
-              [data]="pieChartData" 
-              [labels]="pieChartLabels" 
-              [chartType]="pieChartType"
+              chartType="pie"
               [options]="pieChartOptions"
-              [plugins]="pieChartPlugins"
-              [legend]="pieChartLegend">
-            </canvas>
-          </div>
+              [labels]="pieChartLabels"
+              [data]="pieChartData">
+              </canvas>
+            </div>
             <div class="chart-wrapper">
-                <canvas class="graph" baseChart
-                  [datasets]="totalChartData"
-                  [labels]="totalChartLabels"
-                  [options]="totalChartOptions"
-                  [plugins]="totalChartPlugins"
-                  [legend]="totalChartLegend"
-                  [chartType]="totalChartType"
-                  [colors]=totalChartColors>
-                </canvas>
+              <canvas class="graph" baseChart
+                chartType="bar"
+                [options]="totalChartOptions"
+                [datasets]="totalChartData"
+                [labels]="totalChartLabels"
+                [legend]="false"
+                [colors]=totalChartColors>
+              </canvas>
             </div>
           </mat-tab>
           <mat-tab label="Fortis">
             <div class="chart-wrapper">
               <canvas class="graph" baseChart class
-                [datasets]="fortisChartData"
-                [labels]="fortisChartLabels"s
+                chartType="bar"
                 [options]="fortisChartOptions"
-                [plugins]="fortisChartPlugins"
-                [legend]="fortisChartLegend"
-                [chartType]="fortisChartType"
+                [datasets]="fortisChartData"
+                [labels]="fortisChartLabels"
+                [legend]="false"
                 [colors]=fortisChartColors>
               </canvas>
             </div>
             <div class="chart-wrapper">
               <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="compfortisChartOptions"
                 [datasets]="compfortisChartData"
                 [labels]="compfortisChartLabels"
-                [options]="compfortisChartOptions"
-                [plugins]="compfortisChartPlugins"
-                [legend]="compfortisChartLegend"
-                [chartType]="compfortisChartType"
+                [legend]="false"
                 [colors]=compfortisChartColors>
               </canvas>
             </div>
@@ -76,23 +71,21 @@
           <mat-tab label="Hydro">
             <div class="chart-wrapper">
               <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="hydroChartOptions"
                 [datasets]="hydroChartData"
                 [labels]="hydroChartLabels"
-                [options]="hydroChartOptions"
-                [plugins]="hydroChartPlugins"
-                [legend]="hydroChartLegend"
-                [chartType]="hydroChartType"
+                [legend]="false"
                 [colors]=hydroChartColors>
               </canvas>
             </div>
             <div class="chart-wrapper">
               <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="comphydroChartOptions"
                 [datasets]="comphydroChartData"
                 [labels]="comphydroChartLabels"
-                [options]="comphydroChartOptions"
-                [plugins]="comphydroChartPlugins"
-                [legend]="comphydroChartLegend"
-                [chartType]="comphydroChartType"
+                [legend]="false"
                 [colors]=comphydroChartColors>
               </canvas>
             </div>
@@ -100,12 +93,11 @@
           <mat-tab label="Transportation">
             <div class="chart-wrapper">
               <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="vehicleChartOptions"
                 [datasets]="vehicleChartData"
                 [labels]="vehicleChartLabels"
-                [options]="vehicleChartOptions"
-                [plugins]="vehicleChartPlugins"
-                [legend]="vehicleChartLegend"
-                [chartType]="vehicleChartType"
+                [legend]="false"
                 [colors]=vehicleChartColors>
               </canvas>
             </div>
