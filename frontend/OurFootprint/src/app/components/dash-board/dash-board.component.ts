@@ -77,7 +77,7 @@ export class DashBoardComponent implements OnInit {
       display: true,
     },
   }
-  vehicleChartLabels: Label[] = ['Total Commute Footprint monthly', 'Average user monthly  Footprint']
+  vehicleChartLabels: Label[] = ['Total Commute Footprint annualy', 'Average user annual Footprint']
   vehicleChartType: ChartType = 'bar'
   vehicleChartLegend = false
   vehicleChartPlugins = []
@@ -249,7 +249,6 @@ export class DashBoardComponent implements OnInit {
     const chars = '0123456789ABCDEF'
     let hex = '#'
     while (length--) {
-      console.log(Math.random() * 16)
       hex += chars[Math.trunc(Math.random() * 16)]
     }
     return hex

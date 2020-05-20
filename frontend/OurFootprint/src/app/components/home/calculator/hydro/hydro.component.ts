@@ -46,8 +46,8 @@ export class HydroComponent implements OnInit {
     // make a request to back end to upload the file
     this.utilitiesService.uploadHydroBill(fileList[0]).then(response => {
         const jsonResponse: Array<JSON> = (response as Array<JSON>)
-        console.log('backend returned: ' + JSON.stringify(jsonResponse))
-        console.log(jsonResponse)
+        // console.log('backend returned: ' + JSON.stringify(jsonResponse))
+        // console.log(jsonResponse)
         for (const row of jsonResponse) {
           this.addRow(row, this.table, this.dataSource)
         }
@@ -76,7 +76,7 @@ export class HydroComponent implements OnInit {
    */
    deleteRow(row: number, table: MatTable<any>, dataSource: MatTableDataSource<any>, id: number): void {
     // Delete the row from the backed DB
-    this.utilitiesService.deleteFortisRow(id).toPromise()
+    this.utilitiesService.deleteHydroRow(id).toPromise()
 
     // delete the row from the UI
     dataSource.data.splice(row, 1) // deletes the row
