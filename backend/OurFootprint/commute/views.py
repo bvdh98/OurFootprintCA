@@ -84,4 +84,4 @@ class CommuteView(View):
 
         instance = Commute.objects.get(commute_id=pk)
         instance.delete()
-        JsonResponse({}, status=200)
+        return JsonResponse({}, status=200)
