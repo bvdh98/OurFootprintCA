@@ -88,7 +88,7 @@ export class DashBoardComponent implements OnInit {
   // TODO: Research the exact annual average BC Hydro consumption
   readonly averageYearlyHydroemmision = Math.round(900 * 0.010670 * 12) / 1000
   // TODO: Research the exact annual average Fortis consumption
-  readonly averageYearlyFortisemmision = Math.round(8 * 0.719 * 12) / 1000
+  readonly averageYearlyFortisemmision = Math.round(8 * 49.87 * 12) / 1000
   // TODO: Research the exact annual average commute emmissions
   readonly averageYearlyCommuteemmision = 4.60
   readonly totalYearly = this.averageYearlyCommuteemmision + this.averageYearlyFortisemmision + this.averageYearlyHydroemmision
