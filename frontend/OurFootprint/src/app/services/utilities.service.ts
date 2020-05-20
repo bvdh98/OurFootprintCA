@@ -10,35 +10,35 @@ export class UtilitiesService {
   constructor(private http: HttpClient) { }
 
   getFortisRows(): Observable<any> {
-    return this.http.get('/api/fortis/')
+    return this.http.get('/api/utility/fortis/')
   }
 
   deleteFortisRow(id: number): Observable<any> {
-    return this.http.delete(`/api/fortis/${id}`)
+    return this.http.delete(`/api/utility/fortis/${id}`)
   }
 
   uploadFortisBill(file: File): any {
     const fd = new FormData()
     fd.append('fortis', file)
 
-    const postPromise = this.http.post('/api/fortis/', fd).toPromise()
+    const postPromise = this.http.post('/api/utility/fortis/', fd).toPromise()
 
     return postPromise
   }
 
   getHydroRows(): Observable<any> {
-    return this.http.get('/api/hydro/')
+    return this.http.get('/api/utility/hydro/')
   }
 
   deleteHydroRow(id: number): Observable<any> {
-    return this.http.delete(`/api/hydro/${id}`)
+    return this.http.delete(`/api/utility/hydro/${id}`)
   }
 
   uploadHydroBill(file: File): any {
     const fd = new FormData()
     fd.append('hydro', file)
 
-    const postPromise = this.http.post('/api/hydro/', fd).toPromise()
+    const postPromise = this.http.post('/api/utility/hydro/', fd).toPromise()
 
     return postPromise
   }

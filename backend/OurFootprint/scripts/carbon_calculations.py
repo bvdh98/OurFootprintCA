@@ -1,6 +1,6 @@
 from numpy import double
 from vehicle.models import Vehicles
-from calculator.models import Commute
+from commute.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
 # Ratio of kg of carbon edited per unit of energy used

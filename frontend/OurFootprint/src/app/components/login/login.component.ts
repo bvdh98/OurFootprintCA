@@ -8,6 +8,8 @@ import { LoginService } from 'src/app/services/login.service'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  loginInvalid = false
+
   form = new FormGroup({
     username: new FormControl(),
     password: new FormControl(),
@@ -23,15 +25,9 @@ export class LoginComponent implements OnInit {
     this.loginService.login({
       username: formValues.username,
       password: formValues.password,
-    }).toPromise()
+    }).toPromise().catch(() => {
+      this.loginInvalid = true
+      this.form.value.password = ''
+    })
   }
-
-  signUp() {
-    const formValues = this.form.value
-    this.loginService.signUp({
-      username: formValues.username,
-      password: formValues.password,
-    }).toPromise()
-  }
-
 }

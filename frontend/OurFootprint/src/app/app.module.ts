@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { ChartsModule } from 'ng2-charts'
 
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { ReactiveFormsModule } from '@angular/forms'
 
@@ -24,6 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { HydroComponent } from './components/home/calculator/hydro/hydro.component'
 import { FortisComponent } from './components/home/calculator/fortis/fortis.component'
 import { LoginComponent } from './components/login/login.component'
+import { SignupComponent } from './components/signup/signup.component'
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { LoginComponent } from './components/login/login.component'
     HydroComponent,
     FortisComponent,
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
@@ -52,6 +54,7 @@ import { LoginComponent } from './components/login/login.component'
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ChartsModule,
+    HttpClientXsrfModule.withOptions({ cookieName: 'csrftoken', headerName: 'X-CSRFToken' }),
   ],
   providers: [],
   bootstrap: [AppComponent],
