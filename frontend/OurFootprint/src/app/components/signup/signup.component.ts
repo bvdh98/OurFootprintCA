@@ -8,16 +8,18 @@ import { LoginService } from 'src/app/services/login.service'
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
+
+  constructor(private loginService: LoginService , private formBuilder: FormBuilder) { }
+
   form = new FormGroup({
     username: new FormControl(),
     password: new FormControl(),
     confirmpassword: new FormControl(),
     email: new FormControl(),
   })
+  errormessage = ''
+  disabledBtn: boolean
 
-  constructor(private loginService: LoginService , private formBuilder: FormBuilder) { }
-errormessage = ''
-disabledBtn: boolean
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       username: '',
@@ -28,11 +30,7 @@ disabledBtn: boolean
 
     this.disabledBtn = true
 
-    this.onChanges()
-
-  }
-  // Displays the error message if the passwords do not match
-  onChanges(): void {
+    // Displays the error message if the passwords do not match
     this.form.get('confirmpassword').valueChanges.subscribe(val => {
       if (val === '') {
         this.disabledBtn = true
@@ -47,6 +45,7 @@ disabledBtn: boolean
       }
     })
   }
+
   signUp() {
     const formValues = this.form.value
     this.loginService.signUp({
