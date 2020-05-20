@@ -16,11 +16,11 @@ export class LoginService {
     return this.http.post('/api/login/', fd)
   }
 
-  signUp(credentials: {username: string, password: string}): Observable<any> {
+  signUp(credentials: {username: string, password: string, email: string}): Observable<any> {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
+    fd.append('email' , credentials.email)
     return this.http.post('/api/signup/', fd)
   }
-
 }

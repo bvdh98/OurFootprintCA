@@ -25,13 +25,4 @@ export class LoginComponent implements OnInit {
       password: formValues.password,
     }).toPromise()
   }
-
-  signUp() {
-    const formValues = this.form.value
-    this.loginService.signUp({
-      username: formValues.username,
-      password: formValues.password,
-    }).toPromise()
-  }
-
 }
