@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js'
-import { Color, Label } from 'ng2-charts'
+import { Color, Label, MultiDataSet, SingleDataSet, monkeyPatchChartJsTooltip, monkeyPatchChartJsLegend } from 'ng2-charts'
 import { CalculateService } from 'src/app/services/calculate.service'
 
 @Component({
@@ -9,6 +9,21 @@ import { CalculateService } from 'src/app/services/calculate.service'
   styleUrls: ['./dash-board.component.scss'],
 })
 export class DashBoardComponent implements OnInit {
+  // Pie chart to display total footprint distribution
+  public pieChartOptions: ChartOptions = {
+    responsive: true,
+    title: {
+      text: 'Total Footprint Distribution (metric tonnes)',
+      display: true,
+    },
+  }
+  public pieChartLabels: Label[] = [['Transportation Emissions'], ['Fortis Emissions(Natural Gas)'], 'Hydro Emissions(Electricity)']
+  public pieChartData: SingleDataSet
+  public pieChartType: ChartType = 'pie'
+  public pieChartLegend = true
+  public pieChartPlugins = []
+
+
   // (Chart #1) bar chart to compare users' total annual footprint to the provincial average
   totalChartOptions: ChartOptions = {
     responsive: true,
@@ -105,6 +120,9 @@ export class DashBoardComponent implements OnInit {
   hydroFootprint: number
   totalTrees: number
   dollars: number
+  transportationPercentage: number = (this.total_footprint_commute() / this.total_footprint_user()) * 100
+  fortisPercentage: number = (this.total_footprint_fortis() / this.total_footprint_user()) * 100
+  hydroPercentage: number = 100 - this.transportationPercentage - this.fortisPercentage
 
   // TODO: Research the exact annual average BC Hydro consumption
   readonly averageYearlyHydroemmision = Math.round(900 * 0.010670 * 12) / 1000
@@ -117,22 +135,27 @@ export class DashBoardComponent implements OnInit {
   // TODO: Remove hardcoded data
   userdata
 
-  constructor(private calculateService: CalculateService) { }
+  constructor(private calculateService: CalculateService) {
+    monkeyPatchChartJsTooltip()
+    monkeyPatchChartJsLegend()
+  }
 
   ngOnInit(): void {
     this.calculateService.calculateFootprint().subscribe(response => {
       console.log(response)
       this.userdata = response
 
+      this.pieChartData = [this.transportationPercentage , this.fortisPercentage , this.hydroPercentage]
+
 
       this.totalChartOptions = {
-        scales : {
+        scales: {
           yAxes: [{
-              ticks: {
-                min: 0,
-                max : 6,
-              },
-          }, ],
+            ticks: {
+              min: 0,
+              max: 6,
+            },
+          },],
         },
       }
 
@@ -149,24 +172,24 @@ export class DashBoardComponent implements OnInit {
       this.fortisChartLabels = this.fortis_labels()
       this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
       this.compfortisChartOptions = {
-        scales : {
+        scales: {
           yAxes: [{
-              ticks: {
-                min: 0,
-                max : 0.3,
-              },
-          }, ],
+            ticks: {
+              min: 0,
+              max: 0.3,
+            },
+          },],
         },
       }
 
       this.vehicleChartOptions = {
-        scales : {
+        scales: {
           yAxes: [{
-              ticks: {
-                min: 0,
-                max : 5,
-              },
-          }, ],
+            ticks: {
+              min: 0,
+              max: 5,
+            },
+          },],
         },
       }
       this.hydroChartLabels = this.hydro_labels()
@@ -177,28 +200,28 @@ export class DashBoardComponent implements OnInit {
       this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
 
       this.comphydroChartOptions = {
-        scales : {
+        scales: {
           yAxes: [{
-              ticks: {
-                min: 0,
-                max : 0.2,
-              },
-          }, ],
+            ticks: {
+              min: 0,
+              max: 0.2,
+            },
+          },],
         },
       }
 
       this.vehicleChartData = [
-        { data: [this.total_footprint_commute() , this.averageYearlyCommuteemmision] , label: 'Commute Footprint'},
+        { data: [this.total_footprint_commute(), this.averageYearlyCommuteemmision], label: 'Commute Footprint' },
       ]
       this.vehicleChartColors = [{ backgroundColor: this.getRandomColor() }]
 
       this.compfortisChartData = [
-        { data: [this.total_footprint_fortis() , this.averageYearlyFortisemmision] , label: 'annual fortis emmision'},
+        { data: [this.total_footprint_fortis(), this.averageYearlyFortisemmision], label: 'annual fortis emmision' },
       ]
       this.compfortisChartColors = [{ backgroundColor: this.getRandomColor() }]
 
       this.comphydroChartData = [
-        { data: [this.total_footprint_hydro() , this.averageYearlyHydroemmision] , label: 'annual hydro emmision'},
+        { data: [this.total_footprint_hydro(), this.averageYearlyHydroemmision], label: 'annual hydro emmision' },
       ]
       this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
 
@@ -216,7 +239,7 @@ export class DashBoardComponent implements OnInit {
     const colors: string[] = []
     let i: number
     for (i = 0; i < len; i++) {
-        colors.push(this.getRandomColor())
+      colors.push(this.getRandomColor())
     }
     return colors
   }
@@ -271,37 +294,37 @@ export class DashBoardComponent implements OnInit {
     return allValues
   }
   // returns all the hydro footprint values as an array
-  hydro_values(){
+  hydro_values() {
     const allValues = []
-    for (const dataEntry of this.userdata.hydro){
+    for (const dataEntry of this.userdata.hydro) {
       allValues.push(dataEntry.footprint)
     }
     return allValues
   }
-// gives no of trees to offset the carbon emmission based on the total footprint
-  footprint_to_tree(){
+  // gives no of trees to offset the carbon emmission based on the total footprint
+  footprint_to_tree() {
     const footprint = this.total_footprint_user()
     const tonnesCo2ToTreeRatio = 0.0217724
     return Math.ceil(footprint / tonnesCo2ToTreeRatio)
   }
-// returns the dollars to plant no of trees on the basis of total footprint
-  tree_to_dollars(){
+  // returns the dollars to plant no of trees on the basis of total footprint
+  tree_to_dollars() {
     const noOfTrees = this.footprint_to_tree()
     const costOfOneTree = 4
     return noOfTrees * costOfOneTree
   }
   // returns the array of month based on  fortis object
-  fortis_labels(){
+  fortis_labels() {
     const allValues = []
-    for (const dataEntry of this.userdata.fortis){
+    for (const dataEntry of this.userdata.fortis) {
       allValues.push(dataEntry.month)
     }
     return allValues
   }
   // returns the array of months based on hydro object
-  hydro_labels(){
+  hydro_labels() {
     const allValues = []
-    for (const dataEntry of this.userdata.hydro){
+    for (const dataEntry of this.userdata.hydro) {
       allValues.push(dataEntry.month)
     }
     return allValues

@@ -28,6 +28,16 @@
         <mat-tab-group>
           <mat-tab label="Total">
             <div class="chart-wrapper">
+              <canvas baseChart 
+              [data]="pieChartData" 
+              [labels]="pieChartLabels" 
+              [chartType]="pieChartType"
+              [options]="pieChartOptions"
+              [plugins]="pieChartPlugins"
+              [legend]="pieChartLegend">
+            </canvas>
+          </div>
+            <div class="chart-wrapper">
                 <canvas class="graph" baseChart
                   [datasets]="totalChartData"
                   [labels]="totalChartLabels"
