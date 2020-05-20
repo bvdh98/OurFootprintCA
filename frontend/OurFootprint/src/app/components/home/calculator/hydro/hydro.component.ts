@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { UtilitiesService } from 'src/app/services/utilities.service'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
-import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-hydro',
