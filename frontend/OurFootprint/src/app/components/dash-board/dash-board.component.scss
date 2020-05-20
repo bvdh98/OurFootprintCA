@@ -1,14 +1,18 @@
 @import '../../../styles.scss';
 
-.emissions-container {
-    margin-top: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.emissions-container-outer {
+    max-width: 1600px;
+    margin: auto;
+    .emissions-container {
+        margin-top: 1em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
 
-    mat-card {
-        margin: 1em 0.5em;
-        min-width: 300px;
+        mat-card {
+            margin: 1em 0.5em;
+            min-width: 300px;
+        }
     }
 }
 
@@ -51,12 +55,38 @@
     text-emphasis: bold;
 }
 
-.offset-carbon-container {
+.outer-offset-container {
     margin-top: 2em;
-}
+    max-width: 100%;
+    padding: 2em;
 
-.offset-text{
-    text-align: center;
+    .inner-offset-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+
+        .container-card {
+            // overwrite padding from mat-card
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+
+            .title-card {
+                background: $title-grey;
+                padding: 1em;
+            }
+
+            .content-card {
+                padding: 1em;
+                font-size: x-large;
+
+                .big-number {
+                    font-size: xx-large;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
 }
 
 .donate-button-container{

@@ -1,23 +1,25 @@
-<div class="emissions-container">
-  <mat-card>
-    <mat-card-title>Total Carbon Emissions</mat-card-title>
-    <mat-card-content><p class="largeText">{{totalFootprint}}</p> tonnes CO2</mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>Transportation Emissions</mat-card-title>
-    <mat-card-content ><p class="largeText">{{commuteFootprint}}</p> tonnes CO2</mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>Fortis BC Emissions</mat-card-title>
-    <mat-card-content><p class="largeText">{{fortisFootprint}}</p> tonnes CO2</mat-card-content>
-  </mat-card>
-
-  <mat-card>
-    <mat-card-title>BC Hydro Emissions</mat-card-title>
-    <mat-card-content><p class="largeText">{{hydroFootprint}}</p>  tonnes CO2</mat-card-content>
-  </mat-card>
+<div class="emissions-container-outer">
+  <div class="emissions-container">
+    <mat-card>
+      <mat-card-title>Total Carbon Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{totalFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>Transportation Emissions</mat-card-title>
+      <mat-card-content ><p class="largeText">{{commuteFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>Fortis BC Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{fortisFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>BC Hydro Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{hydroFootprint}}</p>  tonnes CO2</mat-card-content>
+    </mat-card>
+  </div>
 </div>
 
 <div class="outer-graph-container">
@@ -108,21 +110,20 @@
   </div>
 </div>
 
-<div class="offset-carbon-container">
-  <mat-card class="container-card">
-    <mat-card-content>
-      <div class="offset-text">
-        <h2 class="mat-h2">For you to offset your carbon:</h2>
-        <h2 class="mat-h2"><a class="largeText">{{totalTrees}}</a> trees would need to be planted</h2>
-        <h2 class="mat-h2">which would cost <a class="largeText">${{dollars}}</a></h2>
-      </div>
-    </mat-card-content>
-    <div class="donate-button-container">
-      <mat-card-actions>
-        <a mat-raised-button href="https://cause2give.unxvision.com/EDMWeb/DonationForm.aspx?FormID=5&LanguageID=1">Donate</a>
-      </mat-card-actions>
-    </div>
-  </mat-card>
+<div class="outer-offset-container">
+  <div class="inner-offset-container">
+    <mat-card class="container-card">
+      <mat-card-title class="title-card">Offset your carbon</mat-card-title>
+      <mat-card-content class="content-card">
+        <p>For you to offset your carbon: </p>
+        <p><span class="big-number">{{totalTrees}}</span> trees would need to be planted</p>
+        <p>which would cost <span class="big-number">${{dollars}}</span></p>
+        <mat-card-actions>
+          <a mat-raised-button href="https://cause2give.unxvision.com/EDMWeb/DonationForm.aspx?FormID=5&LanguageID=1">Donate</a>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 
 
