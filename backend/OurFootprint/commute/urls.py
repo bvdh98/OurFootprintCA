@@ -1,5 +1,4 @@
-"""
-back_end URL Configuration
+"""back_end URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -14,15 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from . import views
-from rest_framework import routers
 
-# Let django-rest handle GET/POST/PUT/DELETE routing
-router = routers.DefaultRouter()
-router.register('', views.UserView)
+from django.contrib import admin
 
+admin.autodiscover()
+
+# reroute all the requests to users endpoint to the users app
 urlpatterns = [
-    path('', include(router.urls))
+    path('', views.CommuteView.as_view(), name='fuck_shit'),
+    path('<int:pk>/', views.CommuteView.as_view(), name='shit_fuck'),
 ]

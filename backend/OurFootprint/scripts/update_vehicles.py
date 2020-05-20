@@ -5,7 +5,8 @@ import json
 
 def update_json():
     """
-    Update the cars_names.json based on new csv file already downloaded into static/json_files/car_names.json
+    Update the vehicles.json based on new csv file already downloaded into static/csv_files/vehicles.json.
+    This json will be used by the autocomplete feature of the app.
     """
     # complete dataset
     data = pd.read_csv('../static/csv_files/vehicles.csv', usecols=['make', 'model', 'year', 'trany'])

@@ -13,23 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
-from django.urls import path, include
-from django.contrib import admin
+from django.urls import path
+from .views import bc_hydro, fortis_bc
 
-from vehicle import views as vehicle_views
-from . import views
+from django.contrib import admin
 
 admin.autodiscover()
 
 # reroute all the requests to users endpoint to the users app
 urlpatterns = [
-    path('api/utility/', include('utility.urls')),
-    path('api/commute/', include('commute.urls')),
-    path('api/user/', include('authentication.urls')),
-    path('api/vehicles/', vehicle_views.get_vehicles_json),
-    path('api/calculate/', views.calculate_footprint),
-
-    # TODO: Remove for production
-    url(r'^admin/', admin.site.urls),
+    path('fortis/', fortis_bc.FortisBill.as_view(), name='fuck'),
+    path('fortis/<int:pk>/', fortis_bc.FortisBill.as_view(), name='fuck'),
+    path('hydro/', bc_hydro.HydroBill.as_view(), name='shit'),
+    path('hydro/<int:pk>/', bc_hydro.HydroBill.as_view(), name='shit'),
 ]

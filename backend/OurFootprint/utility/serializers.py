@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from calculator.models import FortisBillField, HydroBillField, Commute
+
+from utility.models import FortisBillField, HydroBillField
 
 
 class FortisBillFieldSerializer(serializers.ModelSerializer):
@@ -12,9 +13,3 @@ class HydroBillFieldSerializer(serializers.ModelSerializer):
     class Meta:
         model = HydroBillField
         fields = ('id', 'start_date', 'num_days', 'consumption')
-
-
-class CommuteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Commute
-        fields = ('commute_id', 'vehicle', 'year', 'transmission', 'distance', 'highway_perc')
