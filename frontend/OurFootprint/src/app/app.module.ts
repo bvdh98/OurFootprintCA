@@ -26,7 +26,6 @@ import { FortisComponent } from './components/home/calculator/fortis/fortis.comp
 import { LoginComponent } from './components/login/login.component'
 import { SignupComponent } from './components/signup/signup.component'
 
-
 @NgModule({
   declarations: [
     AppComponent,
