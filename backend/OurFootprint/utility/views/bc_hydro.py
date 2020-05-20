@@ -7,7 +7,6 @@ from django.http import JsonResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 
 from scripts.decorators import login_required
 from scripts.err_handling import check_invalid_db_ref
@@ -15,7 +14,6 @@ from utility.models import HydroBillField
 from utility.serializers import HydroBillFieldSerializer
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class HydroBill(View):
     def get(self, request, pk=0):
@@ -34,8 +32,8 @@ class HydroBill(View):
             response = HydroBillFieldSerializer(instance).data
             status = 200
         else:
-            fortis_refs = list(HydroBillField.objects.filter(user_id=uid))
-            response = [HydroBillFieldSerializer(i).data for i in fortis_refs]
+            hydro_refs = list(HydroBillField.objects.filter(user_id=uid))
+            response = [HydroBillFieldSerializer(i).data for i in hydro_refs]
             status = 200
 
         return JsonResponse(response, safe=False, status=status)

@@ -1,10 +1,8 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 
-@csrf_exempt
 def sign_in(request):
     # Allow only POST requests to this endpoint
     if request.method != 'POST':
@@ -24,7 +22,6 @@ def sign_in(request):
     return JsonResponse({"Success": "ok"})
 
 
-@csrf_exempt
 def sign_out(request):
     # Allow only POST requests to this endpoint
     if request.method != 'POST':
@@ -34,7 +31,6 @@ def sign_out(request):
     return JsonResponse({"Success": "ok"})
 
 
-@csrf_exempt
 def register(request):
     response = {}
     status = 500

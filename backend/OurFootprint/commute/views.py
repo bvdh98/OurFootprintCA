@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.csrf import csrf_exempt
 
 from commute.models import UserCommute, Commute
 from commute.serializers import CommuteSerializer
@@ -13,7 +12,6 @@ from scripts.decorators import login_required
 from scripts.err_handling import check_invalid_db_ref
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_required, name='dispatch')
 class CommuteView(View):
     def get(self, request, pk=0):
