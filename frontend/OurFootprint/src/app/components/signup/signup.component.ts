@@ -19,6 +19,7 @@ export class SignupComponent implements OnInit {
   })
   errormessage = ''
   disabledBtn: boolean
+  signupInvalid = false
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -51,8 +52,13 @@ export class SignupComponent implements OnInit {
     this.loginService.signUp({
       username: formValues.username,
       password: formValues.password,
-      email: formValues.Email,
-    }).toPromise()
-
+      email: formValues.email,
+    }).toPromise().catch((response) => {
+      if (response.err === 'username exists') {
+        this.errormessage = 'Username already exists'
+      } else {
+        this.errormessage = 'Email already exists'
+      }
+    })
   }
 }
