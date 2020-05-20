@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { UtilitiesService } from 'src/app/services/utilities.service'
 import { MatTableDataSource, MatTable } from '@angular/material/table'
-import { map } from 'rxjs/operators'
 
 @Component({
   selector: 'app-fortis',
@@ -47,8 +46,6 @@ export class FortisComponent implements OnInit {
     // make a request to back end to upload the file
     this.utilitiesService.uploadFortisBill(fileList[0]).then(response => {
         const jsonResponse: Array<JSON> = (response as Array<JSON>)
-        console.log('backend returned: ' + JSON.stringify(jsonResponse))
-        console.log(jsonResponse)
         for (const row of jsonResponse) {
           this.addRow(row, this.table, this.dataSource)
         }

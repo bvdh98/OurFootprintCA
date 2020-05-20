@@ -6,11 +6,11 @@
             <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
             <a mat-list-item [routerLink]="[ '/' ]">Home</a>
             <a mat-list-item [routerLink]="[ '/about-us' ]">About Us</a>
-            <a mat-list-item [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
+            <a mat-list-item [routerLink]="[ '/dash' ]">Dashboard</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div class="no-v-scroll">                
+        <div class="no-v-scroll">
             <mat-toolbar color="primary">
                 <mat-toolbar-row>
                     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
@@ -24,7 +24,7 @@
                         <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
                         <a mat-button [routerLink]="[ '/' ]">Home</a>
                         <a mat-button [routerLink]="[ '/about-us' ]">About Us</a>
-                        <a mat-button [routerLink]="[ '/our-sponsors' ]">Our Sponsors</a>
+                        <a mat-button [routerLink]="[ '/dash' ]">Dashboard</a>
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>

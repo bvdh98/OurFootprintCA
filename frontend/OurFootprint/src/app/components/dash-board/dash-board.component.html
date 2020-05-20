@@ -1,0 +1,129 @@
+<div class="emissions-container-outer">
+  <div class="emissions-container">
+    <mat-card>
+      <mat-card-title>Total Carbon Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{totalFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>Transportation Emissions</mat-card-title>
+      <mat-card-content ><p class="largeText">{{commuteFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>Fortis BC Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{fortisFootprint}}</p> tonnes CO2</mat-card-content>
+    </mat-card>
+  
+    <mat-card>
+      <mat-card-title>BC Hydro Emissions</mat-card-title>
+      <mat-card-content><p class="largeText">{{hydroFootprint}}</p>  tonnes CO2</mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="outer-graph-container">
+  <div class="inner-graph-container">
+    <mat-card class="container-card">
+      <mat-card-title class="title-card">Carbon Footprint Graphs</mat-card-title>
+      <mat-card-content class="content-card">
+        <mat-tab-group>
+          <mat-tab label="Total">
+            <div class="chart-wrapper">
+              <canvas baseChart 
+              chartType="pie"
+              [options]="pieChartOptions"
+              [labels]="pieChartLabels"
+              [data]="pieChartData">
+              </canvas>
+            </div>
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart
+                chartType="bar"
+                [options]="totalChartOptions"
+                [datasets]="totalChartData"
+                [labels]="totalChartLabels"
+                [legend]="false"
+                [colors]=totalChartColors>
+              </canvas>
+            </div>
+          </mat-tab>
+          <mat-tab label="Fortis">
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart class
+                chartType="bar"
+                [options]="fortisChartOptions"
+                [datasets]="fortisChartData"
+                [labels]="fortisChartLabels"
+                [legend]="false"
+                [colors]=fortisChartColors>
+              </canvas>
+            </div>
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="compfortisChartOptions"
+                [datasets]="compfortisChartData"
+                [labels]="compfortisChartLabels"
+                [legend]="false"
+                [colors]=compfortisChartColors>
+              </canvas>
+            </div>
+          </mat-tab>
+          <mat-tab label="Hydro">
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="hydroChartOptions"
+                [datasets]="hydroChartData"
+                [labels]="hydroChartLabels"
+                [legend]="false"
+                [colors]=hydroChartColors>
+              </canvas>
+            </div>
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="comphydroChartOptions"
+                [datasets]="comphydroChartData"
+                [labels]="comphydroChartLabels"
+                [legend]="false"
+                [colors]=comphydroChartColors>
+              </canvas>
+            </div>
+          </mat-tab>
+          <mat-tab label="Transportation">
+            <div class="chart-wrapper">
+              <canvas class="graph" baseChart 
+                chartType="bar"
+                [options]="vehicleChartOptions"
+                [datasets]="vehicleChartData"
+                [labels]="vehicleChartLabels"
+                [legend]="false"
+                [colors]=vehicleChartColors>
+              </canvas>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div class="outer-offset-container">
+  <div class="inner-offset-container">
+    <mat-card class="container-card">
+      <mat-card-title class="title-card">Offset your carbon</mat-card-title>
+      <mat-card-content class="content-card">
+        <p>For you to offset your carbon: </p>
+        <p><span class="big-number">{{totalTrees}}</span> trees would need to be planted</p>
+        <p>which would cost <span class="big-number">${{dollars}}</span></p>
+        <mat-card-actions>
+          <a mat-raised-button href="https://cause2give.unxvision.com/EDMWeb/DonationForm.aspx?FormID=5&LanguageID=1">Donate</a>
+        </mat-card-actions>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+

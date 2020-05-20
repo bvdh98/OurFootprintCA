@@ -1,0 +1,102 @@
+@import '../../../styles.scss';
+
+.emissions-container-outer {
+    max-width: 1600px;
+    margin: auto;
+    .emissions-container {
+        margin-top: 1em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        mat-card {
+            margin: 1em 0.5em;
+            min-width: 300px;
+        }
+    }
+}
+
+.outer-graph-container {
+    max-width: 100%;
+    padding: 2em;
+    
+    .inner-graph-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+
+        .container-card {
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+
+            .title-card {
+                background: $title-grey;
+                padding: 1em;
+            }
+
+            .content-card {
+                display: flex;
+                flex-wrap: wrap;
+                max-width: 700px;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+.emissions-container {
+    text-align: center;
+    line-height: 3em;
+}
+
+.largeText {
+    font-size: 40px;
+    text-emphasis: bold;
+}
+
+.outer-offset-container {
+    margin-top: 2em;
+    max-width: 100%;
+    padding: 2em;
+
+    .inner-offset-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: auto;
+
+        .container-card {
+            // overwrite padding from mat-card
+            padding-top: 0;
+            padding-left: 0;
+            padding-right: 0;
+
+            .title-card {
+                background: $title-grey;
+                padding: 1em;
+            }
+
+            .content-card {
+                padding: 1em;
+                font-size: x-large;
+
+                .big-number {
+                    font-size: xx-large;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+
+.donate-button-container{
+    display: flex;
+    justify-content: center;
+}
+
+.mat-button, .mat-raised-button{
+    background-color:green;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+} 

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core'
-import { UtilitiesComponent } from './utilities/utilities.component'
+import { Component, OnInit } from '@angular/core'
+import { CalculateService } from 'src/app/services/calculate.service'
 
 @Component({
   selector: 'app-calculator',
@@ -8,15 +8,9 @@ import { UtilitiesComponent } from './utilities/utilities.component'
 })
 export class CalculatorComponent implements OnInit {
 
-  @ViewChild(UtilitiesComponent) utilities
-
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  calculate() {
-    // TODO: send the calculation request to back end
   }
 
 }
