@@ -7,7 +7,9 @@ mat-card {
 mat-form-field {
   display: block;
 }
-.inquiry{
+.inquiry {
     margin-top: 15px;
 }
-  
+mat-error {
+  margin-bottom: 0.5em;
+}
