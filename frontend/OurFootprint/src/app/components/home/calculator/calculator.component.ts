@@ -8,16 +8,9 @@ import { CalculateService } from 'src/app/services/calculate.service'
 })
 export class CalculatorComponent implements OnInit {
 
-  constructor(private calculateService: CalculateService) { }
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  // TODO: This method should actually be used in the ngOnInit of the dashboard page
-  calculate() {
-    this.calculateService.calculateFootprint().subscribe(response => {
-      console.log(response)
-    })
   }
 
 }
