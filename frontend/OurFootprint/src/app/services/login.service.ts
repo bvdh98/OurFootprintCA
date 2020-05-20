@@ -13,14 +13,14 @@ export class LoginService {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
-    return this.http.post('/api/user/login/', fd)
+    return this.http.post('/api/user/login/', fd, {observe: 'response'})
   }
 
-  signUp(credentials: {username: string, password: string}): Observable<any> {
+  signUp(credentials: {username: string, password: string, email: string}): Observable<any> {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
-    return this.http.post('/api/user/signup/', fd)
+    fd.append('email' , credentials.email)
+    return this.http.post('/api/user/signup/', fd, {observe: 'response'})
   }
-
 }

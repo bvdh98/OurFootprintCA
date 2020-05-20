@@ -21,6 +21,7 @@ import { TransportationComponent } from './components/home/calculator/transporta
 import { HydroComponent } from './components/home/calculator/hydro/hydro.component'
 import { FortisComponent } from './components/home/calculator/fortis/fortis.component'
 import { LoginComponent } from './components/login/login.component'
+import { SignupComponent } from './components/signup/signup.component'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { LoginComponent } from './components/login/login.component'
     HydroComponent,
     FortisComponent,
     LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
