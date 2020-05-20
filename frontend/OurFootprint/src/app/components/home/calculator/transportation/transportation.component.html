@@ -1,5 +1,11 @@
-<!-- TODO: Make it clear that the distances are meant to be listed as *weekly* -->
+<!-- instructions for user on how to enter transportation data-->
+<div class="transportation-instructions">
+  <p>Please enter information about your vehicle, including how many kilometers you drive it in a week.</p> 
+  <p>Use the slider to select how much of your driving is done in highway conditions (as opposed to city conditions)</p>
+</div>
+
 <form [formGroup]="commuteForm" class="commute-form">
+
   <!-- Highway Percent Slider -->
   <div class="slider-control-container">
     <mat-label>Percent driven in highway conditions</mat-label>
