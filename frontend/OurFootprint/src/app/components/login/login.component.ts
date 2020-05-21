@@ -26,22 +26,15 @@ export class LoginComponent implements OnInit {
     this.loginService.login({
       username: formValues.username,
       password: formValues.password,
-    }).toPromise().then(response => {
-      // promise fulfilled
-      if (response && response.status === 200) {
-        this.loginService.changeLoggedInStatus(true)
-        this.router.navigate([''])
-      } else {
-        // promise fulfilled, but status was not 200
-        this.failLogin()
-      }
-    }, () => {
-      // promise rejected
-      this.failLogin()
-    })
+    }, this.succeedLogin, this.failLogin)
   }
 
-  failLogin() {
+  succeedLogin(response) {
+    this.loginService.changeLoggedInStatus(true)
+    this.router.navigate([''])
+  }
+
+  failLogin(response) {
     this.loginInvalid = true
     this.form.controls.password.reset()
   }

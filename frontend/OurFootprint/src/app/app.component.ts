@@ -14,16 +14,11 @@ export class AppComponent implements OnInit{
   constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
+    this.loginService.updateCurrentLoggedInStatus()
     this.loginService.currentLoggedInStatus.subscribe(status => this.isLoggedIn = status)
-    this.loginService.isLogged().subscribe((response) => {
-      this.isLoggedIn = response.is_logged_in
-    })
   }
 
   logout(): void {
-    this.loginService.logOut().subscribe(() => {
-      this.loginService.changeLoggedInStatus(false)
-      this.isLoggedIn = false
-    })
+    this.loginService.logOut()
   }
 }
