@@ -69,9 +69,3 @@ def register(request):
             response = {"error": "Could not authenticate, please login"}
 
     return JsonResponse(response, status=status)
-
-
-def check_signin(request):
-    val = isinstance(request.user, User)
-    return JsonResponse({"status": val})
-
