@@ -69,3 +69,4 @@ def register(request):
             response = {"error": "Could not authenticate, please login"}
 
     return JsonResponse(response, status=status)
+
