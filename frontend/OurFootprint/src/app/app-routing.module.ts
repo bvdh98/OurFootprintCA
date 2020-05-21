@@ -15,7 +15,6 @@ const routes: Routes = [
   {path: 'our-sponsors', component: SponsorsComponent},
   {path: 'test', component: TestComponent},
   {path: 'dash', component: DashBoardComponent},
-  // {path: 'login', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
 ]
 
