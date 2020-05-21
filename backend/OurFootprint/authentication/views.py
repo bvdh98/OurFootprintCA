@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.http import JsonResponse
 
 
@@ -49,7 +49,7 @@ def register(request):
         response = {"error": "Username already exists"}
         status = 409
 
-    if User.objects.filter(email=email).exists():
+    elif User.objects.filter(email=email).exists():
         response = {"error": "Email already exists"}
         status = 409
 
@@ -69,4 +69,9 @@ def register(request):
             response = {"error": "Could not authenticate, please login"}
 
     return JsonResponse(response, status=status)
+
+
+def check_signin(request):
+    val = isinstance(request.user, User)
+    return JsonResponse({"status": val})
 
