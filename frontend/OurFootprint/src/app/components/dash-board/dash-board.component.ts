@@ -12,8 +12,8 @@ export class DashBoardComponent implements OnInit {
   @ViewChild("totalChart") totalChart: BaseChartDirective;
   @ViewChild("fortisChart") fortisChart: BaseChartDirective;
   @ViewChild("hydroChart") hydroChart: BaseChartDirective;
-  @ViewChild("compfortisChart") compfortisChart: BaseChartDirective;
-  @ViewChild("comphydroChart") comphydroChart: BaseChartDirective;
+  @ViewChild("compFortisChart") compFortisChart: BaseChartDirective;
+  @ViewChild("compHydroChart") compHydroChart: BaseChartDirective;
   @ViewChild("vehicleChart") vehicleChart: BaseChartDirective;
 
   // (Chart #1) bar chart to compare users' total annual footprint to the provincial average
@@ -43,12 +43,12 @@ export class DashBoardComponent implements OnInit {
     responsive: true,
     title: {text: 'Monthly electricity Footprint (metric tonnes)', display: true},
   }
-  compfortisChartOptions: ChartOptions = {
+  compFortisChartOptions: ChartOptions = {
     responsive: true,
     title: {text: 'Annual natural gas Footprint (metric tonnes)', display: true},
     scales: {yAxes: [{ticks: {min: 0, max: 8}}]},
   }
-  comphydroChartOptions: ChartOptions = {
+  compHydroChartOptions: ChartOptions = {
     responsive: true,
     title: {text: 'Annual electricity Footprint (metric tonnes)', display: true},
     scales: {yAxes: [{ticks: {min: 0, max: 0.2}}]},
@@ -64,23 +64,23 @@ export class DashBoardComponent implements OnInit {
   fortisChartLabels: Label[]
   hydroChartLabels: Label[]
   vehicleChartLabels: Label[] = ['Total Commute Footprint annualy', 'Average user annual Footprint']
-  compfortisChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
-  comphydroChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
+  compFortisChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
+  compHydroChartLabels: Label[] = ['Your carbon emmission', 'Average carbon emmission']
 
   pieChartData: SingleDataSet = []
   totalChartData: ChartDataSets[] = DashBoardComponent.initialDataState
   fortisChartData: ChartDataSets[] = DashBoardComponent.initialDataState
   hydroChartData: ChartDataSets[] = DashBoardComponent.initialDataState
   vehicleChartData: ChartDataSets[] = DashBoardComponent.initialDataState
-  compfortisChartData: ChartDataSets[] = DashBoardComponent.initialDataState
-  comphydroChartData: ChartDataSets[] = DashBoardComponent.initialDataState
+  compFortisChartData: ChartDataSets[] = DashBoardComponent.initialDataState
+  compHydroChartData: ChartDataSets[] = DashBoardComponent.initialDataState
 
   totalChartColors: any[]
   fortisChartColors: any[]
   hydroChartColors: any[]
   vehicleChartColors: any[]
-  compfortisChartColors: any[]
-  comphydroChartColors: any[]
+  compFortisChartColors: any[]
+  compHydroChartColors: any[]
 
   totalFootprint: number
   commuteFootprint: number
@@ -119,21 +119,27 @@ export class DashBoardComponent implements OnInit {
       this.totalTrees = this.footprint_to_tree()
       this.dollars = this.tree_to_dollars()
 
-      this.totalChartOptions.scales.yAxes[0].ticks.max = Math.ceil(Math.max(this.totalFootprint, this.averageYearlyTotal) * 1.1)
+      this.totalChartOptions.scales.yAxes[0].ticks.max = this.getChartHeight(this.totalFootprint, this.averageYearlyTotal)
       this.updateChart(this.totalChart)
 
-      this.compfortisChartOptions.scales.yAxes[0].ticks.max = Math.ceil(Math.max(this.fortisFootprint, this.averageYearlyFortisEmmisions) * 1.1)
-      this.updateChart(this.compfortisChart)
+      this.compFortisChartOptions.scales.yAxes[0].ticks.max = this.getChartHeight(this.fortisFootprint, this.averageYearlyFortisEmmisions)
+      this.updateChart(this.compFortisChart)
+
+      this.compHydroChartOptions.scales.yAxes[0].ticks.max = this.getChartHeight(this.hydroFootprint, this.averageYearlyHydroEmmisions)
+      this.updateChart(this.compHydroChart)
+
+      this.vehicleChartOptions.scales.yAxes[0].ticks.max = this.getChartHeight(this.commuteFootprint, this.averageYearlyCommuteEmmisions)
+      this.updateChart(this.vehicleChart)
 
 
 
       // TODO: Find some way to randomize / automate filling color list
       this.totalChartColors = [{ backgroundColor: '#FF7360' }]
       this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
-      this.compfortisChartColors = [{ backgroundColor: this.getRandomColor() }]
+      this.compFortisChartColors = [{ backgroundColor: this.getRandomColor() }]
       this.hydroChartColors = [{ backgroundColor: this.getRandomColor() }]
       this.vehicleChartColors = [{ backgroundColor: this.getRandomColor() }]
-      this.comphydroChartColors = [{ backgroundColor: this.getRandomColor() }]
+      this.compHydroChartColors = [{ backgroundColor: this.getRandomColor() }]
 
       this.transportationPercentage = (this.total_footprint_commute() / this.total_footprint_user()) * 100
       this.fortisPercentage = (this.total_footprint_fortis() / this.total_footprint_user()) * 100
@@ -147,10 +153,10 @@ export class DashBoardComponent implements OnInit {
       this.fortisChartData = [{ data: this.fortis_values(), label: 'Monthly Footprint in metric tonnes' }]
       this.hydroChartData = [{ data: this.hydro_values(), label: 'Monthly Footprint in metric tonnes' }]
       this.vehicleChartData = [{ data: [this.total_footprint_commute(), this.averageYearlyCommuteEmmisions], label: 'Commute Footprint' }]
-      this.compfortisChartData = [
+      this.compFortisChartData = [
         { data: [this.total_footprint_fortis(), this.averageYearlyFortisEmmisions], label: 'annual fortis emmision' },
       ]
-      this.comphydroChartData = [
+      this.compHydroChartData = [
         { data: [this.total_footprint_hydro(), this.averageYearlyHydroEmmisions], label: 'annual hydro emmision' },
       ]
 
@@ -162,6 +168,21 @@ export class DashBoardComponent implements OnInit {
       chart.ngOnDestroy();
       chart.chart = chart.getChartBuilder(chart.ctx);
     }
+  }
+
+  getChartHeight(...values) {
+    return this.ceilToOOM(Math.max(...values) * 1.1) // 1.1 to add some paddin
+  }
+
+  ceilToOOM(value) {
+    // numbers like 11 should not round up to 20, but 61 should round up to 70
+    const precision = -(Math.round(Math.log(value) / Math.log(10)) - 1)
+    return this.ceil(value, precision)
+  }
+
+  ceil(value, precision = 0) {
+    const multiplier = Math.pow(10, precision)
+    return Math.ceil(value * multiplier) / multiplier
   }
 
   getRandomColorsList(len) {
