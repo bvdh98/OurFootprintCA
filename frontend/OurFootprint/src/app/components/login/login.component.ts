@@ -26,16 +26,16 @@ export class LoginComponent implements OnInit {
     this.loginService.login({
       username: formValues.username,
       password: formValues.password,
-    }, this.succeedLogin, this.failLogin)
+    }, this, this.succeedLogin, this.failLogin)
   }
 
-  succeedLogin(response) {
-    this.loginService.changeLoggedInStatus(true)
-    this.router.navigate([''])
+  succeedLogin(component, response) {
+    component.loginService.changeLoggedInStatus(true)
+    component.router.navigate([''])
   }
 
-  failLogin(response) {
-    this.loginInvalid = true
-    this.form.controls.password.reset()
+  failLogin(component, response) {
+    component.loginInvalid = true
+    component.form.controls.password.reset()
   }
 }

@@ -56,33 +56,19 @@ export class SignupComponent implements OnInit {
       username: formValues.username,
       password: formValues.password,
       email: formValues.email,
-    }, this.succeedSignUp, this.failSignUp)
-
-    // .toPromise().then(response => {
-    //   // promise fulfilled
-    //   if (response && response.status === 200) {
-    //     this.loginService.changeLoggedInStatus(true)
-    //     this.router.navigate([''])
-    //   } else {
-    //     // promise fulfilled, but status was not 200
-    //     this.failSignUp(response.error.error)
-    //   }
-    // }, reason => {
-    //   // promise rejected
-    //   this.failSignUp(reason.error.error)
-    // })
+    }, this, this.succeedSignUp, this.failSignUp)
   }
 
-  succeedSignUp(response) {
-    this.loginService.changeLoggedInStatus(true)
-    this.router.navigate([''])
+  succeedSignUp(component, response) {
+    component.loginService.changeLoggedInStatus(true)
+    component.router.navigate([''])
   }
 
-  failSignUp(error) {
+  failSignUp(component, error) {
     if (error.error === 'username exists') {
-      this.errormessage = 'Username already exists'
+      component.errormessage = 'Username already exists'
     } else {
-      this.errormessage = 'Email already exists'
+      component.errormessage = 'Email already exists'
     }
   }
 }

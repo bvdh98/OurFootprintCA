@@ -16,7 +16,7 @@ export class LoginService {
     this.loggedInSource.next(status)
   }
 
-  login(credentials: {username: string, password: string}, successCallback = null, errorCallback = null): void {
+  login(credentials: {username: string, password: string}, component, successCallback, errorCallback): void {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
@@ -24,19 +24,20 @@ export class LoginService {
     .then(response => {
       // promise fulfilled
       if (response && response.status === 200) {
-        successCallback(response)
-
+        successCallback(component, response)
       } else {
         // promise fulfilled, but status was not 200
-        errorCallback(response)
+        console.log('error callback 1')
+        errorCallback(component, response)
       }
     }, reason => {
       // promise rejected
-      errorCallback(reason.error)
+      console.log('error callback 2')
+      errorCallback(component, reason.error)
     })
   }
 
-  signUp(credentials: {username: string, password: string, email: string}, successCallback, errorCallback): void {
+  signUp(credentials: {username: string, password: string, email: string}, component, successCallback, errorCallback): void {
     const fd = new FormData()
     fd.append('username', credentials.username)
     fd.append('password', credentials.password)
@@ -46,14 +47,14 @@ export class LoginService {
     .then(response => {
       // promise fulfilled
       if (response && response.status === 200) {
-        successCallback(response.body)
+        successCallback(component, response.body)
       } else {
         // promise fulfilled, but status was not 200
-        errorCallback(response.body)
+        errorCallback(component, response.body)
       }
     }, reason => {
       // promise rejected
-      errorCallback(reason.error)
+      errorCallback(component, reason.error)
     })
   }
 
