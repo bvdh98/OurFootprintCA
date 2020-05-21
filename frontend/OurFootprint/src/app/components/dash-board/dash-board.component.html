@@ -30,15 +30,16 @@
         <mat-tab-group>
           <mat-tab label="Total">
             <div class="chart-wrapper">
-              <canvas baseChart 
-              chartType="pie"
-              [options]="pieChartOptions"
-              [labels]="pieChartLabels"
-              [data]="pieChartData">
+              <canvas baseChart
+                chartType="pie"
+                [options]="pieChartOptions"
+                [labels]="pieChartLabels"
+                [data]="pieChartData">
               </canvas>
             </div>
             <div class="chart-wrapper">
-              <canvas class="graph" baseChart
+              <canvas class="graph" baseChart 
+                #totalChart="base-chart"
                 chartType="bar"
                 [options]="totalChartOptions"
                 [datasets]="totalChartData"
@@ -51,6 +52,7 @@
           <mat-tab label="Fortis">
             <div class="chart-wrapper">
               <canvas class="graph" baseChart class
+                #fortisChart="base-chart"
                 chartType="bar"
                 [options]="fortisChartOptions"
                 [datasets]="fortisChartData"
@@ -60,19 +62,21 @@
               </canvas>
             </div>
             <div class="chart-wrapper">
-              <canvas class="graph" baseChart 
+              <canvas class="graph" baseChart
+                #compFortisChart="base-chart"
                 chartType="bar"
-                [options]="compfortisChartOptions"
-                [datasets]="compfortisChartData"
-                [labels]="compfortisChartLabels"
+                [options]=compFortisChartOptions
+                [datasets]="compFortisChartData"
+                [labels]="compFortisChartLabels"
                 [legend]="false"
-                [colors]=compfortisChartColors>
+                [colors]=compFortisChartColors>
               </canvas>
             </div>
           </mat-tab>
           <mat-tab label="Hydro">
             <div class="chart-wrapper">
-              <canvas class="graph" baseChart 
+              <canvas class="graph" baseChart
+                #hydroChart="base-chart"
                 chartType="bar"
                 [options]="hydroChartOptions"
                 [datasets]="hydroChartData"
@@ -82,19 +86,21 @@
               </canvas>
             </div>
             <div class="chart-wrapper">
-              <canvas class="graph" baseChart 
+              <canvas class="graph" baseChart
+                #compHydroChart="base-chart"
                 chartType="bar"
-                [options]="comphydroChartOptions"
-                [datasets]="comphydroChartData"
-                [labels]="comphydroChartLabels"
+                [options]="compHydroChartOptions"
+                [datasets]="compHydroChartData"
+                [labels]="compHydroChartLabels"
                 [legend]="false"
-                [colors]=comphydroChartColors>
+                [colors]=compHydroChartColors>
               </canvas>
             </div>
           </mat-tab>
           <mat-tab label="Transportation">
             <div class="chart-wrapper">
-              <canvas class="graph" baseChart 
+              <canvas class="graph" baseChart
+                #vehicleChart="base-chart"
                 chartType="bar"
                 [options]="vehicleChartOptions"
                 [datasets]="vehicleChartData"
