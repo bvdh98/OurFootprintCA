@@ -70,3 +70,7 @@ def register(request):
 
     return JsonResponse(response, status=status)
 
+
+def check_signin(request):
+    is_logged_in = isinstance(request.user, User)
+    return JsonResponse({"is_logged_in": is_logged_in})
