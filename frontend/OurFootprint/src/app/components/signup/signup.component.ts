@@ -54,7 +54,8 @@ export class SignupComponent implements OnInit {
       password: formValues.password,
       email: formValues.email,
     }).toPromise().catch((response) => {
-      if (response.err === 'username exists') {
+      console.log(response)
+      if (response.error.error === 'Username already exists') {
         this.errormessage = 'Username already exists'
       } else {
         this.errormessage = 'Email already exists'
