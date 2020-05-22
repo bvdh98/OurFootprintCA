@@ -1,8 +1,19 @@
 <mat-tab-group>
     <!-- TODO: Switch the order, utilities should be first. It's set up this way for easier development of the transportation component -->
     <mat-tab label="Transportation">
+        <mat-expansion-panel class="expansion">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Instructions
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="transportation-instructions">
+              <p>Please enter information about your vehicle, including how many kilometers you drive it in a week.</p> 
+              <p>Use the slider to select how much of your driving is done in highway conditions (as opposed to city conditions)</p>
+            </div>
+          </mat-expansion-panel>
         <div class="calculator-tab">
-            <app-transportation class="calculator-tab"></app-transportation>
+            <app-transportation ></app-transportation>
         </div>
     </mat-tab>
     <!-- TODO: Remove utilities tab -->
@@ -12,11 +23,34 @@
         </div>
     </mat-tab> -->
     <mat-tab label="Hydro">
+        <mat-expansion-panel class="expansion">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                How do I get my Hydro consumption file?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="hydro-bill-instructions">
+                <a href="https://www.bchydro.com/search.html?q=Where+can+I+get+my+billing+and+electricity+use+history%3F">Where do I get my BC Hydro Consumption History ?</a>
+            </div>
+          </mat-expansion-panel>
         <div class="calculator-tab">
             <app-hydro></app-hydro>
         </div>
     </mat-tab>
     <mat-tab label="Fortis">
+        <mat-expansion-panel class="expansion">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                How do I get my Fortis BC usage history?
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="fortis-bill-instructions">
+                <p>1. Login into your acoount</p>
+                <p>2. Scroll down and click "view consumption history"</p>
+                <p>3. Select spreadsheet.csv</p>
+                <p>4. Download file</p>
+            </div>
+          </mat-expansion-panel>
         <div class="calculator-tab">
             <app-fortis></app-fortis>
         </div>
