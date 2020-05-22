@@ -18,6 +18,6 @@ export class CommuteService {
   }
 
   deleteCommute(id: number): Observable<any> {
-    return this.http.delete<any>(`/api/commute/${id}`)
+    return this.http.delete<any>(`/api/commute/${id}/`)
   }
 }

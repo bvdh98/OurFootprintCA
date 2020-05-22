@@ -14,7 +14,7 @@ export class UtilitiesService {
   }
 
   deleteFortisRow(id: number): Observable<any> {
-    return this.http.delete(`/api/utility/fortis/${id}`)
+    return this.http.delete(`/api/utility/fortis/${id}/`)
   }
 
   uploadFortisBill(file: File): any {
@@ -31,7 +31,7 @@ export class UtilitiesService {
   }
 
   deleteHydroRow(id: number): Observable<any> {
-    return this.http.delete(`/api/utility/hydro/${id}`)
+    return this.http.delete(`/api/utility/hydro/${id}/`)
   }
 
   uploadHydroBill(file: File): any {
