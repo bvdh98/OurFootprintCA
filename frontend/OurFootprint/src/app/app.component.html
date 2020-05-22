@@ -6,7 +6,7 @@
             <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
             <a mat-list-item [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
             <a mat-list-item [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
-            <a mat-list-item (click)="logout()" *ngIf="isLoggedIn">Sign out out</a>
+            <a mat-list-item (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
             <a mat-list-item [routerLink]="[ '/' ]">Home</a>
             <a mat-list-item [routerLink]="[ '/about-us' ]">About Us</a>
             <a mat-list-item [routerLink]="[ '/dash' ]" *ngIf="isLoggedIn">Dashboard</a>
@@ -25,12 +25,12 @@
                         <!-- TODO: Use ng for as in comments -->
                         <!-- <a mat-button *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
                         <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
-                        <a mat-stroked-button class="signin" [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
-                        <a mat-button [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
-                        <a mat-raised-button color="warn" (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
                         <a mat-button [routerLink]="[ '/' ]" *ngIf="isLoggedIn">Home</a>
                         <a mat-button [routerLink]="[ '/about-us' ]">About Us</a>
+                        <a mat-button [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
                         <a mat-button [routerLink]="[ '/dash' ]" *ngIf="isLoggedIn">Dashboard</a>
+                        <a mat-stroked-button class="signin" (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
+                        <a mat-stroked-button class="signin" [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>
