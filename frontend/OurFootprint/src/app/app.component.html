@@ -25,7 +25,7 @@
                         <!-- TODO: Use ng for as in comments -->
                         <!-- <a mat-button *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
                         <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
-                        <a mat-raised-button class="signin" [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
+                        <a mat-stroked-button class="signin" [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
                         <a mat-button [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
                         <a mat-raised-button color="warn" (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
                         <a mat-button [routerLink]="[ '/' ]" *ngIf="isLoggedIn">Home</a>
