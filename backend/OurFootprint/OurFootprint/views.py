@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from commute.models import UserCommute, Commute
 from commute.serializers import CommuteSerializer
@@ -9,6 +10,7 @@ from utility.serializers import FortisBillFieldSerializer, HydroBillFieldSeriali
 
 
 @login_required
+@csrf_exempt
 def calculate_footprint(request):
     """
     Method to return user's total carbon footprint as a complex json that can be parsed by frontend
