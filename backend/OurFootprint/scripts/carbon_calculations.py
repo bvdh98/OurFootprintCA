@@ -4,7 +4,7 @@ from commute.models import Commute
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
 # Ratio of kg of carbon edited per unit of energy used
-EMISSION_FACTOR_FORTIS = 0.719  # kg of carbon/kJ
+EMISSION_FACTOR_NATURAL_GAS = 49.87  # kg of carbon/kJ
 EMISSION_FACTOR_HYDRO = 0.010670  # kg of carbon/kWh
 
 # Other useful constants
@@ -32,7 +32,7 @@ def fortis_calculations(consumption):
     :param consumption: This is the consumption value from the fortis bill (unit: kJ)
     :return carbon_footprint: This is the total footprint from the fortis bill (unit: metric tonnes of carbon)
     """
-    carbon_footprint = consumption * EMISSION_FACTOR_FORTIS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
+    carbon_footprint = consumption * EMISSION_FACTOR_NATURAL_GAS / METRIC_TONNE_TO_KG_RATIO  # convert to metric tonnes
     return carbon_footprint  # Metric tonnes
 
 

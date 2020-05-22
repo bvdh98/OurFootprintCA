@@ -1,4 +1,4 @@
-<div class="banner-image">
+<div class="banner-image" *ngIf="isLoggedIn">
     <picture>
         <!-- static path hardcoded here for production. The --deploy-url flag should fix this, but it doesn't -->
         <img src="static/assets/images/cover_photo.jpg" id="cover-image" 
@@ -7,8 +7,9 @@
 </div>
 <div class="outer-calculator-container">
     <div class="inner-calculator-container">
-        <mat-card class="container-card">
-            <mat-card-title class="title-card">Carbon Calculator</mat-card-title>
+        <app-login *ngIf="!isLoggedIn"></app-login>
+        <mat-card class="container-card" *ngIf="isLoggedIn">
+            <mat-card-title class="title-card" *ngIf="isLoggedIn">Carbon Calculator</mat-card-title>
             <mat-card-content>
                 <app-calculator></app-calculator>
             </mat-card-content>

@@ -4,9 +4,12 @@
             <!-- TODO: Use ng for as in comments -->
             <!-- <a mat-list-item *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
             <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
+            <a mat-list-item [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
+            <a mat-list-item [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
+            <a mat-list-item (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
             <a mat-list-item [routerLink]="[ '/' ]">Home</a>
             <a mat-list-item [routerLink]="[ '/about-us' ]">About Us</a>
-            <a mat-list-item [routerLink]="[ '/dash' ]">Dashboard</a>
+            <a mat-list-item [routerLink]="[ '/dash' ]" *ngIf="isLoggedIn">Dashboard</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -16,15 +19,18 @@
                     <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
                         <mat-icon>menu</mat-icon>
                     </button>
-                    <span>OurFootprint</span>
+                    <span [routerLink]="[ '/' ]">OurFootprint</span>
                     <span class="menu-spacer"></span>
                     <div fxShow="true" fxHide.lt-md>
                         <!-- TODO: Use ng for as in comments -->
                         <!-- <a mat-button *ngFor="route of buttonRoutes" [routerLink]="[ '{{route.path}}' ]">{{route.name}}</a> -->
                         <!-- buttonRoutes = [{path: '/', name: 'Home'}, {path: '/', name: 'Home'}, {path: '/', name: 'Home'}] -->
-                        <a mat-button [routerLink]="[ '/' ]">Home</a>
+                        <a mat-button [routerLink]="[ '/' ]" *ngIf="!isLoggedIn">Sign in</a>
+                        <a mat-button [routerLink]="[ '/signup' ]" *ngIf="!isLoggedIn">Sign up</a>
+                        <a mat-button (click)="logout()" *ngIf="isLoggedIn">Sign out</a>
+                        <a mat-button [routerLink]="[ '/' ]" *ngIf="isLoggedIn">Home</a>
                         <a mat-button [routerLink]="[ '/about-us' ]">About Us</a>
-                        <a mat-button [routerLink]="[ '/dash' ]">Dashboard</a>
+                        <a mat-button [routerLink]="[ '/dash' ]" *ngIf="isLoggedIn">Dashboard</a>
                     </div>
                 </mat-toolbar-row>
             </mat-toolbar>

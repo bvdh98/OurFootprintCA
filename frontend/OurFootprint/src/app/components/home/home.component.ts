@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core'
+import { LoginService } from 'src/app/services/login.service'
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core'
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn = false
+
+  constructor(private loginService: LoginService) { }
 
   ngOnInit(): void {
+    this.loginService.currentLoggedInStatus.subscribe(status => this.isLoggedIn = status)
   }
 
 }

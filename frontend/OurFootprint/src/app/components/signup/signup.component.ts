@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 import { LoginService } from 'src/app/services/login.service'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-signup',
@@ -9,7 +10,9 @@ import { LoginService } from 'src/app/services/login.service'
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private loginService: LoginService , private formBuilder: FormBuilder) { }
+  constructor(private loginService: LoginService,
+              private formBuilder: FormBuilder,
+              private router: Router) { }
 
   form = new FormGroup({
     username: new FormControl(),
@@ -53,12 +56,19 @@ export class SignupComponent implements OnInit {
       username: formValues.username,
       password: formValues.password,
       email: formValues.email,
-    }).toPromise().catch((response) => {
-      if (response.err === 'username exists') {
-        this.errormessage = 'Username already exists'
-      } else {
-        this.errormessage = 'Email already exists'
-      }
-    })
+    }, this, this.succeedSignUp, this.failSignUp)
+  }
+
+  succeedSignUp(component, response) {
+    component.loginService.changeLoggedInStatus(true)
+    component.router.navigate([''])
+  }
+
+  failSignUp(component, error) {
+    if (error.error === 'username exists') {
+      component.errormessage = 'Username already exists'
+    } else {
+      component.errormessage = 'Email already exists'
+    }
   }
 }

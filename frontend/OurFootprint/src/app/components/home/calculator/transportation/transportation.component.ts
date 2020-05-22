@@ -32,7 +32,7 @@ export class TransportationComponent implements OnInit {
 
   // min max values for form validation
   readonly minDistance: number = 0
-  readonly maxDistance: number = 250
+  readonly maxDistance: number = 1000
 
   // TODO: better form validation
   commuteForm = new FormGroup({

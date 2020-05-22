@@ -1,5 +1,5 @@
-<!-- TODO: Make it clear that the distances are meant to be listed as *weekly* -->
 <form [formGroup]="commuteForm" class="commute-form">
+
   <!-- Highway Percent Slider -->
   <div class="slider-control-container">
     <mat-label>Percent driven in highway conditions</mat-label>
@@ -10,8 +10,8 @@
   <!-- TODO: Consider if we should automatically double the frequency because to + from. -->
   <!-- TODO: If so, we should explain that with a note somehow -->
   <div class="distance-input">
-    <mat-form-field appearance="standard" hintLabel="Max 250km">
-      <mat-label>Distance in Km</mat-label>
+    <mat-form-field appearance="standard" hintLabel="Max 1000km">
+      <mat-label>Distance per week (km)</mat-label>
       <input matInput type="number" min="{{minDistance}}" max="{{maxDistance}}" formControlName="distance" name="distance" required>
     </mat-form-field>
     <!-- Link to google maps to calculate the commute distance -->
