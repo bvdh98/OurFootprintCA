@@ -22,8 +22,8 @@ admin.autodiscover()
 
 # reroute all the requests to users endpoint to the users app
 urlpatterns = [
-    path('fortis/', fortis_bc.FortisBill.as_view(), name='fuck'),
-    path('fortis/<int:pk>/', fortis_bc.FortisBill.as_view(), name='fuck'),
-    path('hydro/', bc_hydro.HydroBill.as_view(), name='shit'),
-    path('hydro/<int:pk>/', bc_hydro.HydroBill.as_view(), name='shit'),
+    path('fortis/', fortis_bc.FortisBill.as_view(), name='all_fortis'),
+    path('fortis/<int:pk>/', fortis_bc.FortisBill.as_view(), name='single_fortis'),
+    path('hydro/', bc_hydro.HydroBill.as_view(), name='all_hydro'),
+    path('hydro/<int:pk>/', bc_hydro.HydroBill.as_view(), name='single_hydro'),
 ]
