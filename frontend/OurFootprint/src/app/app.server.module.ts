@@ -5,11 +5,13 @@ import { AppModule } from './app.module'
 import { AppComponent } from './app.component'
 import { HTTP_INTERCEPTORS } from '@angular/common/http'
 import { UniversalInterceptor } from './universal.interceptor'
+import { FlexLayoutServerModule } from '@angular/flex-layout/server'
 
 @NgModule({
   imports: [
     AppModule,
     ServerModule,
+    FlexLayoutServerModule,
   ],
   bootstrap: [AppComponent],
   providers: [
