@@ -50,11 +50,15 @@ def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
     """
     return_json = {'fortis': [], 'hydro': [], 'commute': []}
 
-    for month, consumption in fortis_entries.items():
+    for year_month, consumption in sorted(fortis_entries.items()):
         # calculate the carbon footprint for this fortis entry
         footprint = fortis_calculations(consumption)
+        # Get the month number from the year_month
+        month_number = (year_month % 12) + 1  # last two digits
+        # Get the month name from the month number
+        month = calendar.month_name[month_number]
         # Construct a dict to return
-        detailed_dict = {'month': month, 'consumption': consumption, 'footprint': footprint}
+        detailed_dict = {'year_month': year_month, 'month': month, 'consumption': consumption, 'footprint': footprint}
         # Add it to the ultimate json
         return_json['fortis'].append(detailed_dict)
 
