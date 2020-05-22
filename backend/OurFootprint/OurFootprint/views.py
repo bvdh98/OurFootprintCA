@@ -1,6 +1,9 @@
+import calendar
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from OurFootprint.fortis_monthly_consumption import get_monthly_entries
 from commute.models import UserCommute, Commute
 from commute.serializers import CommuteSerializer
 from scripts.decorators import login_required
@@ -30,6 +33,8 @@ def calculate_footprint_for_user(uid):
     """
     # Get the necessary entries from the database for this user
     fortis_entries = list(FortisBillField.objects.filter(user_id=uid))
+    # Extract monthly consumption data as a dict
+    fortis_entries = get_monthly_entries(fortis_entries)
     hydro_entries = list(HydroBillField.objects.filter(user_id=uid))
     user_commute_entries = UserCommute.objects.filter(user_id=uid)
     commute_entries = list(Commute.objects.filter(commute_id__in=user_commute_entries))
@@ -47,13 +52,15 @@ def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
     """
     return_json = {'fortis': [], 'hydro': [], 'commute': []}
 
-    for entry in fortis_entries:
+    for year_month, consumption in sorted(fortis_entries.items()):
         # calculate the carbon footprint for this fortis entry
-        footprint = fortis_calculations(entry.consumption)
-        # Serialize the QuerySet object to a dict
-        detailed_dict = FortisBillFieldSerializer(entry).data
-        # Attach the 'footprint' to the dict
-        detailed_dict['footprint'] = footprint
+        footprint = fortis_calculations(consumption)
+        # Get the month number from the year_month
+        month_number = (year_month % 12) + 1  # last two digits
+        # Get the month name from the month number
+        month = calendar.month_name[month_number]
+        # Construct a dict to return
+        detailed_dict = {'year_month': year_month, 'month': month, 'consumption': consumption, 'footprint': footprint}
         # Add it to the ultimate json
         return_json['fortis'].append(detailed_dict)
 
@@ -64,6 +71,8 @@ def compile_footprint_json(fortis_entries, hydro_entries, commute_entries):
         detailed_dict = HydroBillFieldSerializer(entry).data
         # Attach the 'footprint' to the dict
         detailed_dict['footprint'] = footprint
+        # Add the month name
+        detailed_dict['month'] = calendar.month_name[entry.start_date.month]
         # Add it to the ultimate json
         return_json['hydro'].append(detailed_dict)
 
