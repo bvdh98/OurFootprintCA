@@ -75,6 +75,7 @@ export class DashBoardComponent implements OnInit {
   compFortisChartData: ChartDataSets[] = DashBoardComponent.initialDataState
   compHydroChartData: ChartDataSets[] = DashBoardComponent.initialDataState
 
+  pieChartColors: any[]
   totalChartColors: any[]
   fortisChartColors: any[]
   hydroChartColors: any[]
@@ -134,6 +135,7 @@ export class DashBoardComponent implements OnInit {
 
 
       // TODO: Find some way to randomize / automate filling color list
+      this.pieChartColors = [{ backgroundColor: this.getRandomColorsList(3)}]
       this.totalChartColors = [{ backgroundColor: '#FF7360' }]
       this.fortisChartColors = [{ backgroundColor: this.getRandomColor() }]
       this.compFortisChartColors = [{ backgroundColor: this.getRandomColor() }]
