@@ -36,7 +36,7 @@ class Month:
         end_month_year = (end.year * 12) + end.month
         self.month = month_year % 12 + 1
         self.entry = entry
-        self.month_year = month_year  # ex. 202004 would be april 2020, for sorting
+        self.month_year = month_year
         if month_year == start_month_year:
             weekday, days_in_month = monthrange(start.year, self.month)
             self.ratio = (days_in_month - start.day) / days_in_entry
