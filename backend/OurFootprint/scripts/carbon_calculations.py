@@ -1,6 +1,7 @@
 from numpy import double
 from vehicle.models import Vehicles
 from commute.models import Commute
+import pandas as pd
 
 # These constants are officially provided by fortis bc and bc hydro and are only specific to these companies
 # Ratio of kg of carbon edited per unit of energy used
@@ -14,6 +15,8 @@ HUNDRED_MILES_TO_1_KM_RATIO = 160.934
 EMISSION_FACTOR_FUEL_PRODUCTION = 0.43
 METRIC_TONNE_TO_KG_RATIO = 1000
 DAYS_IN_MONTH = 30.4375  # average number of days in a month
+
+DB_EXISTS = False
 
 
 def hydro_calculations(consumption):
@@ -42,13 +45,21 @@ def calculate_commute_emissions(commute: Commute):
     :param commute: a Commute entry from the database
     :return: Total monthly carbon footprint for the commute  (unit: metric tonnes of carbon)
     """
-    # get the vehicle(s) from the database that match the specifications of the user's vehicle
-    matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.year,
-                                                           trany=commute.transmission).values())
+    if DB_EXISTS:
+        # get the vehicle(s) from the database that match the specifications of the user's vehicle
+        matching_vehicles = list(Vehicles.objects.all().filter(name=commute.vehicle, year=commute.year,
+                                                               trany=commute.transmission).values())
+        first_matching_vehicle = matching_vehicles[0]
+    else:
+        all_vehicles = pd.read_csv('backend/OurFootprint/static/csv_files/all_vehicles.csv')
+        matching_vehicles = all_vehicles[(all_vehicles['name'] == commute.vehicle)
+                                         & (all_vehicles['year'] == commute.year)
+                                         & (all_vehicles['trany'] == commute.transmission)]
+        first_matching_vehicle = matching_vehicles.iloc[0]
 
     # get the first vehicle and see if it is an electric vehicle
     # a vehicle is electric if the value of cityE is not 0
-    if matching_vehicles[0]['cityE'] != 0:
+    if first_matching_vehicle['cityE'] != 0:
         emission_info = get_info_electric(matching_vehicles)
         return calculate_footprint_electric(commute, **emission_info)
     else:
@@ -61,9 +72,14 @@ def get_info_gasoline(matching_vehicles):
     Return the info required to calculate carbon footprint of a car that runs on gasoline or any non electric fuel
     :param matching_vehicles: a list of vehicles from the database that match the description of user's vehicle
     """
-    return {'emissions': property_mean(matching_vehicles, 'co2TailpipeGpm'),
-            'city_fuel_eff': property_mean(matching_vehicles, 'city08'),
-            'highway_fuel_eff': property_mean(matching_vehicles, 'highway08')}
+    if DB_EXISTS:
+        return {'emissions': property_mean(matching_vehicles, 'co2TailpipeGpm'),
+                'city_fuel_eff': property_mean(matching_vehicles, 'city08'),
+                'highway_fuel_eff': property_mean(matching_vehicles, 'highway08')}
+    else:
+        return {'emissions': property_mean_df(matching_vehicles, 'co2TailpipeGpm'),
+                'city_fuel_eff': property_mean_df(matching_vehicles, 'city08'),
+                'highway_fuel_eff': property_mean_df(matching_vehicles, 'highway08')}
 
 
 def get_info_electric(matching_rows):
@@ -82,6 +98,15 @@ def property_mean(lst, key):
     :param key: the property whose mean is needed
     """
     return float(sum(d[key] for d in lst)) / len(lst)
+
+
+def property_mean_df(df, col):
+    """
+    Find the mean of a particular column in a data frame
+    :param df: data frame
+    :param col: the column whose mean is needed
+    """
+    return df[col].mean()
 
 
 def calculate_footprint_gasoline(commute: Commute, city_fuel_eff, highway_fuel_eff, emissions) -> double:
