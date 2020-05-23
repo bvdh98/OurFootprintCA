@@ -16,6 +16,8 @@ EMISSION_FACTOR_FUEL_PRODUCTION = 0.43
 METRIC_TONNE_TO_KG_RATIO = 1000
 DAYS_IN_MONTH = 30.4375  # average number of days in a month
 
+# Variable to determine if there is a Vehicle table in the database to read from.
+# If the table doesn't exist in the db, just query the csv file
 DB_EXISTS = False
 
 
