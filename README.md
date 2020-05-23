@@ -91,6 +91,13 @@ Remove this part from the gitignore in the back end
 !**/migrations
 !**/migrations/__init__.py
 ```
+and this part
+```
+/static/*
+```
+
+run this command `ng build --prod --output-path ../../backend/OurFootprint/static/ang --watch --output-hashing none` in frontend/OurFootprint
+
 And commit the migrations files as they are needed by heroku.
 
 Check the changes in the deploy-images branch. In the home component and the about-us component, there are references to images that need to be changed (add static/ang/ to the beginning of their paths). This should be solveable with a build flag --deploy-url when building in angular, but this doesn't work for us.
