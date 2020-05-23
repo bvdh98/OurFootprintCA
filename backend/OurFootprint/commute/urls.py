@@ -22,6 +22,6 @@ admin.autodiscover()
 
 # reroute all the requests to users endpoint to the users app
 urlpatterns = [
-    path('', views.CommuteView.as_view(), name='fuck_shit'),
-    path('<int:pk>/', views.CommuteView.as_view(), name='shit_fuck'),
+    path('', views.CommuteView.as_view(), name='view_all_commutes'),
+    path('<int:pk>/', views.CommuteView.as_view(), name='view_or_delete_commute'),
 ]
