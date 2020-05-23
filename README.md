@@ -77,3 +77,61 @@ password = '[password]'
 python migrate.py makemigrations
 python migrate.py migrate
 ```
+
+## Deployment
+
+To prepare the app for deployment:
+
+Fork the repo - these changes should not be made in master
+
+Remove this part from the gitignore in the back end
+```
+# ignore everything inside the migrations folder except __init__ and the folder itself
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+```
+And commit the migrations files as they are needed by heroku.
+
+Check the changes in the deploy-images branch. In the home component and the about-us component, there are references to images that need to be changed (add static/ang/ to the beginning of their paths). This should be solveable with a build flag --deploy-url when building in angular, but this doesn't work for us.
+
+In OurFootprint/settings.py set DEBUG to False 
+```
+DEBUG = True
+```
+```
+DEBUG = False
+```
+and replace
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sample',
+        'USER': 'ourfootprint',
+        'PASSWORD': password,
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+with
+```
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
+```
+
+In `vehicles/view.py` change
+```
+with open('./static/json_files/vehicles.json', 'r') as file:
+```
+to
+```
+with open('backend/OurFootprint/static/json_files/vehicles.json', 'r') as file:
+```
+
+If you are deploying to heroku, you will need this: `heroku config:set DISABLE_COLLECTSTATIC=1`
+
+You will also need this: `heroku ps:scale web=1`
+After running that, you should see this: `Scaling dynos... done, now running web at 1:Free` if you do not, something is wrong. Good luck.
